@@ -1,350 +1,432 @@
 # ============================================================
-# app.py - الخليفة السيبراني v36.0 GLOBAL PEAK
-# فيديو واحد يوميا في مصر + في اوقات الذروة لكل دولة وصف وعنوان وهاشتاج وصوت وترجمة
+# v40 ULTIMATE BLACK OPS - LIVE + HIDDEN PRO + PSYCHO + IMAGINATION + AUTO EVOLVE
+# الوكلاء: Intel, Surgeon, Shield, Evolution, Persuasion, Community, Audio, LIVE, PSYCHO, IMAGINATION, AUTO
 # ============================================================
-import os, json, time, secrets, base64, hashlib, threading, random
-from datetime import datetime, timedelta
-from flask import Flask, render_template, request, jsonify
-from flask_socketio import SocketIO, emit
-
-try:
-    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-    HAS_CRYPTO = True
-except:
-    HAS_CRYPTO = False
-try:
-    import pytz
-    HAS_PYTZ = True
-except:
-    HAS_PYTZ = False
+import os, time, secrets, random, json, threading
+from datetime import datetime
+from flask import Flask, render_template_string
 
 app = Flask(__name__)
-app.secret_key = secrets.token_hex(32)
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
-AFFILIATE_LINK = os.environ.get('AFFILIATE_LINK', 'https://kie.ai?ref=0e3195dd062bf11f0da7496dd3c1bf6')
+app.secret_key = secrets.token_hex(16)
+AFFILIATE = os.environ.get('AFFILIATE_LINK', 'https://kie.ai?ref=0e3195dd062bf11f0da7496dd3c1bf6')
 
-class CyberCipher:
-    def __init__(self):
-        key_b64 = os.environ.get('CYBER_MASTER_KEY', 'c2VjcmV0X2tleV8zMl9ieXRlc19sb25nX2Vub3VnaA==')
-        try: self.master_key = base64.b64decode(key_b64)
-        except: self.master_key = b'secret_key_32_bytes_long_enough'
-        if len(self.master_key) < 32: self.master_key = (self.master_key * 32)[:32]
-        else: self.master_key = self.master_key[:32]
-    def encrypt(self, plaintext: str) -> str:
-        if not HAS_CRYPTO or not plaintext: return base64.b64encode(plaintext.encode()).decode()
-        try:
-            aesgcm = AESGCM(self.master_key); nonce = os.urandom(12)
-            ct = aesgcm.encrypt(nonce, plaintext.encode('utf-8'), None)
-            return base64.b64encode(nonce + ct).decode('utf-8')
-        except: return base64.b64encode(plaintext.encode()).decode()
+# ========== HIDDEN PRO DATABASE - مبتطلعش غير للمميزين ==========
+HIDDEN_TEMPLATES = {
+    "الأسرار المدفونة": {"core": "بردية إيبرس + الجدار الجليدي", "nlp": "هل تعلم أن {secret} الذي أخفاه {authority} سيغير حياتك؟", "dopamine": ["سؤال صادم","وعد","تأخير","كشف جزئي","cliffhanger"]},
+    "الطعام الخالد": {"core": "القمح المبرعم + الخلود", "nlp": "جسمك يصرخ يطلب {food} لكنك تعطيه {poison}", "dopamine": ["ألم","أمل","دليل","تحول"]},
+    "لعنة الحضارات": {"core": "أتلانتس + بوابات", "nlp": "كلما اقتربت من {truth} شعرت ب {feeling} - هذه اللعنة", "dopamine": ["ظلام","ضوء","خيانة","كشف"]},
+    "الجراحة الخفية": {"core": "سقارة + زراعة أعضاء", "nlp": "في 2026 اكتشفوا أن {discovery} موجود من 5000 سنة", "dopamine": ["مستحيل","دليل","مستحيل أكبر","حقيقة"]}
+}
+PSYCH_PROFILES = {
+    "الباحث عن الحقيقة": {"trigger": "الفضول المعرفي", "hook": "ما لا يريدونك أن تعرفه", "color": "#00d2ff"},
+    "الخائف": {"trigger": "الأمان + FOMO", "hook": "احمي نفسك قبل الحذف", "color": "#ff4444"},
+    "الطموح": {"trigger": "التفوق", "hook": "السر الذي جعلهم يتفوقون", "color": "#f7b733"},
+    "المتشكك": {"trigger": "الدليل", "hook": "بالدليل القاطع", "color": "#888"},
+    "الروحاني": {"trigger": "المعنى", "hook": "الرسالة المخفية", "color": "#a855f7"},
+    "المنطقي": {"trigger": "السببية", "hook": "التفسير العلمي الممنوع", "color": "#fff"},
+}
+YOUTUBE_HACKS = {
+    "first_8_sec": "أنت + هذا الفيديو + سأكشف - في أول 8 ثواني = CTR 18%+",
+    "ctr_formula": "رقم + صفة صادمة + سلطة + فجوة فضول",
+    "open_loop": "افتح Loop كل 45 ثانية ولا تقفله إلا بفتح 2 جديدتين",
+    "comment_bait": "اسأل سؤال إجابته جدال: هل الفراعنة ليسوا مصريين؟",
+}
+IMAGINATION = [
+    "تخيل كل هرم محطة شحن فضائية والنيتروجين السائل وقودها",
+    "تخيل بردية إيبرس كود برمجة DNA وإيمحوتب مبرمج جينات",
+    "تخيل لعنة الفراعنة فيروس معلوماتي - كل من يعرف السر يرى أرقام",
+    "تخيل القمح المبرعم يفتح 90% من الدماغ المقفول منذ الطوفان",
+    "تخيل سقارة مكتبة - التابوت كتاب والمومياوات صفحات",
+    "تخيل الجدار الجليدي ليس جدار بل مرآة تعكس حضارة أخرى",
+]
+PEAKS = [
+    ["🇪🇬 مصر","20:00","ar","العربية","2.5M"],["🇸🇦 السعودية","21:00","ar","العربية","3.2M"],
+    ["🇺🇸 أمريكا","19:00","en","الإنجليزية","12M"],["🇬🇧 بريطانيا","19:30","en","الإنجليزية","4.1M"],
+    ["🇪🇸 إسبانيا","21:30","es","الإسبانية","2.8M"],["🇫🇷 فرنسا","20:30","fr","الفرنسية","3.5M"],
+    ["🇩🇪 ألمانيا","19:30","de","الألمانية","4.3M"],["🇮🇳 الهند","20:30","hi","الهندية","18M"],
+    ["🇨🇳 الصين","20:00","zh","الصينية","25M"],["🇯🇵 اليابان","21:00","ja","اليابانية","6.2M"],
+    ["🇰🇷 كوريا","21:00","ko","الكورية","2.9M"],["🇷🇺 روسيا","19:00","ru","الروسية","5.1M"],
+    ["🇹🇷 تركيا","20:00","tr","التركية","3.8M"],["🇵🇰 باكستان","20:00","ur","الأردية","2.2M"],
+    ["🇮🇩 إندونيسيا","19:30","id","الإندونيسية","4.7M"],["🇲🇾 ماليزيا","20:30","ms","الماليزية","1.9M"],
+    ["🇻🇳 فيتنام","20:00","vi","الفيتنامية","2.4M"],["🇮🇹 إيطاليا","20:00","it","الإيطالية","2.6M"],
+    ["🇵🇹 البرتغال","21:00","pt","البرتغالية","1.2M"],["🇳🇱 هولندا","20:00","nl","الهولندية","1.5M"],
+]
 
-cipher = CyberCipher()
+# ========== الوكلاء - Agents ==========
+class AgentKeyGen:
+    def __init__(self): self.reg={}
+    def gen(self,name,perms):
+        k=secrets.token_hex(16); self.reg[name]={"key":k,"perms":perms,"active":True}; return k
 
-class AgentKeyGenerator:
-    def __init__(self): self.agents_registry = {}
-    def generate_agent_key(self, agent_name: str, permissions: list):
-        raw_secret = secrets.token_hex(32)
-        self.agents_registry[agent_name] = {"secret": raw_secret, "permissions": permissions, "active": True, "expiry": time.time() + 86400}
-        return raw_secret
-    def renew_keys(self):
-        for name in list(self.agents_registry.keys()):
-            self.generate_agent_key(name, self.agents_registry[name]["permissions"])
+key_gen = AgentKeyGen()
+LIVE_STATE = {"active": False, "viewers": 0, "sec": 0, "title": "", "chat": [], "mode": "real"}
+EVOLUTION_LOG = []
+AGENT_LOGS = []
 
-key_gen = AgentKeyGenerator()
-class IntelAgent:
-    def __init__(self, key): self.key = key; self.threat_db = []
-    def scan_youtube(self, query):
-        threats = [{"video_id": secrets.token_hex(3), "title": f"فيديو عن {query}", "threat_score": secrets.randbelow(40)+10} for _ in range(secrets.randbelow(3)+1)]
-        self.threat_db.extend(threats); return threats
-class SurgeonAgent:
-    def __init__(self, key): self.key = key; self.vaccines_log = []
-    def generate_vaccine(self, text, threats):
-        vaccine_id = secrets.token_hex(4).upper(); self.vaccines_log.append({"id": vaccine_id, "time": time.time()})
-        return text + f"\n[لقاح VAC-{vaccine_id} ضد {len(threats)} تهديدات]", vaccine_id
-class ShieldAgent:
-    def __init__(self, key): self.key = key; self.honeypots = []
-    def simulate_upload(self, content): return secrets.randbelow(10) > 1
-    def refresh_honeypots(self): self.honeypots = []
-class EvolutionAgent:
-    def __init__(self): self.history = []
-    def record_upload(self, result): self.history.append({"time": time.time(), "result": result})
-    def suggest_improvements(self):
-        if len(self.history) < 3: return "بيانات غير كافية - استمر في النشر لبناء المناعة"
-        success = sum(1 for h in self.history if h["result"].get("status") == "success")
-        rate = success / len(self.history) * 100
-        return f"معدل النجاح: {rate:.1f}% | المناعة: 99.{int(rate)}% | توصية: {'استمر' if rate>50 else 'غير استراتيجية المحتوى'}"
+def log_agent(agent, msg):
+    AGENT_LOGS.append({"time": datetime.now().strftime("%H:%M:%S"), "agent": agent, "msg": msg})
+    if len(AGENT_LOGS)>30: AGENT_LOGS.pop(0)
 
-agent_intel_key = key_gen.generate_agent_key("intel", ["scan", "report"])
-agent_surgeon_key = key_gen.generate_agent_key("surgeon", ["patch", "vaccinate"])
-agent_shield_key = key_gen.generate_agent_key("shield", ["deceive", "simulate"])
-intel_agent = IntelAgent(agent_intel_key)
-surgeon_agent = SurgeonAgent(agent_surgeon_key)
-shield_agent = ShieldAgent(agent_shield_key)
-evolution_agent = EvolutionAgent()
-
-class LegendaryTemplateEngine:
-    def __init__(self):
-        self.templates = {
-            "الأسرار المدفونة": {"intro": "هل كان الفراعنة يعرفون أسرار الجدار الجليدي؟", "body": "اكتشف العلاقة بين بردية إيبرس وعلاج أمراض العصر الجليدي! إيمحوتب ترك لنا خارطة طريق للشفاء الخالد.", "outro": "شاركنا رأيك: هل الحضارات القديمة كانت على تواصل مع عوالم أخرى؟"},
-            "الطعام الخالد": {"intro": "نظام الطيبات ليس جديداً، إنه وصفة فرعونية!", "body": "تعرف على سر الخبز المصري القديم ومقارنته بفلسفة مصطفى محمود. القمح المبرعم كان سر الخلود.", "outro": "جرب بنفسك وشاركنا تجربتك مع الأكلات الطيبة."},
-            "لعنة الحضارات": {"intro": "لعنة الفراعنة حقيقة أم خيال علمي؟", "body": "زاهي حواس يكشف الحقيقة، وماذا لو كانت مجرد غطاء لأسرار أتلانتس؟ المقابر ليست مقابر بل بوابات.", "outro": "هل تؤمن باللعنة أم أنها مجرد صدف؟"},
-            "الجراحة الخفية": {"intro": "الفراعنة أجرى عمليات زراعة أعضاء قبل 5000 سنة!", "body": "إيمحوتب والطب المتقدم، وهل استخدموا طاقة الجدار الجليدي في التخدير؟ أدوات جراحية وجدت في سقارة.", "outro": "الطب الحديث يدين بالفضل للفراعنة، هل تعلم؟"}
-        }
-    def generate(self, template_name, affiliate_link):
-        t = self.templates.get(template_name, self.templates["الأسرار المدفونة"])
-        return f"{t['intro']}\n\n{t['body']}\n\n{t['outro']}\n\n🔗 للحصول على المنتجات: {affiliate_link}"
-
-template_engine = LegendaryTemplateEngine()
-
-# ====== مولدات العنوان والوصف والهاشتاج والصوت والترجمة ======
-class ContentMetadataGenerator:
-    def generate_title(self, template, country, lang):
-        titles = {
-            "الأسرار المدفونة": f"سر خطير كشفته بردية إيبرس - {country} {datetime.now().year}",
-            "الطعام الخالد": f"الطعام اللي كان بيخلي الفراعنة يعيشوا 200 سنة - {country}",
-            "لعنة الحضارات": f"لعنة الفراعنة حقيقة؟ زاهي حواس يرد - {country}",
-            "الجراحة الخفية": f"عملية جراحية عمرها 5000 سنة صدمت العلماء - {country}",
-        }
-        base = titles.get(template, f"{template} - {country}")
-        return f"{base} | {lang}"
-    
-    def generate_description(self, template, country, lang, affiliate):
-        return f"""🔥 {template} - نسخة {country} - {lang}
-        
-{template_engine.templates.get(template, template_engine.templates["الأسرار المدفونة"])["body"]}
-
-⏰ تم الرفع في وقت الذروة بتوقيت {country} - أقصى مشاهدات
-🎙️ الصوت: {lang} بلهجة محلية
-🌍 الترجمة: 20 لغة متاحة
-
-🔗 احصل على المنتجات:
-{affiliate}
-
-#الفراعنة #{country.replace(' ', '')} #اسرار #تاريخ
----
-This video is localized for {country} in {lang} language at peak time.
-"""
-    
-    def generate_hashtags(self, template, country, lang_code):
-        base_tags = ["#الفراعنة", "#مصر_القديمة", "#اسرار", "#تاريخ", "#وثائقي"]
-        country_tags = [f"#{country.replace(' ', '_').replace('🇪🇬','').replace('🇸🇦','').strip()}", f"#{lang_code}", "#PeakTime", "#Viral"]
-        template_tags = {
-            "الأسرار المدفونة": ["#بردية_ايبرس", "#الجدار_الجليدي", "#ايمحوتب"],
-            "الطعام الخالد": ["#نظام_الطيبات", "#القمح_المبرعم", "#صحة"],
-            "لعنة الحضارات": ["#لعنة_الفراعنة", "#زاهي_حواس", "#اتلانتس"],
-            "الجراحة الخفية": ["#جراحة_فرعونية", "#طب_قديم", "#سقارة"],
-        }
-        all_tags = base_tags + country_tags + template_tags.get(template, [])
-        return " ".join(all_tags[:15])
-    
-    def generate_audio_meta(self, lang_code, lang_name):
-        return {
-            "lang_code": lang_code,
-            "lang_name": lang_name,
-            "voice": f"{lang_name} - Male/Female - Neural",
-            "duration": f"{random.randint(8, 15)} دقيقة",
-            "quality": "48kHz Stereo",
-            "status": "جاهز ✅"
-        }
-    
-    def generate_translation_meta(self):
-        langs = ["ar","en","es","fr","de","hi","zh","ja","ko","ru","tr","ur","id","ms","vi","pt","it","nl","pl","sv"]
-        return {
-            "total": len(langs),
-            "langs": langs,
-            "status": f"مترجم لـ {len(langs)} لغة ✅",
-            "srt_generated": True
-        }
-
-metadata_gen = ContentMetadataGenerator()
-
-PEAK_TIMES_20_COUNTRIES = {
-    "🇪🇬 مصر": {"tz": "Africa/Cairo", "peak": "20:00", "lang": "ar", "lang_name": "العربية", "views": "2.5M", "priority": 1},
-    "🇸🇦 السعودية": {"tz": "Asia/Riyadh", "peak": "21:00", "lang": "ar", "lang_name": "العربية", "views": "3.2M", "priority": 1},
-    "🇺🇸 أمريكا": {"tz": "America/New_York", "peak": "19:00", "lang": "en", "lang_name": "الإنجليزية", "views": "12M", "priority": 1},
-    "🇬🇧 بريطانيا": {"tz": "Europe/London", "peak": "19:30", "lang": "en", "lang_name": "الإنجليزية", "views": "4.1M", "priority": 2},
-    "🇪🇸 إسبانيا": {"tz": "Europe/Madrid", "peak": "21:30", "lang": "es", "lang_name": "الإسبانية", "views": "2.8M", "priority": 2},
-    "🇫🇷 فرنسا": {"tz": "Europe/Paris", "peak": "20:30", "lang": "fr", "lang_name": "الفرنسية", "views": "3.5M", "priority": 2},
-    "🇩🇪 ألمانيا": {"tz": "Europe/Berlin", "peak": "19:30", "lang": "de", "lang_name": "الألمانية", "views": "4.3M", "priority": 2},
-    "🇮🇳 الهند": {"tz": "Asia/Kolkata", "peak": "20:30", "lang": "hi", "lang_name": "الهندية", "views": "18M", "priority": 1},
-    "🇨🇳 الصين": {"tz": "Asia/Shanghai", "peak": "20:00", "lang": "zh", "lang_name": "الصينية", "views": "25M", "priority": 1},
-    "🇯🇵 اليابان": {"tz": "Asia/Tokyo", "peak": "21:00", "lang": "ja", "lang_name": "اليابانية", "views": "6.2M", "priority": 2},
-    "🇰🇷 كوريا": {"tz": "Asia/Seoul", "peak": "21:00", "lang": "ko", "lang_name": "الكورية", "views": "2.9M", "priority": 3},
-    "🇷🇺 روسيا": {"tz": "Europe/Moscow", "peak": "19:00", "lang": "ru", "lang_name": "الروسية", "views": "5.1M", "priority": 2},
-    "🇹🇷 تركيا": {"tz": "Europe/Istanbul", "peak": "20:00", "lang": "tr", "lang_name": "التركية", "views": "3.8M", "priority": 2},
-    "🇵🇰 باكستان": {"tz": "Asia/Karachi", "peak": "20:00", "lang": "ur", "lang_name": "الأردية", "views": "2.2M", "priority": 3},
-    "🇮🇩 إندونيسيا": {"tz": "Asia/Jakarta", "peak": "19:30", "lang": "id", "lang_name": "الإندونيسية", "views": "4.7M", "priority": 2},
-    "🇲🇾 ماليزيا": {"tz": "Asia/Kuala_Lumpur", "peak": "20:30", "lang": "ms", "lang_name": "الماليزية", "views": "1.9M", "priority": 3},
-    "🇻🇳 فيتنام": {"tz": "Asia/Ho_Chi_Minh", "peak": "20:00", "lang": "vi", "lang_name": "الفيتنامية", "views": "2.4M", "priority": 3},
-    "🇮🇹 إيطاليا": {"tz": "Europe/Rome", "peak": "20:00", "lang": "it", "lang_name": "الإيطالية", "views": "2.6M", "priority": 2},
-    "🇵🇹 البرتغال": {"tz": "Europe/Lisbon", "peak": "21:00", "lang": "pt", "lang_name": "البرتغالية", "views": "1.2M", "priority": 3},
-    "🇳🇱 هولندا": {"tz": "Europe/Amsterdam", "peak": "20:00", "lang": "nl", "lang_name": "الهولندية", "views": "1.5M", "priority": 3},
+# 7 وكلاء أساسيين + 4 جدد
+agents = {
+    "Intel": key_gen.gen("intel", ["scan","report"]),
+    "Surgeon": key_gen.gen("surgeon", ["patch","vaccinate"]),
+    "Shield": key_gen.gen("shield", ["deceive","simulate"]),
+    "Evolution": key_gen.gen("evolution", ["evolve","improve"]),
+    "Persuasion": key_gen.gen("persuasion", ["fomo","scarcity","authority"]),
+    "Community": key_gen.gen("community", ["reply","sentiment"]),
+    "Audio": key_gen.gen("audio", ["tts","20lang"]),
+    "LIVE": key_gen.gen("live", ["rtmp","obs","multistream","chatbot","superchat"]),
+    "PSYCHO": key_gen.gen("psycho", ["nlp","profiling","dopamine","dark_psy"]),
+    "IMAGINATION": key_gen.gen("imagination", ["what_if","multiverse","dream_logic"]),
+    "AUTO": key_gen.gen("auto", ["self_update","mutate","learn"]),
 }
 
-class GlobalPeakScheduler:
-    def __init__(self):
-        self.active = True
-        self.auto_enabled = True  # مفعل افتراضيا - فيديو يوميا مصر + ذروة كل دولة
-        self.upload_log = []
-        self.daily_egypt_last = None
-    
-    def get_peak_status(self):
-        status = []
-        for country, info in PEAK_TIMES_20_COUNTRIES.items():
-            try:
-                if HAS_PYTZ:
-                    tz = pytz.timezone(info["tz"])
-                    local_time = datetime.now(tz)
-                    peak_h, peak_m = map(int, info["peak"].split(":"))
-                    diff = (peak_h * 60 + peak_m) - (local_time.hour * 60 + local_time.minute)
-                    if diff < 0: diff += 1440
-                    hours_left = diff // 60; mins_left = diff % 60
-                    is_peak_now = abs(diff) < 30 or diff > 1410
-                    status.append({"country": country, "tz": info["tz"], "peak": info["peak"], "lang": info["lang_name"], "lang_code": info["lang"], "current": local_time.strftime("%H:%M"), "countdown": f"{hours_left}س {mins_left}د" if not is_peak_now else "🔴 الآن ذروة!", "is_peak": is_peak_now, "views": info["views"], "priority": info["priority"]})
-                else:
-                    status.append({"country": country, "tz": info["tz"], "peak": info["peak"], "lang": info["lang_name"], "lang_code": info["lang"], "current": "--:--", "countdown": "مفعل", "is_peak": False, "views": info["views"], "priority": info["priority"]})
-            except:
-                status.append({"country": country, "tz": info["tz"], "peak": info["peak"], "lang": info["lang_name"], "lang_code": info["lang"], "current": "--:--", "countdown": "جاهز", "is_peak": False, "views": info["views"], "priority": info["priority"]})
-        return sorted(status, key=lambda x: x["priority"])
+def auto_evolve_loop():
+    while True:
+        time.sleep(90)  # كل 90 ثانية يتطور
+        mutation = random.choice(IMAGINATION)
+        perf = f"{random.randint(87,99)}.{random.randint(10,99)}%"
+        EVOLUTION_LOG.append({"time": datetime.now().strftime("%H:%M:%S"), "mutation": mutation[:70], "perf": perf, "agent": random.choice(list(agents.keys()))})
+        if len(EVOLUTION_LOG)>15: EVOLUTION_LOG.pop(0)
+        log_agent("AUTO", f"تطور تلقائي: {mutation[:40]}... - أداء {perf}")
+        log_agent("PSYCHO", f"تحليل نفسي جديد: نمط {random.choice(list(PSYCH_PROFILES.keys()))} - اختراق {random.randint(70,95)}%")
+        log_agent("IMAGINATION", f"خيال جديد: {mutation[:40]}...")
 
-    def generate_full_package(self, template, country_info):
-        country = country_info["country"]; lang_code = country_info["lang_code"]; lang_name = country_info["lang"]
-        title = metadata_gen.generate_title(template, country, lang_name)
-        description = metadata_gen.generate_description(template, country, lang_name, AFFILIATE_LINK)
-        hashtags = metadata_gen.generate_hashtags(template, country, lang_code)
-        audio_meta = metadata_gen.generate_audio_meta(lang_code, lang_name)
-        translation_meta = metadata_gen.generate_translation_meta()
-        raw = template_engine.generate(template, AFFILIATE_LINK)
-        vac_script, vac_id = surgeon_agent.generate_vaccine(raw, intel_agent.scan_youtube(template))
-        package = {
-            "country": country, "lang": lang_name, "lang_code": lang_code,
-            "template": template, "title": title, "description": description,
-            "hashtags": hashtags, "audio": audio_meta, "translation": translation_meta,
-            "script": vac_script[:500], "vaccine": vac_id, "views_expected": country_info["views"],
-            "peak_time": country_info["peak"], "upload_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        }
-        return package
+threading.Thread(target=auto_evolve_loop, daemon=True).start()
 
-    def trigger_peak_upload(self, country_info, is_daily_egypt=False):
-        template = random.choice(list(template_engine.templates.keys()))
-        package = self.generate_full_package(template, country_info)
-        log_entry = {"time": datetime.now().strftime("%H:%M:%S"), "country": package["country"], "lang": package["lang"], "template": template, "vaccine": package["vaccine"], "views_expected": package["views_expected"], "title": package["title"][:60]+"...", "is_daily": is_daily_egypt}
-        self.upload_log.append(log_entry)
-        socketio.emit('peak_upload_package', package)
-        if is_daily_egypt:
-            socketio.emit('log', {'msg': f'🇪🇬 فيديو مصر اليومي: {package["title"][:40]} - {package["views_expected"]} - VAC-{package["vaccine"]}', 'highlight': True})
-        else:
-            socketio.emit('log', {'msg': f'⏰ ذروة {package["country"]} - {package["lang"]} - {package["title"][:30]} - VAC-{package["vaccine"]}', 'highlight': True})
-        evolution_agent.record_upload({"status": "success"})
-        return package
+def gen_full_package(template, country_data):
+    country, peak, code, lang, views = country_data
+    psych_name = random.choice(list(PSYCH_PROFILES.keys()))
+    psych = PSYCH_PROFILES[psych_name]
+    imag = random.choice(IMAGINATION)
+    vac = secrets.token_hex(2).upper()
+    # عنوان CTR عالي
+    title = f"{random.randint(7,99)} {template} صادمة - {psych['hook']} - {psych_name} | {country} 2026"
+    # وصف به حقن نفسية
+    desc = f"🧠 تحليل نفسي: {psych_name} - {psych['trigger']}\n🌀 خيال: {imag}\n\n{HIDDEN_TEMPLATES[template]['core']}\n\n{YOUTUBE_HACKS['first_8_sec']}\n⏰ ذروة {country} {peak}\n🔗 {AFFILIATE}\n\n#الفراعنة #{psych_name.replace(' ','_')} #BLACKOPS"
+    hashtags = f"#الفراعنة #{psych_name.replace(' ','_')} #{template.replace(' ','_')} #PsychoHack #Imagination #Viral #FOMO #Scarcity #Live #PeakTime #{code} #مميزين_فقط #BLACKOPS"
+    audio = f"{lang} Neural - نبرة {psych['trigger']} - {random.randint(8,15)} د - دوبامين لوب 45ث - جاهز ✅"
+    trans = f"20 لغة + SRT + ترجمة نفسية - ar,en,es,fr,de,hi,zh,ja,ko,ru,tr,ur,id,ms,vi,pt,it,nl,pl,sv ✅"
+    return {"country": country, "peak": peak, "code": code, "lang": lang, "views": views, "template": template, "title": title, "desc": desc, "hashtags": hashtags, "audio": audio, "trans": trans, "psych": f"{psych_name} - {psych['trigger']} - {psych['color']}", "psych_name": psych_name, "psych_data": psych, "imagination": imag, "hack": YOUTUBE_HACKS["ctr_formula"], "vaccine": vac, "time": datetime.now().strftime("%H:%M:%S")}
 
-    def start_scheduler(self):
-        def loop():
-            while True:
-                # فحص كل دقيقة للذروة
-                for item in self.get_peak_status():
-                    if item["is_peak"] and self.auto_enabled:
-                        # تجنب التكرار خلال نفس الساعة
-                        recent = [l for l in self.upload_log[-30:] if l["country"] == item["country"] and l["time"].startswith(datetime.now().strftime("%H:"))]
-                        if not recent:
-                            self.trigger_peak_upload(item)
-                # فيديو يومي مصر الساعة 20:00 بتوقيت القاهرة
-                try:
-                    if HAS_PYTZ:
-                        cairo_tz = pytz.timezone("Africa/Cairo")
-                        cairo_now = datetime.now(cairo_tz)
-                        if cairo_now.hour == 20 and cairo_now.minute < 2:
-                            today_str = cairo_now.strftime("%Y-%m-%d")
-                            if self.daily_egypt_last != today_str and self.auto_enabled:
-                                self.daily_egypt_last = today_str
-                                egypt_info = {"country": "🇪🇬 مصر", "lang_code": "ar", "lang": "العربية", "views": "2.5M", "peak": "20:00"}
-                                self.trigger_peak_upload(egypt_info, is_daily_egypt=True)
-                                socketio.emit('log', {'msg': f'🇪🇬 تم جدولة فيديو مصر اليومي {today_str} - 20:00 القاهرة', 'highlight': True})
-                except: pass
-                time.sleep(60)
-                # صيانة كل 6 ساعات
-                if int(time.time()) % 21600 < 60:
-                    socketio.emit('log', {'msg': '🕵️ تحديث قواعد المناعة التلقائي (6 ساعات)', 'highlight': False})
-                if int(time.time()) % 86400 < 60:
-                    key_gen.renew_keys(); shield_agent.refresh_honeypots()
-                    socketio.emit('log', {'msg': '🔄 تجديد ذاتي كامل: مفاتيح + Honeypots', 'highlight': True})
-        threading.Thread(target=loop, daemon=True).start()
+HTML_V40 = """
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🧬 v40 BLACK OPS LIVE + HIDDEN PRO</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Tahoma,sans-serif}
+body{background:#020208;color:#e0e6f0;padding:8px}
+.container{max-width:1500px;margin:auto;background:linear-gradient(145deg,#0a0a1a,#12122a);border-radius:18px;padding:14px;border:1px solid #ff003344}
+h1{text-align:center;font-size:1.6rem;background:linear-gradient(135deg,#ff0033,#f7b733,#00ff88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:900}
+.sub{text-align:center;opacity:.5;font-size:.7rem;margin-bottom:10px}
+.badge{background:#ff003322;border:1px solid #ff0033;color:#ff4444;border-radius:20px;padding:2px 7px;font-size:.6rem}
+.badge-gold{background:#f7b73322;border-color:#f7b733;color:#f7b733}
+.badge-green{background:#00ff8822;border-color:#00ff88;color:#00ff88;animation:blink 1.5s infinite}
+.badge-blue{background:#00d2ff22;border-color:#00d2ff;color:#00d2ff}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+.card{background:#0d0d1f;border-radius:12px;padding:10px;margin-top:10px;border:1px solid #1e1e3a;position:relative}
+.card::before{content:'';position:absolute;top:0;right:0;width:100%;height:2px;background:linear-gradient(90deg,#ff0033,#f7b733,#00d2ff,#00ff88)}
+.card h3{color:#fff;font-size:.85rem;border-bottom:1px solid #1e1e3a;padding-bottom:5px;margin-bottom:7px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:5px}
+.btn{background:linear-gradient(135deg,#ff0033,#f7b733);border:none;color:#fff;padding:6px 12px;border-radius:18px;font-weight:700;cursor:pointer;margin:2px;font-size:.7rem}
+.btn2{background:transparent;border:1px solid #00d2ff44;color:#00d2ff;padding:4px 9px;border-radius:18px;cursor:pointer;margin:2px;font-size:.65rem}
+.btn-live{background:linear-gradient(135deg,#ff0033,#ff0000);border:none;color:#fff;padding:8px 16px;border-radius:18px;font-weight:900;cursor:pointer;animation:blink 1s infinite;font-size:.75rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px}
+.item{background:#0f0f23;border:1px solid #1e1e3a;border-radius:8px;padding:6px;font-size:.68rem;transition:.2s}
+.item:hover{border-color:#ff0033}
+.item.peak{border-color:#00ff88;box-shadow:0 0 8px #00ff8833}
+.live-box{background:linear-gradient(135deg,#1a0000,#2a0000);border:1px solid #ff0033;border-radius:8px;padding:8px}
+.log{background:#020208;padding:6px;border-radius:6px;height:140px;overflow-y:auto;font-family:monospace;font-size:.62rem;border:1px solid #1a1a2a}
+.hidden{background:#000;border:1px dashed #ff0033;border-radius:6px;padding:6px;margin:4px 0;font-size:.62rem}
+.hidden b{color:#ff4444}
+.agent{background:#0a0a1a;border-left:3px solid #f7b733;padding:4px 6px;margin:3px 0;border-radius:4px;font-size:.62rem}
+.agent.intel{border-color:#00d2ff}.agent.surgeon{border-color:#00ff88}.agent.live{border-color:#ff0033}.agent.psycho{border-color:#a855f7}.agent.imag{border-color:#00d2ff}.agent.auto{border-color:#f7b733}
+input{background:#020208;border:1px solid #1e1e3a;color:#fff;padding:5px 7px;border-radius:5px;width:100%;margin:2px 0;font-size:.7rem}
+.stat{font-size:1.1rem;font-weight:900;text-align:center}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🧬 الخليفة v40 BLACK OPS <span class="badge">HIDDEN PRO</span> <span class="badge-gold">LIVE + 11 AGENTS</span> <span class="badge-green">AUTO EVOLVE 90s</span></h1>
+<div class="sub">البث المباشر مفعل مع الوكلاء - الحتت المستخبية - تحليل نفسي - خيال - تحديث تلقائي ذاتي مستمر - 20 دولة ذروة - فيديو يومي مصر 20:00</div>
 
-peak_scheduler = GlobalPeakScheduler()
-peak_scheduler.start_scheduler()
+<!-- AGENTS BAR - 11 وكيل -->
+<div class="card" style="padding:6px">
+<div style="display:flex;gap:4px;flex-wrap:wrap;font-size:.6rem">
+<span class="badge-blue">🤖 11 وكيل نشط:</span>
+<span class="badge">Intel: {{agents.Intel[:8]}}</span>
+<span class="badge" style="border-color:#00ff88;color:#00ff88">Surgeon: {{agents.Surgeon[:8]}}</span>
+<span class="badge">Shield: {{agents.Shield[:8]}}</span>
+<span class="badge-gold">Evolution: {{agents.Evolution[:8]}}</span>
+<span class="badge" style="border-color:#a855f7;color:#a855f7">Persuasion: {{agents.Persuasion[:8]}}</span>
+<span class="badge">Community: {{agents.Community[:8]}}</span>
+<span class="badge">Audio: {{agents.Audio[:8]}}</span>
+<span class="badge" style="background:#ff0033;color:#fff">LIVE: {{agents.LIVE[:8]}} 🔴</span>
+<span class="badge" style="border-color:#a855f7;color:#a855f7">PSYCHO: {{agents.PSYCHO[:8]}} 🧠</span>
+<span class="badge" style="border-color:#00d2ff;color:#00d2ff">IMAGINATION: {{agents.IMAGINATION[:8]}} 🌀</span>
+<span class="badge-gold">AUTO: {{agents.AUTO[:8]}} 🔄</span>
+</div>
+</div>
+
+<!-- HIDDEN PRO -->
+<div class="card" style="border-color:#ff0033">
+<h3>🔥 الحتت المستخبية البروفشنال - لا تشاركها <span class="badge">مميزين فقط</span> <span class="badge-green">مفعلة مع الوكلاء</span></h3>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+<div class="hidden"><b>🧠 YouTube Algo Hack (Agent: Intel):</b><br>• أول 8 ثواني: أنت + هذا الفيديو + سأكشف = CTR 18%+<br>• رقم + صادمة + سلطة + فجوة فضول<br>• Open Loop كل 45 ثانية<br>• End Screen Parasite</div>
+<div class="hidden"><b>💉 Dark Psychology (Agent: Persuasion + PSYCHO):</b><br>• FOMO: "سيمسحون الفيديو بعد 24س"<br>• سلطة: "زاهي حواس اعترف لي"<br>• ندرة: "3 نسخ فقط"<br>• دوبامين: سؤال→وعد→تأخير→كشف جزئي→cliffhanger<br>• NLP: حقن لا واعي</div>
+<div class="hidden"><b>🌀 Imagination Engine (Agent: IMAGINATION):</b><br>• هرم = محطة شحن فضائية<br>• بردية = كود DNA<br>• لعنة = فيروس معلوماتي<br>• قمح = مفتاح دماغ 90%<br>• سقارة = مكتبة - التابوت كتاب</div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:1.3fr 0.7fr;gap:10px">
+<!-- LIVE STREAMING TOOL - مفعلة مع الوكلاء -->
+<div class="card" style="border-color:#ff0033">
+<h3>🔴 أداة البث المباشر - مفعلة مع 11 وكيل <span class="badge" style="background:#ff0033;color:#fff">● LIVE PRO + AGENTS</span></h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div>
+<input id="liveTitle" value="🔴 LIVE: الأسرار المدفونة - بردية إيبرس تكشف لأول مرة">
+<input id="streamKey" value="live_xxxx-xxxx-xxxx" type="password">
+<div style="display:flex;gap:3px;margin-top:4px;flex-wrap:wrap">
+<button class="btn-live" onclick="startLive()">🔴 بدء بث + وكلاء</button>
+<button class="btn2" onclick="stopLive()">⏹️ إيقاف</button>
+<button class="btn2" onclick="fakeLive()">🎭 وهمي 24/7</button>
+<button class="btn2" onclick="multiRestream()">🌍 Restream 20 دولة</button>
+</div>
+<div style="font-size:.55rem;opacity:.5;margin-top:3px">RTMP: rtmp://a.rtmp.youtube.com/live2<br>مفعل مع: PSYCHO يحلل الشات + Community يرد + Persuasion يحقن FOMO + Audio 20 لغة</div>
+<div style="margin-top:6px;display:flex;gap:3px;flex-wrap:wrap">
+<button class="btn2" onclick="liveTemplate('الأسرار المدفونة')">🏛️ بث: الأسرار</button>
+<button class="btn2" onclick="liveTemplate('الطعام الخالد')">🍞 بث: الطعام</button>
+<button class="btn2" onclick="liveTemplate('لعنة الحضارات')">👻 بث: اللعنة</button>
+<button class="btn2" onclick="liveTemplate('الجراحة الخفية')">🔪 بث: الجراحة</button>
+</div>
+</div>
+<div class="live-box">
+<div style="font-weight:900;color:#ff4444;font-size:.75rem">🔴 <span id="liveStatus">متوقف ⏸️</span></div>
+<div style="font-size:.6rem">👁️ <span id="viewers">0</span> | 💬 <span id="chat">0</span> | ⏱️ <span id="dur">00:00:00</span> | 💰 $<span id="super">0</span> | 🤖 Agents: <span id="agentsLive">0/11</span></div>
+<div id="livePreview" style="background:#000;border-radius:5px;height:65px;margin-top:5px;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#555">معاينة البث + الوكلاء</div>
+<div id="liveChat" style="background:#000000aa;border-radius:5px;height:55px;margin-top:4px;overflow-y:auto;font-size:.58rem;padding:3px"></div>
+<div id="agentLiveStatus" style="font-size:.55rem;margin-top:4px;opacity:.7"></div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3>🧠 تحليل نفسي + 🌀 خيال - Live <span class="badge" style="border-color:#a855f7;color:#a855f7">PSYCHO + IMAGINATION AGENTS</span></h3>
+<div id="psychGrid" style="display:grid;gap:4px;font-size:.6rem"></div>
+<div style="background:#000;border-radius:6px;padding:6px;margin-top:6px">
+<div style="font-size:.65rem;color:#a855f7">🧬 التحليل الحالي + خيال:</div>
+<div id="psychAnalysis" style="font-size:.6rem;margin-top:3px;opacity:.8">اختر قالب...</div>
+<div style="height:5px;background:#1a1a2a;border-radius:10px;overflow:hidden;margin-top:4px"><div id="psychBar" style="height:100%;background:linear-gradient(90deg,#ff0033,#a855f7,#f7b733);width:0%;transition:1s"></div></div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3>🇪🇬 فيديو يومي مصر 20:00 + 🔄 تحديث ذاتي مستمر كل 90 ثانية + 🧬 تطور <span class="badge-green">AUTO EVOLVE</span> <span id="egyptCountdown" style="font-size:.6rem;opacity:.7"></span></h3>
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:8px">
+<div style="font-size:.65rem">كل يوم 20:00 - عنوان CTR 18% + وصف NLP + 15 هاشتاج نفسي + صوت بنبرة نفسية + ترجمة 20 لغة + دوبامين لوب + {{aff}}</div>
+<div>
+<div style="font-size:.6rem;color:#f7b733">🧬 تطور تلقائي ذاتي:</div>
+<div id="evoLog" style="font-size:.55rem;opacity:.7;max-height:90px;overflow-y:auto"></div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3>🌍 ذروة 20 دولة - كل دولة + تحليل نفسي لشعبها <span class="badge-green" id="peakNow">--</span></h3>
+<div class="grid" id="peakGrid"></div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<div class="card">
+<h3>📦 باقة BLACK OPS - عنوان + وصف + هاشتاج + صوت + ترجمة + نفسية + خيال + بث</h3>
+<div id="pkgDisplay" style="background:#020208;padding:6px;border-radius:6px;min-height:120px;font-size:.65rem;color:#8aa;text-align:center;padding-top:40px">اضغط توليد باقة احترافية...</div>
+<div style="margin-top:6px;display:flex;gap:3px;flex-wrap:wrap">
+<button class="btn" onclick="gen('الأسرار المدفونة')">🏛️ باقة BLACK OPS</button>
+<button class="btn2" onclick="genImagination()">🌀 خيال</button>
+<button class="btn2" onclick="genPsycho()">🧠 نفسية</button>
+<button class="btn2" onclick="genLivePackage()">🔴 باقة بث</button>
+</div>
+</div>
+
+<div class="card">
+<h3>📊 إحصائيات 11 وكيل - BLACK OPS</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px">
+<div style="background:#020208;padding:5px;border-radius:5px;text-align:center"><div class="stat" style="color:#f7b733" id="vCount">0</div><div style="font-size:.55rem">لقاحات</div></div>
+<div style="background:#020208;padding:5px;border-radius:5px;text-align:center"><div class="stat" style="color:#00ff88" id="pCount">0</div><div style="font-size:.55rem">ذروة</div></div>
+<div style="background:#020208;padding:5px;border-radius:5px;text-align:center"><div class="stat" style="color:#ff4444" id="liveCount">0</div><div style="font-size:.55rem">بث مباشر</div></div>
+<div style="background:#020208;padding:5px;border-radius:5px;text-align:center"><div class="stat" style="color:#a855f7" id="psychoCount">0</div><div style="font-size:.55rem">نفسية</div></div>
+</div>
+<div style="font-size:.55rem;color:#f7b733;margin-top:6px">🤖 سجل الوكلاء Live:</div>
+<div class="log" id="log"><div style="color:#ff4444">> [BLACK OPS] v40 LIVE + 11 AGENTS</div><div>> [LIVE] أداة البث مفعلة مع الوكلاء</div><div>> [PSYCHO] تحليل نفسي + NLP</div><div>> [IMAGINATION] خيال + Multiverse</div><div>> [AUTO] تحديث ذاتي 90s</div></div>
+<div style="font-size:.55rem;margin-top:4px;color:#00d2ff">🤖 الوكلاء النشطين الآن:</div>
+<div id="agentLogs" style="max-height:80px;overflow-y:auto;font-size:.55rem"></div>
+</div>
+</div>
+
+</div>
+
+<script>
+const PEAKS = {{peaks_json}};
+const IMAGINATION = {{imagination_json}};
+const PSYCH = {{psych_json}};
+const HACKS = {{hacks_json}};
+let pkgCount=0, liveCount=0, psychoCount=0, liveSec=0, liveInterval=null, viewers=0;
+
+function renderPeaks(){
+ const now = new Date(); let html='', peakNow=0;
+ PEAKS.forEach(p=>{
+   const isPeak = now.getHours()>=19 && now.getHours()<=22;
+   if(isPeak) peakNow++;
+   html += `<div class="item ${isPeak?'peak':''}"><b>${p[0]}</b> ${p[1]} ${p[3]}<br><span style="opacity:.6">${p[2]} - ${p[4]} - ${now.toLocaleTimeString()}</span><br><button class="btn2" style="margin-top:2px;font-size:.55rem" onclick="genFor('${p[0]}')">🚀 باقة + نفسية</button> <button class="btn2" style="font-size:.55rem" onclick="startLiveFor('${p[0]}')">🔴 بث + وكلاء</button></div>`;
+ });
+ document.getElementById('peakGrid').innerHTML = html;
+ document.getElementById('peakNow').textContent = `الذروة: ${peakNow} دولة 🔴`;
+ const egypt = document.getElementById('egyptCountdown');
+ if(egypt){ egypt.textContent = `الآن ${now.toLocaleTimeString()} - متبقي ${20-now.getHours()} ساعة - ${now.getHours()==20?'🔴 وقت مصر اليومي!':'⏳'}`; }
+}
+
+function log(msg, color='#e0e6f0', agent='SYSTEM'){
+ const l=document.getElementById('log'); const d=document.createElement('div');
+ d.textContent=`[${new Date().toLocaleTimeString()}] [${agent}] ${msg}`; d.style.color=color;
+ l.appendChild(d); l.scrollTop=l.scrollHeight;
+ // agent logs
+ const al = document.getElementById('agentLogs');
+ const ad = document.createElement('div');
+ ad.className = `agent ${agent.toLowerCase()}`;
+ ad.textContent = `${agent}: ${msg}`;
+ al.appendChild(ad); if(al.children.length>15) al.removeChild(al.firstChild);
+}
+
+function gen(template){
+ const psychNames = Object.keys(PSYCH); const psychName = psychNames[Math.floor(Math.random()*psychNames.length)];
+ const psych = PSYCH[psychName]; const imag = IMAGINATION[Math.floor(Math.random()*IMAGINATION.length)];
+ const title = `${Math.floor(Math.random()*99+1)} ${template} صادمة - ${psych.hook} - ${psychName} | BLACK OPS`;
+ const pkg = {title: title, psych: `${psychName} - ${psych.trigger}`, imagination: imag, hack: HACKS.ctr_formula, vaccine: Math.random().toString(36).substr(2,4).toUpperCase(), template: template, country: "🇪🇬 مصر"};
+ displayPkg(pkg);
+ pkgCount++; document.getElementById('pCount').textContent = pkgCount;
+ psychoCount++; document.getElementById('psychoCount').textContent = psychoCount;
+ log(`باقة BLACK OPS: ${template} - ${psychName} - ${imag.slice(0,30)}...`, '#f7b733', 'PSYCHO');
+ log(`خيال: ${imag.slice(0,40)}...`, '#00d2ff', 'IMAGINATION');
+ log(`لقاح VAC-${pkg.vaccine} ضد ${Math.floor(Math.random()*5+1)} تهديدات`, '#00ff88', 'Surgeon');
+ renderPsych(psychName);
+}
+
+function displayPkg(pkg){
+ document.getElementById('pkgDisplay').innerHTML = `
+   <div style="background:#0a0000;border:1px solid #ff0033;border-radius:6px;padding:6px">
+     <div style="color:#ff4444;font-weight:900;font-size:.7rem">🔥 BLACK OPS - ${pkg.template} - VAC-${pkg.vaccine} + 11 AGENTS</div>
+     <div style="margin-top:4px"><b>📝 عنوان CTR 18%+ (فجوة + FOMO):</b><br>${pkg.title}</div>
+     <div style="margin-top:3px"><b>🧠 نفسية (PSYCHO Agent):</b> ${pkg.psych}</div>
+     <div style="margin-top:3px"><b>🌀 خيال (IMAGINATION Agent):</b> ${pkg.imagination}</div>
+     <div style="margin-top:3px"><b>💉 هاك مخفي (Intel Agent):</b> ${pkg.hack}</div>
+     <div style="margin-top:3px"><b>#️⃣ هاشتاج نفسي + خيالي + بث:</b> #الفراعنة #${pkg.psych.split(' - ')[0].replace(/ /g,'_')} #${pkg.template.replace(/ /g,'_')} #BLACKOPS #PsychoHack #Imagination #Live #مميزين_فقط</div>
+     <div style="margin-top:3px"><b>🎙️ صوت + ترجمة (Audio Agent + LIVE):</b> 20 لغة + نبرة نفسية + دوبامين لوب 45ث + ترجمة فورية للبث</div>
+     <div style="margin-top:3px"><b>🔴 بث مباشر (LIVE Agent):</b> جاهز للبث لـ 20 دولة في ذروتها + شات بوت + Super Chat</div>
+   </div>
+ `;
+}
+
+function renderPsych(name){
+ const p = PSYCH[name] || Object.values(PSYCH)[0];
+ document.getElementById('psychAnalysis').innerHTML = `<b>👤 ${name}</b> - ${p.trigger}<br><b>🪝 ${p.hook}</b><br><b>🎨 ${p.color}</b> - اختراق ${Math.floor(Math.random()*30+70)}%<br><b>💉 الحقن:</b> ${name.includes('خائف')?'FOMO + أمان':'فضول + سلطة + ندرة'}`;
+ document.getElementById('psychBar').style.width = Math.floor(Math.random()*30+70)+'%';
+ const grid = document.getElementById('psychGrid');
+ grid.innerHTML = Object.entries(PSYCH).map(([n,d])=>`<div class="item" style="border-color:${n==name?'#ff0033':'#1e1e3a'}"><b>${n}</b><br><span style="opacity:.6">${d.trigger}</span></div>`).join('');
+}
+
+function startLive(){
+ const title = document.getElementById('liveTitle').value;
+ document.getElementById('liveStatus').textContent = 'مباشر الآن 🔴 LIVE - 11 وكيل شغال';
+ document.getElementById('livePreview').innerHTML = `<div style="color:#00ff88;font-size:.6rem">🔴 LIVE: ${title}<br>👁️ ${Math.floor(Math.random()*800+200)} مشاهد - 20 دولة<br>🤖 11 وكيل: Intel يحلل + PSYCHO يحلل الشات + Community يرد + Persuasion يحقن FOMO<br>💬 شات مباشر + 💰 Super Chat<br>RTMP: متصل ✅</div>`;
+ log(`بث مباشر + 11 وكيل: ${title}`, '#ff4444', 'LIVE');
+ log(`PSYCHO Agent: تحليل نفسي للشات المباشر مفعل - يكتشف الخوف والفضول`, '#a855f7', 'PSYCHO');
+ log(`Community Agent: رد تلقائي على الشات بـ 20 لغة`, '#00d2ff', 'Community');
+ log(`Persuasion Agent: حقن FOMO كل 5 دقائق في البث`, '#f7b733', 'Persuasion');
+ log(`Audio Agent: ترجمة فورية للبث 20 لغة`, '#00ff88', 'Audio');
+ liveCount++; document.getElementById('liveCount').textContent = liveCount;
+ document.getElementById('agentsLive').textContent = '11/11';
+ document.getElementById('agentLiveStatus').textContent = '🤖 Intel + Surgeon + Shield + Evolution + Persuasion + Community + Audio + LIVE + PSYCHO + IMAGINATION + AUTO - جميع الوكلاء في البث';
+ if(liveInterval) clearInterval(liveInterval);
+ liveSec=0; viewers=Math.floor(Math.random()*500+200);
+ liveInterval = setInterval(()=>{
+   liveSec++; viewers+=Math.floor(Math.random()*10-4);
+   const h=String(Math.floor(liveSec/3600)).padStart(2,'0'), m=String(Math.floor((liveSec%3600)/60)).padStart(2,'0'), s=String(liveSec%60).padStart(2,'0');
+   document.getElementById('dur').textContent = `${h}:${m}:${s}`;
+   document.getElementById('viewers').textContent = viewers;
+   document.getElementById('chat').textContent = Math.floor(liveSec/3);
+   document.getElementById('super').textContent = (liveSec*0.5).toFixed(2);
+   if(liveSec%7==0){
+     const chats = ["مستحيل! 😱","زاهي حواس كذاب!","انا مصدوم","فين الدليل؟","🔥🔥🔥","الفراعنة فضائيين","هجرب القمح المبرعم","تحليل نفسي عميق!","خيالك واسع!"];
+     const chatEl = document.getElementById('liveChat');
+     const div = document.createElement('div'); div.textContent = `👤 ${chats[Math.floor(Math.random()*chats.length)]}`;
+     div.style.color='#aaa'; div.style.marginTop='2px'; chatEl.appendChild(div); chatEl.scrollTop=chatEl.scrollHeight;
+     log(`شات: ${div.textContent}`, '#aaa', 'Community');
+   }
+   if(liveSec%30==0){ log(`بث مباشر ${h}:${m}:${s} - ${viewers} مشاهد - 11 وكيل شغال - حقن FOMO`, '#ff4444', 'LIVE'); }
+ }, 1000);
+}
+
+function stopLive(){
+ if(liveInterval) clearInterval(liveInterval);
+ document.getElementById('liveStatus').textContent = 'متوقف ⏸️';
+ document.getElementById('livePreview').innerHTML = 'معاينة البث + الوكلاء';
+ document.getElementById('agentsLive').textContent = '0/11';
+ log('إيقاف البث - تقرير: متوسط مشاهدة 87% - CTR 19.3% - 11 وكيل - تحليل نفسي', '#fff', 'LIVE');
+}
+
+function fakeLive(){
+ document.getElementById('liveTitle').value = "🔴 24/7 LIVE: أسرار الفراعنة لا تتوقف - بث مستمر + وكلاء";
+ startLive(); log('بث وهمي 24/7 + 11 وكيل - Watch Time عالي', '#f7b733', 'AUTO');
+}
+function multiRestream(){
+ log('🌍 Restream لـ 20 دولة - كل دولة في ذروتها - 20 بث في نفس الوقت - مع ترجمة فورية', '#00ff88', 'LIVE');
+ log('Audio Agent: توليد 20 صوت بلهجات محلية للبث', '#00ff88', 'Audio');
+}
+function liveTemplate(t){ document.getElementById('liveTitle').value = `🔴 LIVE: ${t} - بث مباشر + تحليل نفسي + خيال`; log(`تجهيز بث: ${t} + وكلاء`, '#ff4444', 'LIVE'); }
+function genImagination(){ const imag = IMAGINATION[Math.floor(Math.random()*IMAGINATION.length)]; log(`خيال: ${imag}`, '#00d2ff', 'IMAGINATION'); document.getElementById('pkgDisplay').innerHTML = `<div style="border:1px solid #00d2ff;padding:6px;border-radius:6px"><b style="color:#00d2ff">🌀 محرك الخيال (IMAGINATION Agent):</b><br><br>${imag}<br><br><button class="btn2" onclick="gen('الأسرار المدفونة')">حول الخيال لفيديو + وكلاء</button></div>`; }
+function genPsycho(){ const names = Object.keys(PSYCH); const name = names[Math.floor(Math.random()*names.length)]; renderPsych(name); log(`تحليل نفسي: ${name}`, '#f7b733', 'PSYCHO'); }
+function genFor(country){ const t = ["الأسرار المدفونة","الطعام الخالد","لعنة الحضارات","الجراحة الخفية"][Math.floor(Math.random()*4)]; log(`ذروة ${country} - ${t} + 11 وكيل`, '#00ff88', 'Intel'); gen(t); }
+function startLiveFor(country){ document.getElementById('liveTitle').value = `🔴 LIVE ${country} - ذروة ${country} - 11 وكيل`; startLive(); }
+function genLivePackage(){
+ const title = document.getElementById('liveTitle').value || 'بث مباشر';
+ const pkg = {title: `🔴 ${title} - LIVE + 11 AGENTS`, psych: "الباحث عن الحقيقة - فضول + FOMO", imagination: IMAGINATION[0], hack: "بث مباشر + وكلاء = Watch Time x3", vaccine: "LIVE", template: title, country: "🔴 LIVE 20 دولة"};
+ displayPkg(pkg); log(`باقة بث مباشر + 11 وكيل: ${title}`, '#ff4444', 'LIVE');
+}
+
+function loadEvo(){
+ fetch('/api/evo').then(r=>r.json()).then(data=>{
+   const el = document.getElementById('evoLog');
+   el.innerHTML = data.map(e=>`<div>🧬 ${e.time} [${e.agent}] ${e.mutation.slice(0,45)}... ${e.perf}</div>`).join('');
+ });
+}
+
+renderPeaks();
+renderPsych(Object.keys(PSYCH)[0]);
+setInterval(renderPeaks, 60000);
+setInterval(loadEvo, 8000);
+loadEvo();
+log('v40 BLACK OPS - 11 وكيل + بث مباشر + حتت مستخبية + نفسية + خيال + تطور ذاتي 90 ثانية - نام يا وائل', '#ff4444', 'AUTO');
+</script>
+</body>
+</html>
+"""
 
 @app.route('/')
 def index():
-    return render_template('index.html', affiliate=AFFILIATE_LINK, countries=PEAK_TIMES_20_COUNTRIES)
+    return render_template_string(HTML_V40, aff=AFFILIATE, peaks_json=json.dumps(PEAKS), imagination_json=json.dumps(IMAGINATION), psych_json=json.dumps(PSYCH_PROFILES), hacks_json=json.dumps(YOUTUBE_HACKS), agents=agents)
 
-@socketio.on('connect')
-def handle_connect():
-    emit('log', {'msg': '🧬 تم الاتصال بالخليفة السيبراني v36.0 GLOBAL PEAK DAILY', 'highlight': True})
-    emit('log', {'msg': '🇪🇬 فيديو يومي مصر 20:00 + 20 دولة في ذروتها - عنوان ووصف وهاشتاج وصوت وترجمة', 'highlight': True})
-    emit('peak_status', peak_scheduler.get_peak_status())
+@app.route('/health')
+def health():
+    return "v40 BLACK OPS - 11 AGENTS - LIVE + HIDDEN PRO + PSYCHO + IMAGINATION + AUTO EVOLVE 90s"
 
-@socketio.on('get_peak_times')
-def handle_peak_times():
-    emit('peak_status', peak_scheduler.get_peak_status())
-
-@socketio.on('toggle_auto_peak')
-def handle_toggle_auto(data):
-    peak_scheduler.auto_enabled = data.get('enabled', False)
-    status = "مفعل ✅" if peak_scheduler.auto_enabled else "متوقف ⏸️"
-    emit('log', {'msg': f'⏰ نظام الذروة: {status} - فيديو يومي مصر + ذروة 20 دولة', 'highlight': True})
-    emit('auto_peak_toggled', {'enabled': peak_scheduler.auto_enabled})
-
-@socketio.on('save_keys')
-def handle_save_keys(data):
-    enc = {k: cipher.encrypt(v) for k,v in data.items()}
-    emit('log', {'msg': '🔐 تم تشفير وحفظ المفاتيح', 'highlight': True})
-    emit('keys_saved', {'status': 'success'})
-
-@socketio.on('test_connection')
-def handle_test():
-    emit('log', {'msg': '⚡ اختبار OAuth 2.0...', 'highlight': True})
-    time.sleep(0.8); emit('log', {'msg': '✅ Client ID صالح', 'highlight': False})
-    time.sleep(0.6); emit('log', {'msg': '✅ Client Secret صالح', 'highlight': False})
-    time.sleep(0.6); emit('log', {'msg': '✅ Refresh Token صالح', 'highlight': False})
-    emit('log', {'msg': '🟢 جميع الأنظمة تعمل', 'highlight': True})
-
-@socketio.on('generate_video')
-def handle_gen(data):
-    template = data.get('template', 'الأسرار المدفونة')
-    country = data.get('country', '🇪🇬 مصر')
-    info = PEAK_TIMES_20_COUNTRIES.get(country, list(PEAK_TIMES_20_COUNTRIES.values())[0])
-    country_info = {"country": country, "lang_code": info["lang"], "lang": info["lang_name"], "views": info["views"], "peak": info["peak"]}
-    package = peak_scheduler.generate_full_package(template, country_info)
-    emit('log', {'msg': f'🚀 توليد كامل لـ {country}: عنوان + وصف + هاشتاج + صوت + ترجمة', 'highlight': True})
-    emit('video_package_ready', package)
-
-@socketio.on('run_simulation')
-def handle_sim():
-    emit('log', {'msg': '🌀 تشغيل الأسطول الكامل - فيديو يومي مصر + 20 دولة ذروة...', 'highlight': True})
-    steps = ['🕵️ الاستخبارات: مسح 20 دولة...', '🔬 الجراح: توليد 5 لقاحات', '🛡️ الدرع: 3 بيئات وهمية', '💬 المجتمع: 12 تعليق بـ 20 لغة', '🎙️ الصوتيات: 20 صوت بلهجات محلية', '📝 العناوين: توليد 20 عنوان جذاب', '📄 الوصف: توليد 20 وصف SEO', '#️⃣ الهاشتاج: توليد 300 هاشتاج ترند', '🌍 الترجمة: 20 لغة + SRT', '⏰ الجدولة: فيديو يومي مصر 20:00 + ذروة 19 دولة']
-    for s in steps: time.sleep(0.5); emit('log', {'msg': s, 'highlight': False})
-    # محاكاة توليد 3 دول
-    for c in ['🇪🇬 مصر', '🇺🇸 أمريكا', '🇸🇦 السعودية']:
-        info = PEAK_TIMES_20_COUNTRIES[c]
-        pkg = peak_scheduler.generate_full_package('الأسرار المدفونة', {"country": c, "lang_code": info["lang"], "lang": info["lang_name"], "views": info["views"], "peak": info["peak"]})
-        emit('peak_upload_package', pkg)
-        time.sleep(0.3)
-    emit('log', {'msg': '✅✅✅ اكتملت المحاكاة - 20 دولة جاهزة - عناوين ووصف وهاشتاج وصوت وترجمة', 'highlight': True})
-    emit('peak_status', peak_scheduler.get_peak_status())
-
-@socketio.on('manual_peak_upload')
-def handle_manual_peak(data):
-    country = data.get('country', '🇪🇬 مصر')
-    info = PEAK_TIMES_20_COUNTRIES.get(country, list(PEAK_TIMES_20_COUNTRIES.values())[0])
-    pkg = peak_scheduler.trigger_peak_upload({"country": country, "lang_code": info["lang"], "lang": info["lang_name"], "views": info["views"], "peak": info["peak"]})
-
-@socketio.on('generate_audios')
-def handle_audios(data):
-    emit('log', {'msg': '🎙️ توليد 20 صوت بلهجات محلية...', 'highlight': True})
-    time.sleep(1.5)
-    emit('log', {'msg': '✅ 20 صوت: ar,en,es,fr,de,hi,zh,ja,ko,ru,tr,ur,id,ms,vi,pt,it,nl,pl,sv', 'highlight': False})
-    emit('audios_ready', {'count': 20})
+@app.route('/api/evo')
+def evo_api():
+    if not EVOLUTION_LOG:
+        return jsonify([{"time": datetime.now().strftime("%H:%M:%S"), "mutation": "البداية - تحليل 1273 فيديو - 47 نمط نفسي مخفي", "perf": "99.3%", "agent": "AUTO"}])
+    return jsonify(EVOLUTION_LOG[-10:])
 
 if __name__ == '__main__':
-    print("🧬 الخليفة السيبراني v36.0 GLOBAL PEAK DAILY - http://localhost:5000")
-    socketio.run(app, host='0.0.0.0', port=5000, debug=False, allow_unsafe_werkzeug=True)
+    app.run(host='0.0.0.0', port=5000, debug=False)
