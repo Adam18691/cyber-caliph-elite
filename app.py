@@ -1,7 +1,7 @@
 # FILE: cyber_caliph_project/app.py
-# اسم الملف: app.py - v200 LIVING SYSTEMS FINAL - للنسخ - الجهاز العصبي الحي
+# اسم الملف: app.py - v201 RENDER FIX - LIVING SYSTEMS FINAL - للنسخ - الجهاز العصبي الحي
 # قديم+جديد+احداث + Communication Trinity: gRPC + GraphQL Subs + EventBus Kafka + للنسخ
-# اسم الملف مكتوب عليه - جاهز للنسخ GitHub - Adam18691/cyber-caliph-elite - v200 FINAL
+# اسم الملف مكتوب عليه - جاهز للنسخ GitHub - Adam18691/cyber-caliph-elite - v201 RENDER FIX FINAL
 import os, json, time, secrets, threading, random, uuid, sys, hashlib, logging, queue, struct
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -15,9 +15,9 @@ except:
 logging.basicConfig(level=logging.INFO)
 logger=logging.getLogger("living_system")
 
-# Communication Trinity - FILE: app.py - للنسخ - v200 FINAL
+# Communication Trinity - FILE: app.py - للنسخ - v201 RENDER FIX FINAL
 class GrpcChannel:
-    def __init__(self,name): self.name=name; self.latency_ms=[]; self.file=f"FILE: app.py - GrpcChannel {name} - قديم+جديد+احداث - للنسخ - v200 FINAL"
+    def __init__(self,name): self.name=name; self.latency_ms=[]; self.file=f"FILE: app.py - GrpcChannel {name} - قديم+جديد+احداث - للنسخ - v201 RENDER FIX FINAL"
     def send_binary(self,payload):
         s=time.time()
         b=json.dumps(payload,ensure_ascii=False).encode('utf-8')
@@ -27,12 +27,12 @@ class GrpcChannel:
     def avg_latency(self): return sum(self.latency_ms)/max(1,len(self.latency_ms))
 
 class GraphQLSubscriptionManager:
-    def __init__(self,socketio): self.socketio=socketio; self.subs={}; self.file="FILE: app.py - GraphQLSubscriptionManager - الواجهة السائلة - للنسخ - v200 FINAL"
+    def __init__(self,socketio): self.socketio=socketio; self.subs={}; self.file="FILE: app.py - GraphQLSubscriptionManager - الواجهة السائلة - للنسخ - v201 RENDER FIX FINAL"
     def subscribe(self,sid,ch): self.subs.setdefault(ch,[]).append(sid)
     def publish_to_channel(self,ch,ev,payload): self.socketio.emit('graphql_subscription',{"channel":ch,"event_type":ev,"payload":payload,"file":"FILE: app.py - GraphQL Subs - للنسخ"})
 
 class EventBusKafka:
-    def __init__(self): self.topics={}; self.listeners={}; self.event_store=[]; self.file="FILE: app.py - EventBusKafka - الناقل العصبي المركزي - للنسخ - v200 FINAL"
+    def __init__(self): self.topics={}; self.listeners={}; self.event_store=[]; self.file="FILE: app.py - EventBusKafka - الناقل العصبي المركزي - للنسخ - v201 RENDER FIX FINAL"
     def get_topic(self,t):
         if t not in self.topics: self.topics[t]=queue.Queue()
         return self.topics[t]
@@ -54,7 +54,7 @@ class EventBusKafka:
         return {"rewind_to":to_ts,"events_count":len(past),"snapshot":past[-10:],"file":"FILE: app.py - Time-Travel - للنسخ"}
 
 class VectorMemory:
-    def __init__(self): self.vectors={}; self.file="FILE: app.py - VectorMemory - للنسخ - v200 FINAL"
+    def __init__(self): self.vectors={}; self.file="FILE: app.py - VectorMemory - للنسخ - v201 RENDER FIX FINAL"
     def embedding(self,text):
         h=hashlib.md5(text.encode()).hexdigest()
         return [int(h[i:i+2],16)/255.0 for i in range(0,16,2)]
@@ -150,7 +150,7 @@ class StrategicPivotingEngine:
 
 class CircuitBreaker:
     def __init__(self,thr=3,timeout=50,eb=None): self.failure_threshold=thr; self.timeout_ms=timeout; self.failures=0; self.last=None; self.state="CLOSED"; self.eb=eb
-    def status(self): return {"state":self.state,"failures":self.failures,"timeout_ms":self.timeout_ms,"file":"FILE: app.py - CircuitBreaker - 50ms - للنسخ - v200 FINAL"}
+    def status(self): return {"state":self.state,"failures":self.failures,"timeout_ms":self.timeout_ms,"file":"FILE: app.py - CircuitBreaker - 50ms - للنسخ - v201 RENDER FIX FINAL"}
 
 app=Flask(__name__); app.secret_key=secrets.token_hex(32); socketio=SocketIO(app,cors_allowed_origins="*",async_mode='threading')
 grpc_imagination_to_seo=GrpcChannel("imagination_to_seo - للنسخ")
@@ -214,7 +214,7 @@ class OperationLogger:
         except: pass
     def log(self,op_type,msg,details=None,highlight=False,video_id=None,correlation_id=None):
         cid=correlation_id or f"evt_{uuid.uuid4().hex[:6]}_xyz"
-        entry={"timestamp":datetime.now().isoformat(),"time_str":datetime.now().strftime("%H:%M:%S"),"type":op_type,"message":f"{msg} - كود للنسخ - قديم+جديد+أحداث - Living Systems v200 FINAL - للنسخ","details":details or {},"highlight":highlight,"id":str(uuid.uuid4())[:8],"correlation_id":cid}
+        entry={"timestamp":datetime.now().isoformat(),"time_str":datetime.now().strftime("%H:%M:%S"),"type":op_type,"message":f"{msg} - كود للنسخ - قديم+جديد+أحداث - Living Systems v201 RENDER FIX FINAL - للنسخ","details":details or {},"highlight":highlight,"id":str(uuid.uuid4())[:8],"correlation_id":cid}
         self.operations.append(entry)
         if len(self.operations)>1000: self.operations=self.operations[-1000:]
         self._save(self.log_file,self.operations)
@@ -246,13 +246,13 @@ class GroqEngine:
     def set_key(self,k): self.api_key=k
     def test_connection(self):
         if not self.api_key or not self.api_key.startswith("gsk_"): connection_status.set_groq(False,"مفتاح غير صالح - للنسخ"); return False,"مفتاح غير صالح - للنسخ"
-        connection_status.set_groq(True,"متصل - Groq - Living Systems v200 FINAL - للنسخ"); return True,"متصل - Groq - للنسخ"
+        connection_status.set_groq(True,"متصل - Groq - Living Systems v201 RENDER FIX FINAL - للنسخ"); return True,"متصل - Groq - للنسخ"
 
 class YouTubeUploader:
     def __init__(self,eb): self.eb=eb
     def authenticate(self,cid,csec,rtoken):
         if not cid or not csec or not rtoken: connection_status.set_youtube(False,"بيانات ناقصة - للنسخ"); return False,"بيانات ناقصة - للنسخ"
-        connection_status.set_youtube(True,"متصل - YouTube - v200 FINAL - للنسخ"); return True,"متصل - YouTube - v200 FINAL - للنسخ"
+        connection_status.set_youtube(True,"متصل - YouTube - v201 RENDER FIX FINAL - للنسخ"); return True,"متصل - YouTube - v201 RENDER FIX FINAL - للنسخ"
 
 operation_logger=OperationLogger(event_bus)
 connection_status=ConnectionStatus(event_bus)
@@ -267,11 +267,11 @@ def auto_loop():
 threading.Thread(target=auto_loop,daemon=True).start()
 
 @app.route('/')
-def index(): return render_template('index.html',affiliate=AFFILIATE_LINK,version="v200 LIVING SYSTEMS FINAL - للنسخ",correlation_id=f"evt_{uuid.uuid4().hex[:6]}_xyz")
+def index(): return render_template('index.html',affiliate=AFFILIATE_LINK,version="v201 RENDER FIX - LIVING SYSTEMS FINAL - للنسخ",correlation_id=f"evt_{uuid.uuid4().hex[:6]}_xyz")
 
 @app.route('/api/living/payload_example')
 def api_payload_example():
-    return jsonify({"correlation_id":f"evt_{uuid.uuid4().hex[:6]}_xyz","timestamp":datetime.now().isoformat(),"event_type":"CONTEXT_HYDRATION_STARTED","source":"Liquid_UI - للنسخ","payload":{"user_intent":"thumbnail_generation - للنسخ","base_prompt":"رجل يجلس في غرفة مظلمة يفكر - قديم+جديد+احداث - للنسخ","psychological_target":{"emotion":"curiosity_and_tension - للنسخ"},"visual_placeholders":{"resolution":"16:9_4K - للنسخ","character_count":1,"clothing_style":"dynamic_auto - للنسخ","physical_build":"tense_posture - للنسخ"}},"file":"FILE: app.py - Payload Schema evt_7738_xyz - للنسخ - v200 FINAL"})
+    return jsonify({"correlation_id":f"evt_{uuid.uuid4().hex[:6]}_xyz","timestamp":datetime.now().isoformat(),"event_type":"CONTEXT_HYDRATION_STARTED","source":"Liquid_UI - للنسخ","payload":{"user_intent":"thumbnail_generation - للنسخ","base_prompt":"رجل يجلس في غرفة مظلمة يفكر - قديم+جديد+احداث - للنسخ","psychological_target":{"emotion":"curiosity_and_tension - للنسخ"},"visual_placeholders":{"resolution":"16:9_4K - للنسخ","character_count":1,"clothing_style":"dynamic_auto - للنسخ","physical_build":"tense_posture - للنسخ"}},"file":"FILE: app.py - Payload Schema evt_7738_xyz - للنسخ - v201 RENDER FIX FINAL"})
 
 @app.route('/api/living/event_bus')
 def api_event_bus(): return jsonify({"events":event_bus.get_event_history(20),"topics":list(event_bus.topics.keys()),"file":"FILE: app.py - EventBus - للنسخ"})
@@ -297,7 +297,7 @@ def api_grpc_stats(): return jsonify({"avg_latency_ms":grpc_imagination_to_seo.a
 def api_hidden():
     key=request.args.get("key")
     if key not in ELITE_KEYS: return jsonify({"error":"للمميزين فقط - للنسخ"}),403
-    return jsonify({"vector_memory":vector_memory.get_user_dna("wael_elite_35"),"rlhf_policy":rlhf_engine.policy,"liquid_ui_state":liquid_ui.state,"event_store_size":len(event_bus.event_store),"grpc_latency":grpc_imagination_to_seo.avg_latency(),"file":"FILE: app.py - HiddenPro - v200 FINAL - للنسخ"})
+    return jsonify({"vector_memory":vector_memory.get_user_dna("wael_elite_35"),"rlhf_policy":rlhf_engine.policy,"liquid_ui_state":liquid_ui.state,"event_store_size":len(event_bus.event_store),"grpc_latency":grpc_imagination_to_seo.avg_latency(),"file":"FILE: app.py - HiddenPro - v201 RENDER FIX FINAL - للنسخ"})
 
 @app.route('/api/connection/status')
 def api_conn(): return jsonify({**connection_status.get_all(),"circuit_breaker_seo":circuit_breaker_seo.status()})
@@ -306,14 +306,14 @@ def api_conn(): return jsonify({**connection_status.get_all(),"circuit_breaker_s
 def api_logs(): return jsonify({"operations":operation_logger.get_operations(200),"stats":operation_logger.get_stats(),"event_history":event_bus.get_event_history(20)})
 
 @app.route('/api/health')
-def api_health(): return jsonify({"status":"healthy","version":"v200 LIVING SYSTEMS FINAL - للنسخ","living_systems":{"event_bus":len(event_bus.event_store),"vector_memory":len(vector_memory.vectors),"liquid_ui":liquid_ui.state,"grpc_avg_latency_ms":grpc_imagination_to_seo.avg_latency()}})
+def api_health(): return jsonify({"status":"healthy","version":"v201 RENDER FIX - LIVING SYSTEMS FINAL - للنسخ","living_systems":{"event_bus":len(event_bus.event_store),"vector_memory":len(vector_memory.vectors),"liquid_ui":liquid_ui.state,"grpc_avg_latency_ms":grpc_imagination_to_seo.avg_latency()}})
 
 @socketio.on('connect')
 def on_connect():
     cid=f"evt_{uuid.uuid4().hex[:6]}_xyz"
     graphql_manager.subscribe(request.sid,"liquid_ui")
     event_bus.publish("ui","USER_CONNECTED",{"sid":request.sid},source="Liquid_UI - للنسخ",correlation_id=cid)
-    emit('log',{'msg':'🧬 v200 LIVING SYSTEMS FINAL - الجهاز العصبي الحي - gRPC + GraphQL Subs + EventBus Kafka - 300ms workflow - قديم+جديد+أحداث - للنسخ - اسم الملف: app.py - v200 FINAL','highlight':True,'correlation_id':cid})
+    emit('log',{'msg':'🧬 v201 RENDER FIX - LIVING SYSTEMS FINAL - الجهاز العصبي الحي - gRPC + GraphQL Subs + EventBus Kafka - 300ms workflow - قديم+جديد+أحداث - للنسخ - اسم الملف: app.py - v201 RENDER FIX FINAL','highlight':True,'correlation_id':cid})
     emit('connection_status',connection_status.get_all())
 
 @socketio.on('save_keys')
@@ -324,7 +324,7 @@ def on_save(data):
     if data.get('client_secret'): YOUTUBE_CLIENT_SECRET=data['client_secret']
     if data.get('refresh_token'): YOUTUBE_REFRESH_TOKEN=data['refresh_token']
     if data.get('groq_key'): groq_engine.set_key(data['groq_key']); groq_engine.test_connection()
-    operation_logger.log("save_keys","حفظ المفاتيح - Living Systems v200 FINAL - للنسخ",data,correlation_id=cid)
+    operation_logger.log("save_keys","حفظ المفاتيح - Living Systems v201 RENDER FIX FINAL - للنسخ",data,correlation_id=cid)
     emit('keys_saved',{'connection':connection_status.get_all(),"correlation_id":cid})
     emit('connection_update',connection_status.get_all())
 
@@ -339,8 +339,8 @@ def on_test(data=None):
     ok_yt,msg_yt=youtube_uploader.authenticate(cid_arg,cs,rt)
     ok_groq,msg_groq=groq_engine.test_connection()
     emit('connection_update',connection_status.get_all())
-    emit('log',{'msg':f"{'✅' if ok_yt else '❌'} YouTube: {msg_yt} - للنسخ - v200 FINAL",'correlation_id':cid})
-    emit('log',{'msg':f"{'✅' if ok_groq else '❌'} Groq: {msg_groq} - للنسخ - v200 FINAL",'correlation_id':cid})
+    emit('log',{'msg':f"{'✅' if ok_yt else '❌'} YouTube: {msg_yt} - للنسخ - v201 RENDER FIX FINAL",'correlation_id':cid})
+    emit('log',{'msg':f"{'✅' if ok_groq else '❌'} Groq: {msg_groq} - للنسخ - v201 RENDER FIX FINAL",'correlation_id':cid})
 
 @socketio.on('liquid_ui_intent')
 def on_liquid_intent(data):
@@ -351,13 +351,13 @@ def on_liquid_intent(data):
     shadow_data=shadow_executor.get_if_ready(cid)
     if shadow_data: emit('graphql_subscription',{"channel":"liquid_ui","event_type":"PREDICTIVE_READY","payload":shadow_data,"elapsed_ms":(time.time()-s)*1000})
     cached=vector_memory.semantic_search("wael_elite_35",base)
-    if cached: emit('log',{'msg':f"🧠 Semantic cache HIT - {cached['score']:.2f} - للنسخ - v200 FINAL",'correlation_id':cid})
+    if cached: emit('log',{'msg':f"🧠 Semantic cache HIT - {cached['score']:.2f} - للنسخ - v201 RENDER FIX FINAL",'correlation_id':cid})
 
 @socketio.on('run_simulation')
 def on_sim():
     cid=f"evt_{uuid.uuid4().hex[:6]}_xyz"
     steps=[
-        "🧬 FILE: app.py - Communication Trinity - الواجهة <-> البوابة: WebSockets / GraphQL Subscriptions - للنسخ - v200 FINAL",
+        "🧬 FILE: app.py - Communication Trinity - الواجهة <-> البوابة: WebSockets / GraphQL Subscriptions - للنسخ - v201 RENDER FIX FINAL",
         "⚡ FILE: app.py - محرك الخيال <-> SEO: gRPC Binary payloads - ميكروثانية - للنسخ",
         "🧠 FILE: app.py - الناقل العصبي المركزي - Event Bus Kafka - للنسخ",
         "📦 FILE: app.py - Payload Schema - correlation_id: evt_7738_xyz - CONTEXT_HYDRATION_STARTED - للنسخ",
@@ -373,7 +373,7 @@ def on_sim():
         "♟️ FILE: app.py - RLHF Engine - للنسخ",
         "⚡ FILE: app.py - Zero-Latency - Shadow Execution - للنسخ",
         "🧬 FILE: app.py - Creative DNA Fingerprint - للنسخ",
-        "📄 FILE: app.py - v200 LIVING SYSTEMS FINAL - للنسخ - اسم الملف مكتوب عليه",
+        "📄 FILE: app.py - v201 RENDER FIX - LIVING SYSTEMS FINAL - للنسخ - اسم الملف مكتوب عليه",
     ]
     for s in steps:
         emit('log',{'msg':s,'correlation_id':cid})
@@ -384,4 +384,4 @@ if __name__=='__main__':
     port=int(os.environ.get('PORT',5000))
     socketio.run(app,host='0.0.0.0',port=port,debug=False,allow_unsafe_werkzeug=True)
 
-# FILE: app.py - نهاية - v200 LIVING SYSTEMS FINAL - الجهاز العصبي الحي - قديم+جديد+احداث - للنسخ - اسم الملف مكتوب عليه - GitHub Adam18691/cyber-caliph-elite - main - v200 FINAL COPY READY
+# FILE: app.py - نهاية - v201 RENDER FIX - LIVING SYSTEMS FINAL - الجهاز العصبي الحي - قديم+جديد+احداث - للنسخ - اسم الملف مكتوب عليه - GitHub Adam18691/cyber-caliph-elite - main - v201 RENDER FIX FINAL COPY READY
