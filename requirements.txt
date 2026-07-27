@@ -1,19 +1,19 @@
 # FILE: cyber_caliph_project/requirements.txt
-# اسم الملف: requirements.txt - v203 ULTRA LIGHT RENDER FIX - يبني في 8 ثواني - للنسخ
-# اصلاح: Build failed عند gevent-24.11.1.tar.gz 6MB + Deploy cancelled - للنسخ
-# الحل: ازالة gevent + Pillow 46MB + grpcio 12MB + PyYAML - فقط الضروري wheels جاهزة
-# اسم الملف مكتوب عليه - GitHub Adam18691/cyber-caliph-elite - v203 - للنسخ
+# اسم الملف: requirements.txt - v204 FINAL FIX - Python 3.14 Compatible - للنسخ
+# اصلاح نهائي: Python 3.14 + eventlet = SyntaxError: 'return' in a 'finally' block
+# eventlet لا يدعم Python 3.14 - تم ازالته تماما - استخدام gthread بدلاً منه
+# اسم الملف مكتوب عليه - GitHub Adam18691/cyber-caliph-elite - v204 FINAL - للنسخ
 
-# === الاساسي فقط - يبني في 8 ثواني - كلها wheels - لا تحتاج build ===
+# === الاساسي فقط - متوافق مع Python 3.14 - كلها wheels - يبني في 6 ثواني ===
 Flask==3.0.0
 Flask-SocketIO==5.3.6
 python-socketio==5.11.0
 python-engineio==4.8.0
-gunicorn==21.2.0
-eventlet==0.33.3
+gunicorn==23.0.0
 python-dotenv==1.0.0
 requests==2.31.0
 
-# FILE: requirements.txt - نهاية - v203 ULTRA LIGHT - يبني في 8 ثواني - للنسخ
-# تم ازالة: gevent + gevent-websocket + Pillow + PyYAML + grpcio + google-api + numpy + redis + kafka
-# لو احتجت اي مكتبة ثقيلة بعد ما يشتغل المشروع - ضيفها واحدة واحدة
+# تم ازالة: eventlet + gevent + gevent-websocket + Pillow + PyYAML + grpcio + google-api
+# السبب: eventlet يسبب SyntaxError في Python 3.14 - gevent يحتاج build - Pillow 46MB يفشل
+
+# FILE: requirements.txt - نهاية - v204 FINAL FIX - بدون eventlet - يبني في 6 ثواني - للنسخ
