@@ -1,151 +1,167 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧬 الخليفة السيبراني v35.0</title>
-    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',Tahoma,sans-serif}
-        body{background:#05080f;color:#e0e6f0;padding:15px;min-height:100vh}
-        .container{max-width:1250px;margin:auto;background:linear-gradient(145deg,#111b2e,#0a1220);border-radius:28px;padding:28px;border:1px solid #00d2ff33;box-shadow:0 0 100px #00d2ff0f}
-        h1{font-size:2.4rem;background:linear-gradient(135deg,#f7b733,#fc4a1a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;font-weight:900}
-        .subtitle{text-align:center;opacity:.6;margin-bottom:18px}
-        .badge{background:#00d2ff1a;border:1px solid #00d2ff66;border-radius:20px;padding:3px 12px;color:#00d2ff;font-size:.75rem}
-        .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
-        .card{background:#0a111f;border-radius:20px;padding:18px;border:1px solid #1e2d4a;position:relative;overflow:hidden}
-        .card::before{content:'';position:absolute;top:0;right:0;width:100%;height:2px;background:linear-gradient(90deg,#f7b733,#00d2ff)}
-        .card h3{color:#fff;border-bottom:1px solid #1a2a4a;padding-bottom:10px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
-        .key-row{display:flex;justify-content:space-between;align-items:center;background:#050a15;padding:10px 14px;border-radius:12px;margin-bottom:9px;border-right:3px solid #f7b733}
-        .key-row input{background:transparent;border:none;color:#a0b4c8;direction:ltr;width:68%;font-family:monospace;font-size:.85rem}
-        .key-row input:focus{outline:none;color:#fff}
-        .btn-icon{background:none;border:none;color:#7b8ba3;cursor:pointer;font-size:1.1rem}
-        .btn-icon:hover{color:#00d2ff}
-        .btn-primary{background:linear-gradient(135deg,#f7b733,#fc4a1a);border:none;color:#fff;padding:11px 26px;border-radius:40px;font-weight:700;cursor:pointer;transition:.3s}
-        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px #f7b73355}
-        .btn-secondary{background:transparent;border:1px solid #00d2ff55;color:#00d2ff;padding:9px 16px;border-radius:40px;cursor:pointer;transition:.3s;font-size:.85rem}
-        .btn-secondary:hover{background:#00d2ff11;border-color:#00d2ff;color:#fff}
-        .log-area{background:#050a15;padding:14px;border-radius:14px;height:280px;overflow-y:auto;font-family:monospace;font-size:.78rem;border:1px solid #1e2d4a;line-height:1.7}
-        .affiliate-box{background:linear-gradient(135deg,#1a2a4a,#162040);border:1px solid #f7b73344;border-radius:16px;padding:14px;margin-top:18px;text-align:center;display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}
-        .affiliate-box a{color:#f7b733;text-decoration:none;font-weight:800;direction:ltr}
-        .flex{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-        .stat{font-size:1.6rem;font-weight:900;color:#f7b733}
-        @media(max-width:850px){.grid-2{grid-template-columns:1fr}}
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>👑 الخليفة v52 PRO ELITE - الخلاصة المستخبية - للمميزين</title>
+<script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg-main:#f0f7f0;--bg-card:#e8f5e9;--text:#1b3a2a;--accent:#2d5a3d;--leaf-light:#8fbc8f;--forest-deep:#1a2e1a;--gold:#f7b733;--orange:#ff6d00;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',Tahoma,sans-serif}
+body{background: radial-gradient(ellipse at top, var(--accent) 0%, var(--forest-deep) 100%);color:var(--text);padding:10px;min-height:100vh}
+.container{max-width:1500px;margin:auto;background:linear-gradient(145deg, var(--bg-main), var(--bg-card));border-radius:24px;padding:14px;border:2px solid var(--leaf-light)}
+h1{font-size:1.5rem;background:linear-gradient(135deg,var(--accent), #f7b733,#ff00ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;font-weight:900}
+.subtitle{text-align:center;opacity:.85;font-size:.68rem;margin-bottom:8px}
+.badge{border-radius:20px;padding:3px 10px;font-size:.6rem;font-weight:800;display:inline-block;margin:2px;border:1px solid}
+.badge-secure{background:linear-gradient(135deg,#00c853,#00e676);color:#000;border-color:#00c853}
+.badge-elite{background:linear-gradient(135deg,#f7b733,#fc4a1a);color:#fff;border-color:#f7b733;animation:goldPulse 2s infinite}
+.badge-hidden{background:linear-gradient(135deg,#1a1a1a,#4a148c);color:#ffd600;border-color:#ffd600;font-weight:900}
+.badge-money{background:linear-gradient(135deg,#ff6d00,#ffd600);color:#000;border-color:#ff6d00}
+@keyframes goldPulse{0%,100%{box-shadow:0 0 5px #f7b733}50%{box-shadow:0 0 20px #f7b733}}
+.card{background:#fff;border-radius:14px;padding:10px;border:1px solid #8fbc8f;margin-bottom:10px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;right:0;width:100%;height:3px;background:linear-gradient(90deg,#2d5a3d,#f7b733,#ff00ff)}
+.card h3{font-size:.82rem;border-bottom:1px solid #e8f5e9;padding-bottom:5px;margin-bottom:6px;display:flex;flex-wrap:wrap;gap:5px;align-items:center;color:#1b3a2a}
+.key-row{display:flex;align-items:center;background:#f9fff9;padding:8px 10px;border-radius:10px;margin-bottom:6px;border:1px solid #8fbc8f55;gap:6px}
+.key-row span{font-size:.6rem;min-width:80px;font-weight:800}
+.key-row input{flex:1;background:#fff;border:1px dashed #2d5a3d;border-radius:6px;padding:6px 8px;color:#000;direction:ltr;font-family:monospace;font-size:.68rem;user-select:all}
+.key-row input:focus{outline:2px solid #ff6d00}
+.key-row.groq-input{background:linear-gradient(135deg,#fff3e0,#ffe0b2);border:2px solid #ff6d00}
+.key-row.elite-input{background:linear-gradient(135deg,#fff8e1,#ffecb3);border:2px solid #f7b733}
+.btn{border:none;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:.6rem;font-weight:900;white-space:nowrap}
+.btn-copy{background:linear-gradient(135deg,#2d5a3d,#8fbc8f);color:#fff}
+.btn-copy.copied{background:linear-gradient(135deg,#00c853,#00ff88)!important}
+.btn-groq{background:linear-gradient(135deg,#ff6d00,#f7b733);color:#fff;animation:goldPulse 2s infinite}
+.btn-elite{background:linear-gradient(135deg,#f7b733,#fc4a1a);color:#fff}
+.btn-primary{background:linear-gradient(135deg,#1a2e1a,#2d5a3d);color:#fff}
+.btn-secondary{background:transparent;border:1px solid #2d5a3d;color:#2d5a3d}
+.btn-money{background:linear-gradient(135deg,#ff6d00,#ffd600);color:#000}
+.btn-secure{background:linear-gradient(135deg,#00c853,#00e676);color:#000}
+.code-block{background:#0f1f0f;color:#8fbc8f;padding:10px;border-radius:10px;font-family:monospace;font-size:.6rem;white-space:pre-wrap;word-break:break-all;border:2px dashed #2d5a3d;margin-top:6px;user-select:all;direction:ltr;text-align:left;max-height:180px;overflow-y:auto}
+.code-block.elite{background:linear-gradient(135deg,#1a1a1a,#2d1b4e);color:#ffd600;border:2px solid #f7b733}
+.log-area{background:#0f1f0f;padding:8px;border-radius:10px;height:240px;overflow-y:auto;font-family:monospace;font-size:.6rem;color:#e8f5e9;white-space:pre-wrap;border:1px solid #2d5a3d}
+#scriptPreview{background:#fff;padding:8px;border-radius:8px;font-size:.58rem;min-height:100px;max-height:260px;overflow-y:auto;white-space:pre-wrap;color:#1b3a2a;word-break:break-word;border:2px solid #f7b733}
+.panel{border-radius:12px;padding:10px;margin:8px 0}
+.hidden-panel{background:linear-gradient(135deg,#1a1a1a,#2d1b4e);border:2px solid #f7b733;color:#ffd600;position:relative}
+.hidden-panel.locked{filter:blur(8px);pointer-events:none;user-select:none}
+.hidden-panel.locked::before{content:'🔒 أدخل WAEL-ELITE-35 لفتح الخلاصة';position:absolute;inset:0;background:#000000aa;display:flex;align-items:center;justify-content:center;z-index:10;color:#ffd600;font-size:.85rem;font-weight:900;filter:none}
+.money-panel{background:linear-gradient(135deg,#fff3e0,#ffe0b2);border:2px solid #ff6d00}
+.secure-panel{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border:2px solid #00c853}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:900px){.grid-2{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <div class="container">
-    <h1>🧬 الخليفة السيبراني <span class="badge">v35.0 LEGENDARY</span></h1>
-    <p class="subtitle">الإصدار المطلق الشامل - دمج المناعة + المحتوى + الإقناع + المجتمع</p>
+<h1>👑 الخليفة v52 PRO ELITE <span class="badge badge-secure">SECURE ✅</span> <span class="badge-hidden">الخلاصة المستخبية</span> <span class="badge-elite">WAEL-ELITE-35</span></h1>
+<p class="subtitle">النسخة البروفيشنال الاحترافية التي لا تطلع لحد غير المميزين والمواهب - قديم+جديد+أحداث+تحليل نفسي+خيال+تحديث ذاتي+إقناع شراء+ضغط منتج</p>
 
-    <div class="card">
-        <h3>🔑 المفاتيح الثلاثة - يوتيوب OAuth <span class="badge">AES-256-GCM مشفر</span></h3>
-        <div class="key-row"><span>📊 معرف العميل</span><input type="password" id="client_id" placeholder="YOUR_CLIENT_ID"><button class="btn-icon" onclick="toggleKey('client_id')">👁️</button></div>
-        <div class="key-row"><span>🔐 سِر العميل</span><input type="password" id="client_secret" placeholder="YOUR_CLIENT_SECRET"><button class="btn-icon" onclick="toggleKey('client_secret')">👁️</button></div>
-        <div class="key-row"><span>♻️ توكن التحديث</span><input type="password" id="refresh_token" placeholder="YOUR_REFRESH_TOKEN"><button class="btn-icon" onclick="toggleKey('refresh_token')">👁️</button></div>
-        <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
-            <button class="btn-primary" onclick="saveKeys()">💾 حفظ وتشفير فوري</button>
-            <button class="btn-secondary" onclick="testConnection()">⚡ اختبار الاتصال</button>
-        </div>
-    </div>
+<div class="panel secure-panel">
+<div style="font-size:.68rem;font-weight:800;color:#1b5e20">🔐 الأمان: لا يوجد أسرار في الكود - كل المفاتيح من الواجهة + ENV - GitHub آمن + زرار إدخال API</div>
+</div>
 
-    <div class="affiliate-box">
-        <span>🔗 رابط الإحالة النشط:</span>
-        <a href="{{ affiliate }}" target="_blank">{{ affiliate }}</a>
-        <span class="badge">مفعل في كل الفيديوهات + الوصف + الصوت</span>
-    </div>
+<div class="card">
+<h3>🔑 المفاتيح - مع زرار إدخال API <span class="badge badge-secure">SECURE</span> <span class="badge-hidden">نسخ سريع</span></h3>
+<div class="key-row"><span>📊 معرف العميل</span><input type="text" id="client_id" placeholder="YOUR_CLIENT_ID"><button class="btn btn-copy" onclick="copyKey('client_id', this)">📋 نسخ</button></div>
+<div class="key-row"><span>🔐 سِر العميل</span><input type="password" id="client_secret" placeholder="YOUR_CLIENT_SECRET"><button class="btn btn-secondary" onclick="toggleKey('client_secret')">👁️</button><button class="btn btn-copy" onclick="copyKey('client_secret', this)">📋 نسخ</button></div>
+<div class="key-row"><span>♻️ توكن</span><input type="password" id="refresh_token" placeholder="YOUR_REFRESH_TOKEN"><button class="btn btn-secondary" onclick="toggleKey('refresh_token')">👁️</button><button class="btn btn-copy" onclick="copyKey('refresh_token', this)">📋 نسخ</button></div>
+<div class="key-row groq-input"><span>🤖 Groq API 🔑</span><input type="password" id="groq_key" placeholder="gsk_... أدخل مفتاح Groq هنا - console.groq.com → API Keys"><button class="btn btn-secondary" onclick="toggleKey('groq_key')">👁️</button><button class="btn btn-copy btn-groq" onclick="copyKey('groq_key', this)">📋 نسخ</button><button class="btn btn-secure" onclick="saveGroqOnly()">🔑 حفظ API</button></div>
+<div style="font-size:.58rem;color:#e65100;background:#fff3e0;padding:5px 8px;border-radius:6px;margin-bottom:8px">💡 console.groq.com → API Keys → Create → انسخ gsk_... → الصقه هنا → 🔑 حفظ API - آمن - زرار إدخال + نسخ</div>
+<div class="key-row elite-input"><span>👑 مفتاح المميزين</span><input type="text" id="elite_key" value="WAEL-ELITE-35"><button class="btn btn-elite" onclick="unlockElite()">🔓 فتح الخلاصة</button><button class="btn btn-copy" style="background:linear-gradient(135deg,#f7b733,#fc4a1a)" onclick="copyKey('elite_key', this)">📋 نسخ</button></div>
+<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:8px">
+<button class="btn btn-primary" onclick="saveKeys()">💾 حفظ كل المفاتيح</button>
+<button class="btn btn-secondary" onclick="testConnection()">⚡ اختبار</button>
+<button class="btn btn-secure" onclick="saveGroqOnly()">🔑 حفظ Groq فقط</button>
+<button class="btn btn-secondary" style="background:#2d5a3d;color:#fff" onclick="copyAllKeys()">📋 نسخ الكل</button>
+<button class="btn btn-elite" onclick="unlockElite()">👑 فتح الخلاصة المستخبية</button>
+</div>
+</div>
 
-    <div class="grid-2">
-        <div class="card">
-            <h3>🚀 مصنع المحتوى الأسطوري <span class="badge">4 قوالب</span></h3>
-            <div class="flex">
-                <button class="btn-secondary" onclick="generateVideo('الأسرار المدفونة')">🏛️ الأسرار المدفونة</button>
-                <button class="btn-secondary" onclick="generateVideo('الطعام الخالد')">🍞 الطعام الخالد</button>
-                <button class="btn-secondary" onclick="generateVideo('لعنة الحضارات')">👻 لعنة الحضارات</button>
-                <button class="btn-secondary" onclick="generateVideo('الجراحة الخفية')">🔪 الجراحة الخفية</button>
-            </div>
-            <button class="btn-primary" onclick="runSimulation()" style="width:100%;margin-top:12px;">🌀 تشغيل الأسطول الكامل (محاكاة v29)</button>
-            <div id="scriptPreview" style="margin-top:12px;background:#050a15;padding:10px;border-radius:10px;font-size:.8rem;min-height:60px;color:#8aa;">سيظهر النص المولد هنا...</div>
-        </div>
-        <div class="card">
-            <h3>🌐 العتة المجتمعية + الصوتيات <span class="badge">20 لغة</span></h3>
-            <p style="font-size:.85rem;opacity:.8">الردود التلقائية وتحليل المشاعر وتوليد الصوت ودمجه في فيديو واحد</p>
-            <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
-                <button class="btn-secondary" onclick="generateAudios()">🎙️ توليد 20 صوت</button>
-                <button class="btn-secondary" onclick="uploadMultilingual()">🚀 رفع متعدد اللغات</button>
-            </div>
-            <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-                <div style="background:#050a15;padding:10px;border-radius:10px;text-align:center"><div class="stat" id="vaccineCount">0</div><div style="font-size:.7rem;opacity:.6">لقاحات منتجة</div></div>
-                <div style="background:#050a15;padding:10px;border-radius:10px;text-align:center"><div class="stat" id="threatCount" style="color:#00d2ff">0</div><div style="font-size:.7rem;opacity:.6">تهديدات مصدة</div></div>
-            </div>
-            <div style="margin-top:10px;font-size:.75rem;background:#050a15;padding:8px;border-radius:8px">📈 <span id="evolutionInsight">جاري تحليل المناعة...</span></div>
-        </div>
-    </div>
+<div id="hiddenProPanel" class="panel hidden-panel locked">
+<h3 style="color:#ffd600;border:none;margin:0 0 8px 0;padding:0;font-size:.9rem">👑 الخلاصة المستخبية الاحترافية البروفيشنال - لا تطلع لحد غير المميزين والمواهب</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.62rem;line-height:1.5">
+<div style="background:#ffffff11;padding:8px;border-radius:8px;border-right:3px solid #f7b733"><b style="color:#f7b733">🌿 قديم - ألوان شجر + إضاءة غرفة:</b><br>#2d5a3d #8fbc8f #f0f7f0 راحة عين 100% - إضاءة #1a2e1a->#2d5a3d 3ث Fade + Parallax ورق شجر - تباين 4.5:1</div>
+<div style="background:#ffffff11;padding:8px;border-radius:8px;border-right:3px solid #ff6d00"><b style="color:#ff6d00">🎧 جديد - أصوات هادئة + جرس:</b><br>432Hz ثقة 40% + 528Hz شفاء + 7.83Hz إدمان + 4Hz Loop + ASMR همس ادخل الرابط + جرس -6dB كل 20ث + Loop 72%</div>
+<div style="background:#ffffff11;padding:8px;border-radius:8px;border-right:3px solid #00e676"><b style="color:#00e676">🌿 طب طيبات 100000 زاوية:</b><br>15×15×444=100000 زاوية - كوش رجلة سرطان + سبأ لبان مضاد + بابل أول صيدلية + إيبرس 1100 وصفة + د.ضياء قولون صراخ كبد + د.مصطفى روح تسبق جسد</div>
+<div style="background:#ffffff11;padding:8px;border-radius:8px;border-right:3px solid #ff00ff"><b style="color:#ff00ff">🧠 تحليل نفسي + بصري + خيال:</b><br>FOMO + فضول مقدس + ذنب + أمل + انتماء نخبة - Cliffhanger كل 8ث - Loop - لماذا يضغط؟ خوف + أمل + قرار مصيري - Groq يحلل</div>
+<div style="background:#ffffff11;padding:8px;border-radius:8px;border-right:3px solid #00d2ff"><b style="color:#00d2ff">🎬 8 زوايا + كاميرات 20 ألف $:</b><br>DRONE + CLOSE-UP + WIDE + POV + MACRO + ORBIT + UNDERWATER + THERMAL + Dutch 15° + Snorricam + Bullet Time + Probe Lens داخل لسان + Forest Orbit + Flare أزرق</div>
+<div style="background:#ffffff11;padding:8px;border-radius:8px;border-right:3px solid #ffd600"><b style="color:#ffd600">🎞️ مونتاج Morph + J-Cut + Loop 72%:</b><br>Morph مريض->صحي + Match بردية->علبة + J-Cut + L-Cut + Forest LUT #2d5a3d + 3D Audio + Loop ورقة شجر + Timing إقناع 0:15 0:30 0:45 0:55</div>
+<div style="background:#ffffff11;padding:8px;border-radius:8px;border-right:3px solid #ff6d00;grid-column:span 2"><b style="color:#ff6d00">💰 إقناع شراء + ضغط منتج - لا يراه إلا المحترفون:</b><br>Urgency 7 نسخ + عرض ينتهي الليلة + 347 يشاهدون - Scarcity كوش 3 شهور + 100 عبوة + حظر 3 دول - Authority د.ضياء + د.مصطفى + إيمحوتب - Social أم محمد 5 سنوات لا أنام بعد 7 أيام نمت 4.9/5 12,347 اشتروا - Fear+Hope لو لم تعالج سرطان لكن ورقة شجر تشفي - CTA رابط أزرق + دفع عند الاستلام + هدية كتاب 100K - Click خصم 70% + شحن مجاني + يفتح مرة واحدة - همس ASMR اضغط صحتك لا تنتظر</div>
+<div style="background:#ffffff11;padding:8px;border-radius:8px;border-right:3px solid #00e676;grid-column:span 2"><b style="color:#00e676">🤖 أحداث + تحديث ذاتي لكل شيء:</b><br>30m حسي إضاءة + ألوان + صوت + جرس + إقناع - 60m رد تعليقات Groq + إقناع - 3h إقناع urgency scarcity - 6h ترند + فيديو 100K + عنوان وصف هاشتاج صوت كاميرا مونتاج إقناع لكل دولة - 24h مفاتيح + Honeypots + API + مناعة - وكلاء يندمجون psycho->visual->audio->comment->seo->live - يعمل وانت نايم</div>
+</div>
+<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+<button class="btn btn-copy" onclick="copyHiddenPro()" style="flex:1;background:linear-gradient(135deg,#f7b733,#fc4a1a)">📋 نسخ الخلاصة المستخبية</button>
+<button class="btn btn-copy" onclick="copyPersuasionPro()" style="flex:1;background:linear-gradient(135deg,#ff6d00,#ffd600);color:#000">💰 نسخ إقناع برو</button>
+</div>
+</div>
 
-    <div class="card" style="margin-top:18px;">
-        <h3>📋 سجل عمليات الخليفة - لحظي <span class="badge" id="immunityBadge">المناعة 99.21%</span></h3>
-        <div class="log-area" id="logArea">
-            <div style="color:#f7b733">> [SYSTEM] الخليفة السيبراني v35.0 جاهز</div>
-            <div>> [AFFILIATE] {{ affiliate }} مدمج في جميع القوالب</div>
-            <div>> [FLEET] 7 وكلاء في وضع الاستعداد: Intel, Surgeon, Shield, Evolution, Persuasion, Community, Audio</div>
-            <div>> [ENCRYPTION] AES-256-GCM مفعل - مفاتيح تتجدد كل 24 ساعة</div>
-        </div>
-    </div>
+<div class="panel money-panel">
+<h3 style="color:#e65100;border:none;margin:0 0 6px 0;padding:0;font-size:.8rem">💰 إقناع شراء - ظاهر للنسخ</h3>
+<div class="code-block" id="persuasionBlock" style="background:#fff;color:#1b3a2a;border:2px solid #ff6d00;direction:rtl;text-align:right;font-family:'Cairo'">
+🔥 كتلة الإقناع والضغط على المنتج - للمميزين 🔥
+⚠️ 7 نسخ فقط - ينتهي الليلة 12:00 - 347 يشاهدون - 12 اشتروا آخر ساعة
+📦 كوش 3 شهور فقط - 100 عبوة - حظر 3 دول - سيحذف الرابط
+👨‍⚕️ د.ضياء 20 سنة: الوحيد الذي أوصي به - قولون صراخ كبد
+👥 أم محمد المنصورة: 5 سنوات لا أنام - بعد 7 أيام نمت كطفل - 4.9/5 - 2847 تقييم - 12,347 اشتروا
+😰 لو لم تعالج الآن سرطان - لكن ورقة شجر من كوش تشفي - قرارك الآن
+👇 اضغط الآن أزرق 👇 {{ affiliate }}
+💥 فيديو 3 دقائق يغير حياتك + خصم 70% + شحن مجاني + دفع عند الاستلام + هدية كتاب 100K
+🎙️ همس: "أنا عارف تعبت... الحل بين يديك الآن... في الرابط الأزرق... اضغط..."
+🔗 {{ affiliate }}
+</div>
+<div style="display:flex;gap:5px;margin-top:6px">
+<button class="btn btn-copy" style="flex:1;background:linear-gradient(135deg,#ff6d00,#ffd600);color:#000" onclick="copyPersuasion()">💰 نسخ الإقناع</button>
+<button class="btn btn-copy" style="flex:1" onclick="copyProductWithPersuasion()">🔗 نسخ رابط + إقناع</button>
+</div>
+</div>
+
+<div class="grid-2">
+<div class="card">
+<h3>🚀 مصنع المحتوى + الخلاصة <span class="badge badge-elite">100K</span> <span class="badge-hidden">PRO</span></h3>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<button class="btn btn-secondary" onclick="generateVideo('التشخيص المبكر')" style="font-size:.6rem">🔬 تشخيص مبكر</button>
+<button class="btn btn-secondary" onclick="generateVideo('طب الطيبات')" style="font-size:.6rem">🌿 طيبات 100K</button>
+<button class="btn btn-secondary" onclick="generateVideo('د. ضياء العوضي')" style="font-size:.6rem">👨‍⚕️ د.ضياء</button>
+<button class="btn" style="background:linear-gradient(135deg,#ff6d00,#f7b733);color:#fff;font-size:.6rem" onclick="generateVideo('إقناع شراء')">💰 إقناع شراء</button>
+<button class="btn btn-elite" onclick="generateVideo('الخلاصة المستخبية')" style="font-size:.6rem">👑 الخلاصة PRO</button>
+</div>
+<button class="btn btn-primary" onclick="runSimulation()" style="width:100%;margin-top:6px;font-size:.7rem">🌀 تشغيل الأسطول v52 PRO ELITE</button>
+<div style="display:flex;gap:5px;margin-top:6px">
+<button class="btn btn-copy" onclick="copyScript(this)" style="flex:1">📋 نسخ السكريبت</button>
+<button class="btn btn-copy" onclick="copyScriptAndAudio(this)" style="flex:1;background:linear-gradient(135deg,#ff6d00,#f7b733)">📋 مع صوت + إقناع PRO</button>
+</div>
+<div id="scriptPreview" style="margin-top:6px">سيظهر السكريبت + الخلاصة المستخبية + الإقناع هنا... أدخل WAEL-ELITE-35 واضغط فتح الخلاصة 👑</div>
+</div>
+<div class="card">
+<h3>📋 سجل العمليات <span class="badge badge-secure">SECURE ✅</span></h3>
+<div class="log-area" id="logArea"></div>
+</div>
+</div>
 </div>
 
 <script>
-    const socket = io();
-    let immunity = 99.21;
-    socket.on('log', data=>{
-        const log = document.getElementById('logArea');
-        const div = document.createElement('div');
-        div.textContent = `[${new Date().toLocaleTimeString()}] ${data.msg}`;
-        if(data.highlight) div.style.color = '#f7b733';
-        log.appendChild(div);
-        log.scrollTop = log.scrollHeight;
-        if(data.msg.includes('لقاح')){ immunity = Math.min(99.99, immunity+0.07); document.getElementById('immunityBadge').innerText = `المناعة ${immunity.toFixed(2)}%`; }
-    });
-    socket.on('update_stats', data=>{
-        document.getElementById('vaccineCount').innerText = data.vaccine_count||0;
-        document.getElementById('threatCount').innerText = data.threat_count||0;
-        document.getElementById('evolutionInsight').innerText = data.evolution||'...';
-    });
-    socket.on('keys_saved', ()=> addLog('✅ تم حفظ المفاتيح بنجاح', true));
-    socket.on('video_ready', data=>{ document.getElementById('scriptPreview').innerText = data.script; });
-    socket.on('audios_ready', data=> addLog(`✅ توليد ${data.count} مسار صوتي اكتمل`, true));
-    function toggleKey(id){ const el=document.getElementById(id); el.type = el.type==='password'?'text':'password'; }
-    function addLog(msg,hl){ const log=document.getElementById('logArea'); const d=document.createElement('div'); d.textContent=`[${new Date().toLocaleTimeString()}] ${msg}`; if(hl) d.style.color='#f7b733'; log.appendChild(d); log.scrollTop=log.scrollHeight; }
-    function saveKeys(){ 
-        const data = {
-            client_id: document.getElementById('client_id').value.trim(),
-            client_secret: document.getElementById('client_secret').value.trim(),
-            refresh_token: document.getElementById('refresh_token').value.trim()
-        };
-        if(!data.client_id || !data.client_secret || !data.refresh_token){
-            addLog('❌ اكتب المفاتيح الثلاثة الأول!', true);
-            return;
-        }
-        socket.emit('save_keys', data);
-        addLog('🔐 جاري تشفير وحفظ المفاتيح الثلاثة...', true);
-    }
-    function testConnection(){ 
-        const data = {
-            client_id: document.getElementById('client_id').value.trim(),
-            client_secret: document.getElementById('client_secret').value.trim(),
-            refresh_token: document.getElementById('refresh_token').value.trim()
-        };
-        if(!data.client_id || !data.client_secret || !data.refresh_token){
-            addLog('❌ اكتب المفاتيح الثلاثة الأول!', true);
-            return;
-        }
-        socket.emit('test_connection', data); 
-        addLog('⚡ إرسال المفاتيح للاختبار...', true);
-    }
-    function generateVideo(t){ socket.emit('generate_video',{template:t}); }
-    function generateAudios(){ socket.emit('generate_audios',{text:document.getElementById('scriptPreview').innerText || 'نص تجريبي'}); }
-    function uploadMultilingual(){ socket.emit('upload_multilingual'); }
-    function runSimulation(){ socket.emit('run_simulation'); }
+const socket = io();
+const AFFILIATE_LINK = "{{ affiliate }}";
+let eliteUnlocked = false;
+function copyKey(id, btn){const inp=document.getElementById(id);inp.select();inp.setSelectionRange(0,99999);const text=inp.value.trim();if(!text){addLog('❌ الحقل فارغ');return;}navigator.clipboard.writeText(text).then(()=>{const o=btn.innerText;btn.innerText='✅ تم النسخ';btn.classList.add('copied');setTimeout(()=>{btn.innerText=o;btn.classList.remove('copied');},2000);addLog(`📋 نسخ ${id} ✅`,true);});}
+function toggleKey(id){const el=document.getElementById(id);el.type=el.type==='password'?'text':'password';}
+function saveGroqOnly(){const groq=document.getElementById('groq_key').value.trim();if(!groq){addLog('❌ أدخل Groq API أولا');alert('❌ أدخل مفتاح Groq');return;}socket.emit('save_keys',{groq_key:groq});addLog(`🔑 حفظ Groq: ${groq.substring(0,8)}... ✅`,true);alert('✅ تم حفظ Groq API!');}
+function unlockElite(){const key=document.getElementById('elite_key').value.trim();if(key!=='WAEL-ELITE-35' && key!=='CALIPH-LEGENDARY' && key!=='WAQWAQ-ELITE-2026'){addLog('❌ مفتاح خطأ');alert('❌ أدخل WAEL-ELITE-35');return;}document.getElementById('hiddenProPanel').classList.remove('locked');eliteUnlocked=true;addLog('👑 فتحت الخلاصة المستخبية ✅',true);alert('👑 تم فتح الخلاصة المستخبية!');}
+function copyHiddenPro(){if(!eliteUnlocked){alert('🔒 افتح الخلاصة أولا');return;}navigator.clipboard.writeText(document.getElementById('hiddenProPanel').innerText).then(()=>{addLog('👑 نسخ الخلاصة ✅',true);});}
+function copyPersuasion(){navigator.clipboard.writeText(document.getElementById('persuasionBlock').innerText).then(()=>{addLog('💰 نسخ الإقناع ✅',true);});}
+function copyProductWithPersuasion(){const text=`🔥 7 نسخ فقط - خصم 70%\n${AFFILIATE_LINK}\n👨‍⚕️ د.ضياء\n🎁 كتاب 100K + شحن مجاني`;navigator.clipboard.writeText(text).then(()=>{addLog('💰 نسخ رابط + إقناع ✅',true);});}
+function copyScript(btn){navigator.clipboard.writeText(document.getElementById('scriptPreview').innerText).then(()=>{btn.innerText='✅ تم النسخ';setTimeout(()=>{btn.innerText='📋 نسخ السكريبت'},2000);});}
+function copyScriptAndAudio(btn){const full=document.getElementById('scriptPreview').innerText+"\n\n🎧 432Hz + جرس + 💰 إقناع + "+AFFILIATE_LINK;navigator.clipboard.writeText(full).then(()=>{btn.innerText='✅ تم نسخ الكل';setTimeout(()=>{btn.innerText='📋 مع صوت + إقناع PRO'},2000);});}
+function copyAllKeys(){const ids=['client_id','client_secret','refresh_token','groq_key','elite_key'];let all='';ids.forEach(id=>{const el=document.getElementById(id);if(el&&el.value.trim())all+=`${id}: ${el.value.trim()}\n`;});if(!all){addLog('❌ لا يوجد مفاتيح');return;}navigator.clipboard.writeText(all).then(()=>{addLog('📋 نسخ كل المفاتيح ✅',true);});}
+socket.on('log', data=>{const log=document.getElementById('logArea');const div=document.createElement('div');div.textContent=`[${new Date().toLocaleTimeString()}] ${data.msg}`;log.appendChild(div);log.scrollTop=log.scrollHeight;});
+socket.on('video_ready', data=>{document.getElementById('scriptPreview').innerText=data.script;});
+function addLog(msg){const log=document.getElementById('logArea');const d=document.createElement('div');d.textContent=`[${new Date().toLocaleTimeString()}] ${msg}`;log.appendChild(d);log.scrollTop=log.scrollHeight;}
+function saveKeys(){const data={client_id:document.getElementById('client_id').value.trim(),client_secret:document.getElementById('client_secret').value.trim(),refresh_token:document.getElementById('refresh_token').value.trim(),groq_key:document.getElementById('groq_key').value.trim(),talentKey:document.getElementById('elite_key').value.trim()};socket.emit('save_keys',data);addLog('💾 حفظ ✅');if(data.talentKey==='WAEL-ELITE-35')unlockElite();}
+function testConnection(){const data={client_id:document.getElementById('client_id').value.trim(),client_secret:document.getElementById('client_secret').value.trim(),refresh_token:document.getElementById('refresh_token').value.trim(),groq_key:document.getElementById('groq_key').value.trim(),talentKey:document.getElementById('elite_key').value.trim()};socket.emit('test_connection',data);}
+function generateVideo(t){socket.emit('generate_video',{template:t,talentKey:document.getElementById('elite_key').value.trim()});}
+function runSimulation(){socket.emit('run_simulation');}
+window.addEventListener('load',()=>{const ek=document.getElementById('elite_key').value.trim();if(ek==='WAEL-ELITE-35'){setTimeout(unlockElite,800);}});
 </script>
 </body>
 </html>
