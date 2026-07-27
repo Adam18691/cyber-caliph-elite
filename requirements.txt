@@ -1,51 +1,33 @@
-# ============================================
 # FILE: cyber_caliph_project/requirements.txt
-# اسم الملف: requirements.txt - v100 BLACK BOX PLATFORM - 10 مراحل هندسية مخفية
-# قديم+جديد+احداث - اسم الملف مكتوب عليه - جاهز للنسخ GitHub
-# المرحلة الاولى: Core Refactoring - Modules + DI + Plugin + EventBus
-# المرحلة العاشرة: اللمسات المخفية - Telemetry + CircuitBreaker + etc
-# ============================================
-
-# Core - Flask + SocketIO - المرحلة الاولى - Core Refactoring - اسم الملف مكتوب عليه
-Flask==2.3.2  # FILE: requirements.txt - app.py v100 BLACK BOX PLATFORM - قديم+جديد+احداث - 10 مراحل - كود للنسخ
-Flask-SocketIO==5.3.4  # FILE: app.py - SocketIO + EventBus - قديم+جديد+احداث
+# اسم الملف: requirements.txt - v200 LIVING SYSTEMS FINAL - للنسخ - الجهاز العصبي الحي
+# قديم+جديد+احداث + Communication Trinity + Living Systems + Copy Ready - v200 FINAL
+Flask==2.3.2
+Flask-SocketIO==5.3.4
 python-socketio==5.9.0
-cryptography==41.0.1  # FILE: app.py - SecurityManager - Encryption at Rest + in Transit - المرحلة السابعة
+cryptography==41.0.1
 python-dotenv==1.0.0
-requests==2.31.0  # FILE: app.py + FILE: the_absolute_one.py - Groq + YouTube - قديم+جديد+احداث
-Pillow==10.1.0  # FILE: app.py - CreativeEngine - B-Roll + Thumbnail - المرحلة الرابعة
-gunicorn==21.2.0  # FILE: requirements.txt - Render - Deploy - المرحلة السادسة - OpsMonitor
-eventlet==0.33.3  # FILE: app.py - SocketIO + Background Workers - المرحلة العاشرة
-
-# YouTube API - المرحلة الثامنة - Adapter Pattern
-google-api-python-client==2.108.0  # FILE: requirements.txt - YouTube - قديم+جديد+احداث - 10 مراحل - كود للنسخ
+requests==2.31.0
+Pillow==10.1.0
+gunicorn==21.2.0
+eventlet==0.33.3
+google-api-python-client==2.108.0
 google-auth==2.23.4
 google-auth-oauthlib==1.1.0
-
-# AI + Black Box - المرحلة الثانية - الذكاء الخفي - Task Analyzer
-groq==0.4.1  # FILE: app.py - Groq API - ModelSelectionStrategy - المرحلة الثانية + الثامنة
-pyyaml==6.0.1  # FILE: config/black_box_secrets.yaml - VersionManager - المرحلة الاولى
-beautifulsoup4==4.12.2  # FILE: app.py - PsychoAnalyzer - تحليل المحتوى - المرحلة الثالثة
+groq==0.4.1
+pyyaml==6.0.1
+beautifulsoup4==4.12.2
 lxml==4.9.3
-pytz==2023.3  # FILE: app.py - Polyglot 20 دولة - قديم+جديد+احداث
-
-# Absolute Edition + Platform - المرحلة التاسعة - Agents
-fastapi==0.110.0  # FILE: the_absolute_one.py - النسخة المطلقة - قديم+جديد+احداث
+pytz==2023.3
+fastapi==0.110.0
 uvicorn==0.29.0
-psutil==5.9.8  # FILE: app.py - OpsMonitor - مراقبة الذاكرة + CPU + GPU - المرحلة السادسة - قديم+جديد+احداث
-
-# المرحلة السادسة: الذكاء التشغيلي - Queue + Cache + Optimizer
-# المرحلة العاشرة: اللمسات المخفية - Structured Logs + Telemetry + CircuitBreaker
-structlog==24.1.0  # FILE: app.py - Structured JSON Logs - المرحلة العاشرة - قديم+جديد+احداث
-tenacity==8.2.3  # FILE: app.py - Retry with Exponential Backoff - المرحلة العاشرة
-cachetools==5.3.2  # FILE: app.py - Cache Optimizer - المرحلة السادسة
-
-gunicorn==21.2.0  # Render Start Command
-eventlet==0.33.3  # Flask-SocketIO + Background Workers - المرحلة 10
-structlog==24.1.0  # Structured JSON Logs - المرحلة 10
-tenacity==8.2.3  # Retry Exponential - المرحلة 10
-cachetools==5.3.2  # Cache Optimizer - المرحلة 6
-
-# FILE: requirements.txt - نهاية - v100 BLACK BOX PLATFORM - 10 مراحل هندسية مخفية - قديم+جديد+احداث - اسم الملف مكتوب عليه - كود للنسخ - جاهز للنسخ GitHub
-
-
+psutil==5.9.8
+structlog==24.1.0
+tenacity==8.2.3
+cachetools==5.3.2
+grpcio==1.60.0
+protobuf==4.25.2
+graphql-core==3.2.3
+numpy==1.26.3
+redis==5.0.1
+kafka-python==2.0.2
+# FILE: requirements.txt - نهاية - v200 FINAL - للنسخ
