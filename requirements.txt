@@ -1,34 +1,5 @@
-# ============================================
-# FILE: cyber_caliph_project/requirements.txt
-# اسم الملف: requirements.txt - قديم+جديد+احداث - كود للنسخ
-# اسم الملف مكتوب عليه - جاهز للنسخ GitHub - يعدل الملفات القديمة
-# 2️⃣ FILE: requirements.txt - بعد التحديث - v56 + Absolute
-# ============================================
-
-Flask==2.3.2  # FILE: requirements.txt - app.py v56 BLACK BOX ULTIMATE - قديم+جديد+احداث - كود للنسخ - اسم الملف مكتوب عليه
-Flask-SocketIO==5.3.4  # FILE: app.py - SocketIO - قديم+جديد
-python-socketio==5.9.0
-cryptography==41.0.1  # FILE: app.py - تشفير AES-256 - قديم+جديد
-python-dotenv==1.0.0
-requests==2.31.0  # FILE: app.py + FILE: the_absolute_one.py - Groq + YouTube - قديم+جديد+احداث
-Pillow==10.1.0  # FILE: app.py - مصنع فيديو - قديم+جديد
-gunicorn==21.2.0
-
-# YouTube API - قديم+جديد+احداث - كود للنسخ - FILE: app.py
-google-api-python-client==2.108.0  # FILE: requirements.txt - يعدل القديم - كود للنسخ - اسم الملف مكتوب عليه - بعد التحديث
-google-auth==2.23.4
-google-auth-oauthlib==1.1.0
-
-# AI + Black Box - قديم+جديد+احداث
-groq==0.4.1  # FILE: app.py - Groq API - قديم+جديد - كود للنسخ - بعد التحديث
-pyyaml==6.0.1  # FILE: config/black_box_secrets.yaml - قديم+جديد+احداث - كود للنسخ - بعد التحديث
-beautifulsoup4==4.12.2
-lxml==4.9.3
-pytz==2023.3
-
-# Absolute Edition - FILE: the_absolute_one.py - النسخة المطلقة - قديم+جديد+احداث - بعد التحديث
-fastapi==0.110.0  # FILE: the_absolute_one.py - الكيان النهائي المتعالي - قديم+جديد+احداث - كود للنسخ - اسم الملف مكتوب عليه
-uvicorn==0.29.0  # FILE: the_absolute_one.py - كود للنسخ - بعد التحديث
-psutil==5.9.8  # FILE: the_absolute_one.py - مراقبة اسطول - قديم+جديد+احداث - كود للنسخ - بعد التحديث
-
-# FILE: requirements.txt - نهاية - اسم الملف مكتوب عليه - كود للنسخ - قديم+جديد+احداث - جاهز للنسخ GitHub - يعدل الملفات القديمة - بعد التحديث
+gunicorn==21.2.0  # Render Start Command
+eventlet==0.33.3  # Flask-SocketIO + Background Workers - المرحلة 10
+structlog==24.1.0  # Structured JSON Logs - المرحلة 10
+tenacity==8.2.3  # Retry Exponential - المرحلة 10
+cachetools==5.3.2  # Cache Optimizer - المرحلة 6
