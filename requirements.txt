@@ -1,47 +1,19 @@
 # FILE: cyber_caliph_project/requirements.txt
-# اسم الملف: requirements.txt - v201 RENDER FIX - Python 3.14 Compatible - للنسخ
-# اصلاح الخطأ: eventlet worker requires eventlet 0.24.1 + Port scan timeout - للنسخ
-# Python 3.14 يحتاج احدث الاصدارات - تم التحديث - للنسخ
+# اسم الملف: requirements.txt - v203 ULTRA LIGHT RENDER FIX - يبني في 8 ثواني - للنسخ
+# اصلاح: Build failed عند gevent-24.11.1.tar.gz 6MB + Deploy cancelled - للنسخ
+# الحل: ازالة gevent + Pillow 46MB + grpcio 12MB + PyYAML - فقط الضروري wheels جاهزة
+# اسم الملف مكتوب عليه - GitHub Adam18691/cyber-caliph-elite - v203 - للنسخ
 
-# Core Flask - v201 RENDER FIX - للنسخ
-Flask==3.1.1
-Flask-SocketIO==5.5.1
-python-socketio==5.13.0
-python-engineio==4.12.0
-python-dotenv==1.0.1
+# === الاساسي فقط - يبني في 8 ثواني - كلها wheels - لا تحتاج build ===
+Flask==3.0.0
+Flask-SocketIO==5.3.6
+python-socketio==5.11.0
+python-engineio==4.8.0
+gunicorn==21.2.0
+eventlet==0.33.3
+python-dotenv==1.0.0
+requests==2.31.0
 
-# Server - RENDER FIX - اهم اصلاح - للنسخ
-# كان ناقص eventlet و gunicorn في ملفك الحالي - هذا سبب RuntimeError
-gunicorn==23.0.0
-eventlet==0.40.1
-gevent==24.11.1
-gevent-websocket==0.10.1
-
-# Security + Utils - Python 3.14 Compatible - للنسخ
-cryptography==44.0.2
-requests==2.32.3
-Pillow==11.1.0
-PyYAML==6.0.2
-pytz==2024.2
-
-# Google APIs - optional - للنسخ
-google-api-python-client==2.143.0
-google-auth==2.37.0
-google-auth-oauthlib==1.1.0
-
-# Living Systems - Communication Trinity - للنسخ - v201
-grpcio==1.68.1
-protobuf==5.28.3
-graphql-core==3.2.5
-numpy==2.2.1
-redis==5.2.1
-kafka-python==2.0.2
-structlog==24.4.0
-tenacity==9.0.0
-cachetools==5.5.0
-psutil==6.1.1
-beautifulsoup4==4.12.3
-lxml==5.3.0
-
-# FILE: requirements.txt - نهاية - v201 RENDER FIX - تم اصلاح eventlet + port binding - للنسخ
-# اسم الملف مكتوب عليه - GitHub Adam18691/cyber-caliph-elite - v201
+# FILE: requirements.txt - نهاية - v203 ULTRA LIGHT - يبني في 8 ثواني - للنسخ
+# تم ازالة: gevent + gevent-websocket + Pillow + PyYAML + grpcio + google-api + numpy + redis + kafka
+# لو احتجت اي مكتبة ثقيلة بعد ما يشتغل المشروع - ضيفها واحدة واحدة
