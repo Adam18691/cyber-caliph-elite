@@ -1,12 +1,35 @@
+# ============================================
 # FILE: cyber_caliph_project/requirements.txt
 # اسم الملف: requirements.txt - قديم+جديد+احداث - كود للنسخ
-# اسم الملف مكتوب عليه - جاهز للنسخ GitHub - يعدل الملفات القديمة على GitHub
+# اسم الملف مكتوب عليه - جاهز للنسخ GitHub - user-select:all
+# يعدل الملفات القديمة على GitHub - قديم+جديد+احداث
+# ============================================
 
-Flask==2.3.2  # FILE: app.py - v56 BLACK BOX ULTIMATE - قديم+جديد+احداث - كود للنسخ
-Flask-SocketIO==5.3.4
-...
+# FILE: requirements.txt - الاساسيات - قديم+جديد+احداث - كود للنسخ
+Flask==2.3.2  # FILE: app.py - v56 BLACK BOX ULTIMATE - قديم+جديد+احداث
+Flask-SocketIO==5.3.4  # FILE: app.py - SocketIO - قديم+جديد
+python-socketio==5.9.0
+cryptography==41.0.1  # FILE: app.py - تشفير AES-256 - قديم+جديد - كود للنسخ
+python-dotenv==1.0.0
+requests==2.31.0  # FILE: app.py + FILE: the_absolute_one.py - Groq + YouTube
+Pillow==10.1.0  # FILE: app.py - مصنع فيديو - قديم+جديد
+gunicorn==21.2.0  # FILE: requirements.txt - نشر - كود للنسخ
+
+# FILE: requirements.txt - YouTube API - قديم+جديد - كود للنسخ
 google-api-python-client==2.108.0  # FILE: app.py - YouTube - قديم+جديد+احداث - كود للنسخ
-groq==0.4.1  # FILE: app.py - Groq - قديم+جديد
-fastapi==0.110.0  # FILE: the_absolute_one.py - النسخة المطلقة - قديم+جديد+احداث
-uvicorn==0.29.0  # FILE: the_absolute_one.py
-psutil==5.9.8  # FILE: the_absolute_one.py - مراقبة اسطول
+google-auth==2.23.4
+google-auth-oauthlib==1.1.0
+
+# FILE: requirements.txt - AI - قديم+جديد+احداث
+groq==0.4.1  # FILE: app.py - Groq API - قديم+جديد - كود للنسخ
+pyyaml==6.0.1  # FILE: config/black_box_secrets.yaml - قديم+جديد+احداث - كود للنسخ
+beautifulsoup4==4.12.2
+lxml==4.9.3
+pytz==2023.3
+
+# FILE: requirements.txt - النسخة المطلقة - قديم+جديد+احداث - كود للنسخ
+fastapi==0.110.0  # FILE: the_absolute_one.py - النسخة المطلقة - الكيان النهائي المتعالي - قديم+جديد+احداث - كود للنسخ
+uvicorn==0.29.0  # FILE: the_absolute_one.py - كود للنسخ
+psutil==5.9.8  # FILE: the_absolute_one.py - مراقبة اسطول - قديم+جديد+احداث - كود للنسخ
+
+# FILE: requirements.txt - اسم الملف مكتوب عليه - كود للنسخ - قديم+جديد+احداث - جاهز للنسخ GitHub - يعدل الملفات القديمة على GitHub
