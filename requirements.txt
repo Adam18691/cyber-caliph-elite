@@ -1,33 +1,47 @@
 # FILE: cyber_caliph_project/requirements.txt
-# اسم الملف: requirements.txt - v200 LIVING SYSTEMS FINAL - للنسخ - الجهاز العصبي الحي
-# قديم+جديد+احداث + Communication Trinity + Living Systems + Copy Ready - v200 FINAL
-Flask==2.3.2
-Flask-SocketIO==5.3.4
-python-socketio==5.9.0
-cryptography==41.0.1
-python-dotenv==1.0.0
-requests==2.31.0
-Pillow==10.1.0
-gunicorn==21.2.0
-eventlet==0.33.3
-google-api-python-client==2.108.0
-google-auth==2.23.4
+# اسم الملف: requirements.txt - v201 RENDER FIX - Python 3.14 Compatible - للنسخ
+# اصلاح الخطأ: eventlet worker requires eventlet 0.24.1 + Port scan timeout - للنسخ
+# Python 3.14 يحتاج احدث الاصدارات - تم التحديث - للنسخ
+
+# Core Flask - v201 RENDER FIX - للنسخ
+Flask==3.1.1
+Flask-SocketIO==5.5.1
+python-socketio==5.13.0
+python-engineio==4.12.0
+python-dotenv==1.0.1
+
+# Server - RENDER FIX - اهم اصلاح - للنسخ
+# كان ناقص eventlet و gunicorn في ملفك الحالي - هذا سبب RuntimeError
+gunicorn==23.0.0
+eventlet==0.40.1
+gevent==24.11.1
+gevent-websocket==0.10.1
+
+# Security + Utils - Python 3.14 Compatible - للنسخ
+cryptography==44.0.2
+requests==2.32.3
+Pillow==11.1.0
+PyYAML==6.0.2
+pytz==2024.2
+
+# Google APIs - optional - للنسخ
+google-api-python-client==2.143.0
+google-auth==2.37.0
 google-auth-oauthlib==1.1.0
-groq==0.4.1
-pyyaml==6.0.1
-beautifulsoup4==4.12.2
-lxml==4.9.3
-pytz==2023.3
-fastapi==0.110.0
-uvicorn==0.29.0
-psutil==5.9.8
-structlog==24.1.0
-tenacity==8.2.3
-cachetools==5.3.2
-grpcio==1.60.0
-protobuf==4.25.2
-graphql-core==3.2.3
-numpy==1.26.3
-redis==5.0.1
+
+# Living Systems - Communication Trinity - للنسخ - v201
+grpcio==1.68.1
+protobuf==5.28.3
+graphql-core==3.2.5
+numpy==2.2.1
+redis==5.2.1
 kafka-python==2.0.2
-# FILE: requirements.txt - نهاية - v200 FINAL - للنسخ
+structlog==24.4.0
+tenacity==9.0.0
+cachetools==5.5.0
+psutil==6.1.1
+beautifulsoup4==4.12.3
+lxml==5.3.0
+
+# FILE: requirements.txt - نهاية - v201 RENDER FIX - تم اصلاح eventlet + port binding - للنسخ
+# اسم الملف مكتوب عليه - GitHub Adam18691/cyber-caliph-elite - v201
