@@ -10,3 +10,15 @@ services:
         value: https://kie.ai?ref=0e3195dd062bf11f0da7496dd3c1bf6
       - key: PYTHON_VERSION
         value: 3.11.9
+      - key: CYBER_MASTER_KEY
+        value: c2VjcmV0X2tleV8zMl9ieXRlc19sb25nX2Vub3VnaA==
+      - key: YOUTUBE_CLIENT_ID
+        sync: false
+      - key: YOUTUBE_CLIENT_SECRET
+        sync: false
+      - key: YOUTUBE_REFRESH_TOKEN
+        sync: false
+      - key: YOUTUBE_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
