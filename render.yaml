@@ -4,7 +4,7 @@ services:
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn --worker-class gthread -w 1 --threads 4 app:app --bind 0.0.0.0:$PORT
+    startCommand: gunicorn --worker-class gthread -w 1 --threads 8 --preload --timeout 120 app:app --bind 0.0.0.0:$PORT
     envVars:
       - key: AFFILIATE_LINK
         value: https://kie.ai?ref=0e3195dd062bf11f0da7496dd3c1bf6
@@ -22,3 +22,7 @@ services:
         sync: false
       - key: GROQ_API_KEY
         sync: false
+      - key: CHANNEL_ID
+        value: "@CursedMedicineEG"
+      - key: CHANNEL_URL
+        value: "https://www.youtube.com/@CursedMedicineEG"
