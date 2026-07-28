@@ -8,6 +8,8 @@ services:
     envVars:
       - key: AFFILIATE_LINK
         value: https://kie.ai?ref=0e3195dd062bf11f0da7496dd3c1bf6
+      - key: AFFILIATE_PRODUCT_KEY
+        value: 0e3195dd062bf11f0da7496dd3c1bf6
       - key: PYTHON_VERSION
         value: 3.11.9
       - key: CYBER_MASTER_KEY
@@ -22,7 +24,3 @@ services:
         sync: false
       - key: GROQ_API_KEY
         sync: false
-      - key: CHANNEL_ID
-        value: "@CursedMedicineEG"
-      - key: CHANNEL_URL
-        value: "https://www.youtube.com/@CursedMedicineEG"
