@@ -4,12 +4,10 @@ services:
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn --worker-class gthread -w 1 --threads 8 --preload --timeout 120 --keep-alive 2 --graceful-timeout 10 app:app --bind 0.0.0.0:$PORT
+    startCommand: gunicorn --worker-class gthread -w 1 --threads 8 --preload --timeout 120 --keep-alive 1 --graceful-timeout 5 app:app --bind 0.0.0.0:$PORT
     envVars:
       - key: AFFILIATE_LINK
         value: https://kie.ai?ref=0e3195dd062bf11f0da7496dd3c1bf6
-      - key: AFFILIATE_PRODUCT_KEY
-        value: 0e3195dd062bf11f0da7496dd3c1bf6
       - key: YAZING_KEY
         value: Waeldeban186
       - key: YAZING_MONOPRICE
