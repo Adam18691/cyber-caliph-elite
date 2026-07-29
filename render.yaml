@@ -20,6 +20,8 @@ services:
         value: https://yazing.com/deals/colehaan/Waeldeban186
       - key: CHANNEL_URL
         value: https://www.youtube.com/@CursedMedicineEG
+      - key: CHANNEL_HANDLE
+        value: "@CursedMedicineEG"
       - key: PYTHON_VERSION
         value: 3.11.9
       - key: YOUTUBE_CLIENT_ID
