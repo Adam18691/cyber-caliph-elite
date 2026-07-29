@@ -2,3 +2,6 @@ Flask==3.0.0
 gunicorn==23.0.0
 requests==2.31.0
 yt-dlp==2024.12.23
+google-auth==2.28.0
+google-auth-oauthlib==1.1.0
+google-api-python-client==2.126.0
