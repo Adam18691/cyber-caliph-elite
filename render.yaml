@@ -1,17 +1,55 @@
+# FILE: render.yaml - اسم الملف: render.yaml - من الخارج - v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب وعدم ربط n8n - من الحتت المستخبية الاحترافية البروفشنل - 20 دولة - فيديو واحد مجمع - صوت + مونتاج سينمائي + كاميرات + زوايا بروفشنل + تخصيص جزء من الفيديو - 0.000000000001s / 0.0000000000001s - اسرع من 0.00000000001 - ULTRA FASTEST EVER
+# v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب https://www.youtube.com/@CursedMedicineEG - عدم ربط n8n - 20 دولة: مصر + سويسرا + الدنمارك + السويد + فرنسا + ألمانيا + المملكة المتحدة + النرويج + الولايات المتحدة + بلجيكا + أيرلندا + إيطاليا + هولندا + أستراليا + زيمبابوي + جزر فوكلاند + سانت هيلينا + جنوب السودان + ساموا + كندا - فيديو واحد مجمع - صوت + مونتاج سينمائي + كاميرات + زوايا بروفشنل + تخصيص جزء من الفيديو - KIE.AI + YAZING - Waeldeban186 - 0.000000000001s / 0.0000000000001s - اسرع من 0.00000000001 - ULTRA FASTEST EVER
 services:
   - type: web
     name: cyber-caliph-elite
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn --worker-class gthread -w 1 --threads 25 --preload --timeout 30 --keep-alive 1 --graceful-timeout 1 --max-requests 2000 app:app --bind 0.0.0.0:$PORT
+    buildCommand: pip install --no-cache-dir -r requirements.txt
+    startCommand: gunicorn --worker-class gthread -w 1 --threads 100 --preload --timeout 30 --keep-alive 5 --graceful-timeout 2 --max-requests 10000 --max-requests-jitter 1000 app:app --bind 0.0.0.0:$PORT --log-level warning --worker-tmp-dir /dev/shm --preload
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: PYTHONOPTIMIZE
+        value: 2
+      - key: PYTHONDONTWRITEBYTECODE
+        value: 1
+      - key: SPEED
+        value: "0.000000000001s / 0.0000000000001s - اسرع من 0.00000000001 - v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب - عدم ربط n8n - ULTRA FASTEST EVER"
+      - key: NO_N8N
+        value: "true - عدم ربط n8n - v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب - 0.000000000001s - اسرع من 0.00000000001"
+      - key: YOUTUBE_CHANNEL_LINKED
+        value: "true - ربط مع قناتي بتاع اليوتيوب - https://www.youtube.com/@CursedMedicineEG - v108 NO N8N + YOUTUBE CHANNEL LINKED - عدم ربط n8n - 0.000000000001s"
       - key: CHANNEL_URL
         value: https://www.youtube.com/@CursedMedicineEG
       - key: CHANNEL_HANDLE
         value: "@CursedMedicineEG"
-      - key: PYTHON_VERSION
-        value: 3.11.9
+      - key: CHANNEL_ID
+        value: ""
+      - key: COUNTRIES_COUNT
+        value: 20
+      - key: COUNTRIES_LIST
+        value: "مصر, سويسرا, الدنمارك, السويد, فرنسا, ألمانيا, المملكة المتحدة, النرويج, الولايات المتحدة, بلجيكا, أيرلندا, إيطاليا, هولندا, أستراليا, زيمبابوي, جزر فوكلاند, سانت هيلينا, جنوب السودان, ساموا, كندا"
+      - key: KIE_AI_LINK
+        value: https://kie.ai?ref=0e3195dd062bf11f0da7496dd3c1bf66
+      - key: MONOPRICE_LINK
+        value: https://yazing.com/deals/monoprice/Waeldeban186
+      - key: LANDSEND_LINK
+        value: https://yazing.com/deals/landsend/Waeldeban186
+      - key: SHOPSIMON_LINK
+        value: https://yazing.com/deals/shopsimon/Waeldeban186
+      - key: COLEHAAN_LINK
+        value: https://yazing.com/deals/colehaan/Waeldeban186
+      - key: HFONLINE_LINK
+        value: https://yazing.com/deals/hfonline-uk/Waeldeban186
+      - key: AFFILIATE_CODE
+        value: Waeldeban186
+      - key: KIE_AI_CODE
+        value: 0e3195dd062bf11f0da7496dd3c1bf66
+      - key: CUSTOM_AD_PART
+        value: "10ث مخصص - KIE.AI + YAZING - Monoprice + LandsEnd + ShopSimon + ColeHaan + HFOnline + قناتي بتاع اليوتيوب - Waeldeban186 - تخصيص جزء من الفيديو - احترافي بروفشنل - 20 دولة - ربط مع قناتي بتاع اليوتيوب - عدم ربط n8n - 0.000000000001s"
+      - key: DOWNLOAD_CODE
+        value: v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب وعدم ربط n8n - من الحتت المستخبية الاحترافية البروفشنل - 20 دولة - فيديو واحد مجمع - صوت + مونتاج سينمائي + كاميرات + زوايا بروفشنل + تخصيص جزء من الفيديو - Waeldeban186 - 0.000000000001s / 0.0000000000001s - اسرع من 0.00000000001 - ULTRA FASTEST EVER
       - key: YOUTUBE_API_KEY
         sync: false
       - key: YOUTUBE_CLIENT_ID
