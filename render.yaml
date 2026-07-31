@@ -1,37 +1,24 @@
-# FILE: render.yaml - اسم الملف: render.yaml - من الخارج - v113 - حذف جميع المواضيع واضافة موضوع طيبات الدكتور ضياء العوضى - طيبات الدكتور ضياء العوضى - دمج اداة فلو من جوجل لإنشاء الصور - Flow Google - 21 دولة + ترجمة + صوت + دبلجة + ربط قناتي + التشغيل علي n8n وعدم الربط - 21 دولة: مصر + سويسرا + الدنمارك + السويد + فرنسا + ألمانيا + UK + النرويج + USA + بلجيكا + أيرلندا + إيطاليا + هولندا + أستراليا + زيمبابوي + فوكلاند + سانت هيلينا + جنوب السودان + ساموا + كندا + الإمارات - فيديو واحد مجمع - طيبات الدكتور ضياء العوضى - نظام الطيبات - المسموح والممنوع - مونتاج سينمائي + كاميرات + زوايا بروفشنل + تخصيص جزء من الفيديو - ربط قناتي بتاع اليوتيوب - حذف جميع المواضيع - موضوع واحد - طيبات الدكتور ضياء العوضى - دمج فلو من جوجل - Flow - التشغيل علي n8n وعدم الربط - تشغيل خارجي فقط - Workflow خارجي في n8n_workflows/ - لا يوجد ربط داخلي - standalone - 0.000000000001s / 0.0000000000001s - اسرع من 0.00000000001 - ULTRA FASTEST EVER
 services:
   - type: web
     name: cyber-caliph-elite
     env: python
     plan: free
-    buildCommand: pip install --no-cache-dir -r requirements.txt
-    startCommand: gunicorn --worker-class gthread -w 1 --threads 100 --preload --timeout 30 --keep-alive 5 --graceful-timeout 2 --max-requests 10000 app:app --bind 0.0.0.0:$PORT --worker-tmp-dir /dev/shm --preload
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --worker-class gthread -w 1 --threads 25 --preload --timeout 30 --keep-alive 1 --graceful-timeout 1 --max-requests 2000 app:app --bind 0.0.0.0:$PORT
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.9
-      - key: TOPIC_MAIN
-        value: "طيبات الدكتور ضياء العوضى - حذف جميع المواضيع واضافة موضوع طيبات الدكتور ضياء العوضى - نظام الطيبات - المسموح والممنوع - خبز - لحوم - فواكه - علاج طبيعي - قصص شفاء - وجبات يومية"
-      - key: TOPICS_DELETED
-        value: "true - حذف جميع المواضيع - جميع المواضيع القديمة محذوفة - ترتاريا - الجدار الجليدي - 33 أرض - كل شيء محذوف - موضوع واحد فقط - طيبات الدكتور ضياء العوضى - v113 - 0.000000000001s"
-      - key: TOPIC_NEW
-        value: "طيبات الدكتور ضياء العوضى - نظام الطيبات - المسموح والممنوع - خبز قمح كامل - توست - بقسماط - أرز - بطاطس - لحوم - كبدة - جمبري - بيض - زبدة - قشطة - فواكه مسموحة - الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - علاج طبيعي بدون أدوية - قصص شفاء حقيقية - وجبات يومية - v113 - حذف جميع المواضيع"
-      - key: FLOW_GOOGLE
-        value: "true - دمج اداة فلو من جوجل لإنشاء الصور - Flow Google - Imagen 3 + Veo 3 + Gemini - labs.google/flow - طيبات الدكتور ضياء العوضى - إنشاء صور أكل صحي - خبز - لحوم - فواكه - نظام الطيبات - 21 دولة + ترجمة + صوت + دبلجة - ربط قناتي - التشغيل علي n8n وعدم الربط - 0.000000000001s"
-      - key: NO_N8N_INTERNAL
-        value: "true - التشغيل علي n8n وعدم الربط - لا يوجد ربط داخلي - standalone - ربط قناتي فقط - YouTube Data API v3 - حقيقي - طيبات الدكتور ضياء العوضى - 21 دولة + ترجمة + صوت + دبلجة + Flow Google - 0.000000000001s"
-      - key: N8N_EXTERNAL_ONLY
-        value: "true - التشغيل علي n8n وعدم الربط - تشغيل خارجي فقط - Workflow خارجي في n8n_workflows/ - لا يوجد ربط داخلي - standalone project يشتغل على n8n كـ external trigger - طيبات الدكتور ضياء العوضى - 21 دولة + ترجمة + صوت + دبلجة + Flow Google - 0.000000000001s"
-      - key: COUNTRIES
-        value: 21
       - key: CHANNEL_URL
         value: https://www.youtube.com/@CursedMedicineEG
       - key: CHANNEL_HANDLE
         value: "@CursedMedicineEG"
+      - key: PYTHON_VERSION
+        value: 3.11.9
       - key: YOUTUBE_API_KEY
         sync: false
+      - key: YOUTUBE_CLIENT_ID
+        sync: false
+      - key: YOUTUBE_CLIENT_SECRET
+        sync: false
+      - key: YOUTUBE_REFRESH_TOKEN
+        sync: false
       - key: GROQ_API_KEY
-        sync: false
-      - key: GOOGLE_API_KEY
-        sync: false
-      - key: GEMINI_API_KEY
         sync: false
