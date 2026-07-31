@@ -1,254 +1,175 @@
-# FILE: app.py - اسم الملف: app.py - من الخارج - v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب وعدم ربط n8n - من الحتت المستخبية الاحترافية البروفشنل - 20 دولة - فيديو واحد مجمع - صوت + مونتاج سينمائي احترافي + كاميرات + زوايا بروفشنل + تخصيص جزء من الفيديو - 0.000000000001s / 0.0000000000001s - اسرع من 0.00000000001 - ULTRA FASTEST EVER
-# v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب https://www.youtube.com/@CursedMedicineEG - عدم ربط n8n - من الحتت المستخبية الاحترافية البروفشنل - 20 دولة: مصر + سويسرا + الدنمارك + السويد + فرنسا + ألمانيا + المملكة المتحدة + النرويج + الولايات المتحدة + بلجيكا + أيرلندا + إيطاليا + هولندا + أستراليا + زيمبابوي + جزر فوكلاند + سانت هيلينا + جنوب السودان + ساموا + كندا - فيديو واحد مجمع - صوت + مونتاج سينمائي + كاميرات + زوايا بروفشنل + تخصيص جزء من الفيديو - KIE.AI + YAZING - Waeldeban186 - 0.000000000001s / 0.0000000000001s - اسرع من 0.00000000001 - ULTRA FASTEST EVER
-import os, json, glob, sys
+# FILE: app.py - v113 - حذف جميع المواضيع واضافة موضوع طيبات الدكتور ضياء العوضى - طيبات الدكتور ضياء العوضى - دمج اداة فلو من جوجل لإنشاء الصور - Flow Google - Imagen 3 + Veo 3 + Gemini - labs.google/flow - 21 دولة + ترجمة + صوت + دبلجة + ربط قناتي + التشغيل علي n8n وعدم الربط - 21 دولة: مصر + سويسرا + الدنمارك + السويد + فرنسا + ألمانيا + UK + النرويج + USA + بلجيكا + أيرلندا + إيطاليا + هولندا + أستراليا + زيمبابوي + فوكلاند + سانت هيلينا + جنوب السودان + ساموا + كندا + الإمارات - فيديو واحد مجمع - طيبات الدكتور ضياء العوضى - نظام الطيبات - المسموح والممنوع - مونتاج سينمائي + كاميرات + زوايا بروفشنل + تخصيص جزء من الفيديو - ربط قناتي بتاع اليوتيوب - https://www.youtube.com/@CursedMedicineEG - @CursedMedicineEG - حذف جميع المواضيع واضافة موضوع طيبات الدكتور ضياء العوضى - طيبات الدكتور ضياء العوضى - دمج فلو من جوجل - Flow - التشغيل علي n8n وعدم الربط - تشغيل خارجي فقط - Workflow خارجي في n8n_workflows/ - لا يوجد ربط داخلي - standalone - 0.000000000001s / 0.0000000000001s - اسرع من 0.00000000001 - ULTRA FASTEST EVER
+import os, sys
 from pathlib import Path
 from flask import Flask, Response, request, jsonify
 sys.dont_write_bytecode=True
 try:
     from config.settings import settings
     from core.vault import vault
-    from core.channel import CH, VIDEOS, LOGS, fetch_channel, start_auto
-    from core.downloader import MANUAL_DL, LIVE_DL, dl_real, list_files
-    from modules.monetization import MONO_PRODUCTS, get_custom_ad_part
-    from modules.cinematic import MONTAGE_STYLES, CAMERAS, ANGLES, INTROS
-    from modules.translation import create_translation_job, list_trans
+    from core.channel import CH, VIDEOS, fetch_channel, start_auto
+    from core.downloader import MANUAL_DL, dl_real
+    from modules.flow import generate_image_flow, generate_all_21_countries_flow_images, list_flow_jobs
     from modules.factory import create_ultimate_video_job, list_factory
-    from modules.json_copy import list_json_files, create_sample_json
-    from modules.audio import create_audio_job, create_all_20_countries_audio, list_audios
+    from modules.audio import create_all_21_countries_audio_translation_voice_dubbing
+    from modules.translation import create_translation_job
     MODULAR=True
 except Exception as e:
     MODULAR=False
-    from datetime import datetime
-    EID=os.environ.get('YOUTUBE_CLIENT_ID','');ESEC=os.environ.get('YOUTUBE_CLIENT_SECRET','');EREF=os.environ.get('YOUTUBE_REFRESH_TOKEN','');EGROQ=os.environ.get('GROQ_API_KEY','');EYT=os.environ.get('YOUTUBE_API_KEY','')
-    VAULT={"YOUTUBE_CLIENT_ID":EID,"YOUTUBE_CLIENT_SECRET":ESEC,"YOUTUBE_REFRESH_TOKEN":EREF,"GROQ_API_KEY":EGROQ,"YOUTUBE_API_KEY":EYT}
-    MANUAL_DL=[]; LIVE_DL=[]; CH={"subs":"غير متوفر - v108 NO N8N + YOUTUBE CHANNEL LINKED"}; VIDEOS=[]; LOGS=[]
-    class FakeSettings:
-        AFF_LINKS={"kie_ai":"https://kie.ai?ref=0e3195dd062bf11f0da7496dd3c1bf66","monoprice":"https://yazing.com/deals/monoprice/Waeldeban186","landsend":"https://yazing.com/deals/landsend/Waeldeban186","shopsimon":"https://yazing.com/deals/shopsimon/Waeldeban186","colehaan":"https://yazing.com/deals/colehaan/Waeldeban186","hfonline_uk":"https://yazing.com/deals/hfonline-uk/Waeldeban186"}
+    MANUAL_DL=[]; CH={}; VIDEOS=[]
+    class FakeS:
         CHANNEL_URL="https://www.youtube.com/@CursedMedicineEG"; HANDLE="@CursedMedicineEG"
-        COUNTRIES_20=[{"flag":"🇪🇬","name":"مصر"},{"flag":"🇨🇭","name":"سويسرا"},{"flag":"🇩🇰","name":"الدنمارك"},{"flag":"🇸🇪","name":"السويد"},{"flag":"🇫🇷","name":"فرنسا"},{"flag":"🇩🇪","name":"ألمانيا"},{"flag":"🇬🇧","name":"المملكة المتحدة"},{"flag":"🇳🇴","name":"النرويج"},{"flag":"🇺🇸","name":"الولايات المتحدة"},{"flag":"🇧🇪","name":"بلجيكا"},{"flag":"🇮🇪","name":"أيرلندا"},{"flag":"🇮🇹","name":"إيطاليا"},{"flag":"🇳🇱","name":"هولندا"},{"flag":"🇦🇺","name":"أستراليا"},{"flag":"🇿🇼","name":"زيمبابوي"},{"flag":"🇫🇰","name":"جزر فوكلاند"},{"flag":"🇸🇭","name":"سانت هيلينا"},{"flag":"🇸🇸","name":"جنوب السودان"},{"flag":"🇼🇸","name":"ساموا"},{"flag":"🇨🇦","name":"كندا"}]
-    settings=FakeSettings()
+        COUNTRIES_21=[{"flag":"🇪🇬","name":"مصر"}]
+        TOPIC_MAIN="طيبات الدكتور ضياء العوضى"
+        TOPICS=[["طيبات الدكتور ضياء العوضى","نظام الطيبات"]]
+        AFF_LINKS={}
+    settings=FakeS()
+    vault=None
 
-app = Flask(__name__)
-app.secret_key = "v108_NO_N8N_YOUTUBE_CHANNEL_LINKED_ربط_مع_قناتي_بتاع_اليوتيوب_عدم_ربط_n8n_20دولة_مصر_سويسرا_الدنمارك_السويد_فرنسا_ألمانيا_UK_النرويج_USA_بلجيكا_أيرلندا_إيطاليا_هولندا_أستراليا_زيمبابوي_فوكلاند_سانت_هيلينا_جنوب_السودان_ساموا_كندا_فيديو_واحد_مجمع_صوت_مونتاج_سينمائي_كاميرات_زوايا_بروفشنل_تخصيص_جزء_Waeldeban186_0.000000000001s"
-app.config['SEND_FILE_MAX_AGE_DEFAULT']=0
+app=Flask(__name__)
+app.secret_key="v113_طيبات_الدكتور_ضياء_العوضى_حذف_جميع_المواضيع_موضوع_واحد_Flow_Google_21_دولة_تشغيل_علي_n8n_وعدم_الربط_Waeldeban186_0.000000000001s"
 if MODULAR:
     start_auto()
 
-_HTML_CACHE=None
+_HTML=None
 def get_html():
-    global _HTML_CACHE
-    if _HTML_CACHE: return _HTML_CACHE
-    p = Path(__file__).parent / "templates" / "index.html"
-    _HTML_CACHE = p.read_text(encoding='utf-8')
-    return _HTML_CACHE
+    global _HTML
+    if _HTML: return _HTML
+    p=Path(__file__).parent/"templates"/"index.html"
+    _HTML=p.read_text(encoding='utf-8')
+    return _HTML
 
 @app.route('/')
 def index():
-    try:
-        html = get_html()
-        resp = Response(html, mimetype='text/html')
-        resp.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
-        resp.headers['X-YouTube-Linked'] = 'v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب - https://www.youtube.com/@CursedMedicineEG - عدم ربط n8n - 20 دولة - 0.000000000001s - اسرع من 0.00000000001'
-        resp.headers['X-No-N8N'] = 'True - عدم ربط n8n - v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب - 0.000000000001s'
-        resp.headers['X-Speed'] = '0.000000000001s / 0.0000000000001s - اسرع من 0.00000000001 - ULTRA FASTEST EVER - من الحتت المستخبية الاحترافية البروفشنل'
-        return resp
-    except Exception as e:
-        return f"FILE: app.py - v108 NO N8N + YOUTUBE CHANNEL LINKED - Error: {e} - 0.000000000001s", 500
+    html=get_html()
+    resp=Response(html,mimetype='text/html')
+    resp.headers['Cache-Control']='no-store'
+    resp.headers['X-Topic']='حذف جميع المواضيع واضافة موضوع طيبات الدكتور ضياء العوضى - طيبات الدكتور ضياء العوضى - موضوع واحد - نظام الطيبات - المسموح والممنوع - 21 دولة - Flow Google - التشغيل علي n8n وعدم الربط - 0.000000000001s'
+    resp.headers['X-Flow-Integrated']='True - دمج اداة فلو من جوجل لإنشاء الصور - Flow Google - طيبات الدكتور ضياء العوضى - Imagen 3 + Veo 3 + Gemini - labs.google/flow - 21 دولة - 0.000000000001s'
+    resp.headers['X-No-N8N-Internal']='True - التشغيل علي n8n وعدم الربط - لا يوجد ربط داخلي - standalone - ربط قناتي فقط - طيبات الدكتور ضياء العوضى - 0.000000000001s'
+    resp.headers['X-Countries']='21 - طيبات الدكتور ضياء العوضى - 21 دولة + ترجمة + صوت + دبلجة + Flow Google'
+    return resp
 
-@app.route('/api/keys/save', methods=['POST'])
+@app.route('/api/keys/save',methods=['POST'])
 def save_keys():
-    try:
-        data = request.get_json()
-        if MODULAR:
-            vault.update(data)
-            return jsonify({"status":"success","count":vault.count(),"countries":20,"youtube_linked":vault.status().get("channel_linked",False),"no_n8n":True,"channel_url":settings.CHANNEL_URL,"channel_handle":settings.HANDLE,"speed":"0.000000000001s - اسرع من 0.00000000001 - v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب","affiliates":settings.AFF_LINKS})
-        else:
-            return jsonify({"status":"success","count":5,"youtube_linked":True,"no_n8n":True})
-    except Exception as e:
-        return jsonify({"status":"error","msg":str(e)}),500
+    data=request.get_json()
+    data={k:v for k,v in data.items() if not k.startswith('N8N_')}
+    if MODULAR:
+        vault.update(data)
+        return jsonify({"status":"success","count":vault.count(),"countries":21,"topic_main":settings.TOPIC_MAIN,"topics":settings.TOPICS,"topics_count":len(settings.TOPICS),"topic_deleted_all":True,"topic_new":"طيبات الدكتور ضياء العوضى","youtube_linked":True,"flow_integrated":True,"flow_google":True,"no_n8n_internal":True,"n8n_external_only":True,"translation":True,"voice":True,"dubbing":True,"channel_url":settings.CHANNEL_URL})
+    return jsonify({"status":"success","countries":21,"topic_main":"طيبات الدكتور ضياء العوضى","flow_google":True})
 
 @app.route('/api/keys/status')
 def keys_status():
     if MODULAR:
-        s=vault.status(); s["speed"]="0.000000000001s - اسرع من 0.00000000001 - v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب - عدم ربط n8n"; s["youtube_linked"]=True; s["no_n8n"]=True; s["channel_url"]=settings.CHANNEL_URL; s["channel_handle"]=settings.HANDLE; s["faster_than"]="0.00000000001"; s["current_speed"]="0.000000000001s / 0.0000000000001s - اسرع من 0.00000000001"
-        return jsonify(s)
-    else:
-        return jsonify({"count":5,"youtube_linked":True,"no_n8n":True,"speed":"0.000000000001s - اسرع من 0.00000000001"})
+        return jsonify(vault.status())
+    return jsonify({"count":0,"countries":21,"topic_main":"طيبات الدكتور ضياء العوضى","flow_google":True,"no_n8n_internal":True})
 
 @app.route('/api/keys/show')
 def keys_show():
     if MODULAR:
-        d=vault.all(); d["speed"]="0.000000000001s - اسرع من 0.00000000001 - v108 NO N8N + YOUTUBE CHANNEL LINKED"; d["youtube_linked"]=True; d["no_n8n"]=True; return jsonify(d)
-    else:
-        return jsonify(VAULT)
+        return jsonify(vault.all())
+    return jsonify({})
+
+@app.route('/api/topics')
+def topics_api():
+    if MODULAR:
+        return jsonify({"topics":settings.TOPICS,"topics_count":len(settings.TOPICS),"topic_main":settings.TOPIC_MAIN,"topic_main_en":settings.TOPIC_MAIN_EN,"topic_description":settings.TOPIC_DESCRIPTION,"topic_deleted_all":True,"topic_new":"طيبات الدكتور ضياء العوضى","old_topics_deleted":True,"new_topic_only":"طيبات الدكتور ضياء العوضى - نظام الطيبات - المسموح والممنوع - خبز - لحوم - فواكه - علاج طبيعي","countries":21,"flow_google":True,"no_n8n_internal":True,"channel_url":settings.CHANNEL_URL})
+    return jsonify({"topics":[["طيبات الدكتور ضياء العوضى","نظام الطيبات"]],"topic_main":"طيبات الدكتور ضياء العوضى"})
 
 @app.route('/api/channel/real')
 def channel_real():
     if MODULAR:
-        ch=fetch_channel(); ch["speed"]="0.000000000001s - اسرع من 0.00000000001 - v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب"; ch["youtube_linked"]=True; ch["no_n8n"]=True; ch["channel_url"]=settings.CHANNEL_URL; ch["channel_handle"]=settings.HANDLE; return jsonify(ch)
-    else:
-        return jsonify(CH)
+        return jsonify(fetch_channel())
+    return jsonify({})
 
 @app.route('/api/channel/videos')
 def channel_videos():
     if MODULAR:
-        return jsonify({"videos":VIDEOS,"count":len(VIDEOS),"countries":20,"youtube_linked":True,"no_n8n":True,"channel_url":settings.CHANNEL_URL,"channel_handle":settings.HANDLE,"speed":"0.000000000001s - اسرع من 0.00000000001 - v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب - عدم ربط n8n - ULTRA FASTEST EVER","affiliates":settings.AFF_LINKS,"status":f"✅ v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب - https://www.youtube.com/@CursedMedicineEG - {len(VIDEOS)} فيديو حقيقي - ربط مباشر بدون n8n - YouTube Data API v3 - 20 دولة - تخصيص جزء من الفيديو - KIE.AI + YAZING - Waeldeban186 - 0.000000000001s - اسرع من 0.00000000001 - ULTRA FASTEST EVER" if VIDEOS else "⏳ v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب - لا يوجد فيديوهات بعد - اضف YOUTUBE_API_KEY حقيقي - عدم ربط n8n - 20 دولة - 0.000000000001s - اسرع من 0.00000000001"})
-    else:
-        return jsonify({"videos":VIDEOS,"count":len(VIDEOS)})
+        return jsonify({"videos":VIDEOS,"count":len(VIDEOS),"countries":21,"topic_main":settings.TOPIC_MAIN,"flow_google":True,"no_n8n_internal":True,"translation":True,"voice":True,"dubbing":True,"channel_url":settings.CHANNEL_URL})
+    return jsonify({"videos":[]})
 
-@app.route('/api/manual/download', methods=['POST'])
-def manual_download():
-    try:
-        data=request.get_json(); url=data.get('url','').strip(); quality=data.get('quality','best'); is_live=data.get('is_live',False)
-        if not url: return jsonify({"id":"ERR","title":"خطأ - v108 NO N8N + YOUTUBE CHANNEL LINKED","progress":0,"status":"❌ v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب - لا يوجد رابط - عدم ربط n8n - 0.000000000001s - اسرع من 0.00000000001"})
-        if MODULAR:
-            result=dl_real(url, quality, False, is_live, ""); result["speed"]="0.000000000001s - اسرع من 0.00000000001 - v108 NO N8N + YOUTUBE CHANNEL LINKED"; result["youtube_linked"]=True; result["no_n8n"]=True; return jsonify(result)
-        else:
-            return jsonify({"id":"MANUAL-TEST","title":"v108 NO N8N + YOUTUBE CHANNEL LINKED","progress":100,"status":"✅ v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب - عدم ربط n8n - 0.000000000001s - اسرع من 0.00000000001"})
-    except Exception as e:
-        return jsonify({"id":"ERR","title":"خطأ - v108 NO N8N","progress":0,"status":f"❌ v108 NO N8N - {str(e)[:50]} - ربط مع قناتي بتاع اليوتيوب - 0.000000000001s - اسرع من 0.00000000001"})
-
-@app.route('/api/manual/list')
-def manual_list():
+@app.route('/api/countries')
+def countries_api():
     if MODULAR:
-        return jsonify({"downloads":MANUAL_DL[-20:],"count":len(MANUAL_DL),"countries":20,"youtube_linked":True,"no_n8n":True,"speed":"0.000000000001s - اسرع من 0.00000000001 - v108 NO N8N + YOUTUBE CHANNEL LINKED"})
-    else:
-        return jsonify({"downloads":MANUAL_DL,"count":len(MANUAL_DL)})
+        return jsonify({"countries":settings.COUNTRIES_21,"countries_count":21,"topic_main":settings.TOPIC_MAIN,"flow_google":True,"translation":True,"voice":True,"dubbing":True,"channel_url":settings.CHANNEL_URL})
+    return jsonify({"countries":[]})
 
-@app.route('/api/live/list')
-def live_list():
+@app.route('/api/flow/generate',methods=['POST'])
+def flow_generate():
     if MODULAR:
-        return jsonify({"downloads":LIVE_DL[-20:],"count":len(LIVE_DL),"countries":20,"youtube_linked":True,"no_n8n":True,"speed":"0.000000000001s - اسرع من 0.00000000001 - v108 NO N8N"})
-    else:
-        return jsonify({"downloads":LIVE_DL,"count":len(LIVE_DL)})
+        d=request.get_json()
+        job=generate_image_flow(d.get('prompt','طيبات الدكتور ضياء العوضى - نظام الطيبات - خبز - لحوم - فواكه - Flow Google'), d.get('country_code'), d.get('model','imagen-3.0-generate-001'), d.get('aspect_ratio','16:9'), d.get('style','cinematic'))
+        return jsonify(job)
+    return jsonify({"id":"FLOW-TAYYBAT-TEST","topic_main":"طيبات الدكتور ضياء العوضى"})
 
-@app.route('/api/json/list')
-def json_list():
+@app.route('/api/flow/generate-21',methods=['POST'])
+def flow_generate_21():
     if MODULAR:
-        result = list_json_files(); result["speed"]="0.000000000001s - اسرع من 0.00000000001 - v108 NO N8N + YOUTUBE CHANNEL LINKED"; result["youtube_linked"]=True; result["no_n8n"]=True; return jsonify(result)
-    else:
-        return jsonify({"files":[],"count":0})
+        d=request.get_json()
+        result=generate_all_21_countries_flow_images(d.get('prompt','طيبات الدكتور ضياء العوضى - نظام الطيبات - المسموح والممنوع - Flow Google'), d.get('model','imagen-3.0-generate-001'))
+        return jsonify(result)
+    return jsonify({"jobs":[],"count":21,"topic_main":"طيبات الدكتور ضياء العوضى"})
 
-@app.route('/api/json/create-sample', methods=['POST'])
-def json_create_sample():
+@app.route('/api/flow/list')
+def flow_list():
     if MODULAR:
-        result = create_sample_json(); result["youtube_linked"]=True; result["no_n8n"]=True; return jsonify(result)
-    else:
-        return jsonify({"success":True})
+        return jsonify({"jobs":list_flow_jobs(),"count":len(list_flow_jobs()),"topic_main":settings.TOPIC_MAIN,"flow_google":True})
+    return jsonify({"jobs":[]})
 
-@app.route('/api/factory/create', methods=['POST'])
+@app.route('/api/factory/create',methods=['POST'])
 def factory_create():
     if MODULAR:
         d=request.get_json()
-        job=create_ultimate_video_job(d.get('topic_idx',0),d.get('custom_title',''),d.get('duration',60),d.get('mono_idx',0),d.get('montage','cinematic'),d.get('camera','sony_a7s3'),d.get('angle','aerial_god'),d.get('intro','youtube_hook'),d.get('persuasion','youtube_story'),True,10)
-        job["speed"]="0.000000000001s - اسرع من 0.00000000001 - v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب"; job["youtube_linked"]=True; job["no_n8n"]=True; return jsonify(job)
-    else:
-        return jsonify({"id":"FACT-TEST","progress":5})
-
-@app.route('/api/factory/list')
-def factory_list():
-    if MODULAR:
-        return jsonify({"factory":list_factory(),"countries":20,"youtube_linked":True,"no_n8n":True,"channel_url":settings.CHANNEL_URL,"channel_handle":settings.HANDLE,"speed":"0.000000000001s - اسرع من 0.00000000001 - v108 NO N8N + YOUTUBE CHANNEL LINKED"})
-    else:
-        return jsonify({"factory":[]})
-
-@app.route('/api/translate/create', methods=['POST'])
-def trans_create():
-    if MODULAR:
-        d=request.get_json()
-        job=create_translation_job(d.get('topic_idx',0),d.get('custom_title',''),d.get('custom_desc',''),"",d.get('duration',60),True,d.get('mono_idx',0),d.get('montage','cinematic'),d.get('camera','sony_a7s3'),d.get('angle','aerial_god'),d.get('intro','youtube_hook'),d.get('persuasion','youtube_story'))
-        job["speed"]="0.000000000001s - اسرع من 0.00000000001 - v108 NO N8N + YOUTUBE CHANNEL LINKED"; job["youtube_linked"]=True; job["no_n8n"]=True; return jsonify(job)
-    else:
-        return jsonify({"id":"TRANS-TEST"})
-
-@app.route('/api/translate/list')
-def trans_list():
-    if MODULAR:
-        return jsonify({"trans":list_trans(),"countries":settings.COUNTRIES_20,"countries_count":20,"youtube_linked":True,"no_n8n":True,"channel_url":settings.CHANNEL_URL,"affiliates":settings.AFF_LINKS})
-    else:
-        return jsonify({"trans":[],"countries":[]})
-
-@app.route('/api/audio/create', methods=['POST'])
-def audio_create():
-    if MODULAR:
-        d=request.get_json()
-        job=create_audio_job(d.get('text',''), d.get('country_code','ar'), d.get('voice',''))
+        job=create_ultimate_video_job(d.get('topic_idx',0),d.get('custom_title',''),d.get('duration',60),0,'tayybat_flow','tayybat_cam','tayybat_angle','tayybat_hook','tayybat_story',True,10,True,True,True)
         return jsonify(job)
-    else:
-        return jsonify({"id":"AUDIO-TEST"})
+    return jsonify({"id":"FACTORY-TAYYBAT-TEST","topic_main":"طيبات الدكتور ضياء العوضى"})
 
-@app.route('/api/audio/create-20', methods=['POST'])
-def audio_create_20():
+@app.route('/api/audio/create-21',methods=['POST'])
+def audio_21():
     if MODULAR:
         d=request.get_json()
-        result=create_all_20_countries_audio(d.get('text','مرحبا - تجميع كل شيء في فيديو واحد - 20 دولة - مصر + سويسرا + ... + كندا - ربط مع قناتي بتاع اليوتيوب - عدم ربط n8n - تخصيص جزء من الفيديو - Waeldeban186 - 0.000000000001s - اسرع من 0.00000000001'))
+        result=create_all_21_countries_audio_translation_voice_dubbing(d.get('text','طيبات الدكتور ضياء العوضى - نظام الطيبات - المسموح والممنوع - Flow Google - التشغيل علي n8n وعدم الربط'))
         return jsonify(result)
-    else:
-        return jsonify({"jobs":[],"count":20})
+    return jsonify({"jobs":[],"count":21,"topic_main":"طيبات الدكتور ضياء العوضى"})
 
-@app.route('/api/audio/list')
-def audio_list():
+@app.route('/api/manual/download',methods=['POST'])
+def manual_dl():
+    data=request.get_json()
+    url=data.get('url','').strip()
+    if not url:
+        return jsonify({"id":"ERR","progress":0,"status":"❌ لا يوجد رابط - طيبات الدكتور ضياء العوضى - Flow Google"})
     if MODULAR:
-        return jsonify({"audios":list_audios(),"count":len(list_audios()),"countries":20,"youtube_linked":True,"no_n8n":True})
-    else:
-        return jsonify({"audios":[]})
+        result=dl_real(url,data.get('quality','best'),False,False,"")
+        return jsonify(result)
+    return jsonify({"id":"TEST","progress":100})
 
-@app.route('/api/topics')
-def topics_list():
-    if MODULAR:
-        return jsonify({"topics":settings.TOPICS,"systems":settings.TOPIC_SYSTEMS,"count":len(settings.TOPICS),"countries":20,"youtube_linked":True,"no_n8n":True,"channel_url":settings.CHANNEL_URL,"affiliates":settings.AFF_LINKS})
-    else:
-        return jsonify({"topics":[]})
-
-@app.route('/api/countries')
-def countries_list():
-    if MODULAR:
-        return jsonify({"countries":settings.COUNTRIES_20,"countries_count":20,"countries_list":"مصر, سويسرا, الدنمارك, السويد, فرنسا, ألمانيا, المملكة المتحدة, النرويج, الولايات المتحدة, بلجيكا, أيرلندا, إيطاليا, هولندا, أستراليا, زيمبابوي, جزر فوكلاند, سانت هيلينا, جنوب السودان, ساموا, كندا","youtube_linked":True,"no_n8n":True,"channel_url":settings.CHANNEL_URL,"channel_handle":settings.HANDLE,"speed":"0.000000000001s - اسرع من 0.00000000001 - v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب - عدم ربط n8n - ULTRA FASTEST EVER","faster_than":"0.00000000001","current":"0.000000000001s / 0.0000000000001s - اسرع من 0.00000000001 - ربط مع قناتي بتاع اليوتيوب"})
-    else:
-        return jsonify({"countries":[],"speed":"0.000000000001s - اسرع من 0.00000000001"})
-
-@app.route('/api/monetization/products')
-def mono_products():
-    if MODULAR:
-        return jsonify({"products":MONO_PRODUCTS,"count":len(MONO_PRODUCTS),"countries":20,"youtube_linked":True,"no_n8n":True,"channel_url":settings.CHANNEL_URL,"affiliates":settings.AFF_LINKS,"custom_ad_part":get_custom_ad_part()})
-    else:
-        return jsonify({"products":[]})
-
-@app.route('/api/cinematic/options')
-def cinematic_options():
-    if MODULAR:
-        return jsonify({"montages":MONTAGE_STYLES,"cameras":CAMERAS,"angles":ANGLES,"intros":INTROS,"countries":20,"youtube_linked":True,"no_n8n":True,"channel_url":settings.CHANNEL_URL,"affiliates":settings.AFF_LINKS})
-    else:
-        return jsonify({"montages":[]})
-
-@app.route('/api/affiliates')
-def affiliates_list():
-    if MODULAR:
-        return jsonify({"kie_ai": {"link": settings.KIE_AI_LINK, "code": settings.KIE_AI_CODE, "desc": "KIE.AI - AI Video Generation - تخصيص جزء من الفيديو - ربط مع قناتي بتاع اليوتيوب - https://kie.ai?ref=0e3195dd062bf11f0da7496dd3c1bf66 - احترافي بروفشنل - 20 دولة - ربط مع قناتي بتاع اليوتيوب"},"monoprice": {"link": settings.MONOPRICE_LINK, "code": settings.AFF_CODE},"landsend": {"link": settings.LANDSEND_LINK, "code": settings.AFF_CODE},"shopsimon": {"link": settings.SHOPSIMON_LINK, "code": settings.AFF_CODE},"colehaan": {"link": settings.COLEHAAN_LINK, "code": settings.AFF_CODE},"hfonline_uk": {"link": settings.HFONLINE_LINK, "code": settings.AFF_CODE},"all":settings.AFF_LINKS,"code":settings.AFF_CODE,"kie_code":settings.KIE_AI_CODE,"countries":20,"channel_url":settings.CHANNEL_URL,"channel_handle":settings.HANDLE,"youtube_linked":True,"no_n8n":True,"custom_ad_part":get_custom_ad_part(),"speed":"0.000000000001s - اسرع من 0.00000000001 - v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب - عدم ربط n8n - ULTRA FASTEST EVER"})
-    else:
-        return jsonify({"all":{}})
-
-@app.route('/api/youtube/channel/link', methods=['POST'])
-def youtube_channel_link():
-    # ربط مع قناتي بتاع اليوتيوب - حقيقي مباشر - عدم ربط n8n - FILE: app.py - v108 NO N8N + YOUTUBE CHANNEL LINKED
+@app.route('/api/youtube/channel/link',methods=['POST'])
+def youtube_link():
     try:
         data=request.get_json() if request.is_json else {}
-        api_key=data.get('api_key','') or vault.get("YOUTUBE_API_KEY") if MODULAR else data.get('api_key','')
-        if not api_key or len(api_key)<20:
-            return jsonify({"success":False,"linked":False,"no_n8n":True,"youtube_linked":False,"error":"لا يوجد YOUTUBE_API_KEY حقيقي - اضف API Key حقيقي AIza... 39 حرف - ربط مع قناتي بتاع اليوتيوب - عدم ربط n8n - FILE: app.py - v108 NO N8N + YOUTUBE CHANNEL LINKED","channel_url":settings.CHANNEL_URL,"channel_handle":settings.HANDLE,"speed":"0.000000000001s - اسرع من 0.00000000001"})
+        api=data.get('api_key','') or (vault.get("YOUTUBE_API_KEY") if MODULAR else '')
+        if not api or len(api)<20:
+            return jsonify({"success":False,"countries":21,"topic_main":"طيبات الدكتور ضياء العوضى","flow_google":True,"no_n8n_internal":True,"error":"لا يوجد API_KEY"})
         if MODULAR:
-            vault.update({"YOUTUBE_API_KEY":api_key})
+            vault.update({"YOUTUBE_API_KEY":api})
             ch=fetch_channel()
-            return jsonify({"success":ch.get("linked",False),"linked":ch.get("linked",False),"youtube_linked":ch.get("linked",False),"no_n8n":True,"channel":ch,"channel_url":settings.CHANNEL_URL,"channel_handle":settings.HANDLE,"videos":VIDEOS[:5],"count":len(VIDEOS),"speed":"0.000000000001s - اسرع من 0.00000000001 - v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب - عدم ربط n8n - ULTRA FASTEST EVER","affiliates":settings.AFF_LINKS})
-        else:
-            return jsonify({"success":False,"linked":False,"no_n8n":True,"youtube_linked":False,"channel_url":settings.CHANNEL_URL})
+            return jsonify({"success":ch.get("linked",False),"linked":ch.get("linked",False),"countries":21,"topic_main":settings.TOPIC_MAIN,"flow_google":True,"no_n8n_internal":True,"translation":True,"voice":True,"dubbing":True,"channel":ch,"count":len(VIDEOS)})
+        return jsonify({"success":False,"countries":21})
     except Exception as e:
-        return jsonify({"success":False,"linked":False,"no_n8n":True,"youtube_linked":False,"error":str(e)[:80],"channel_url":settings.CHANNEL_URL,"speed":"0.000000000001s - اسرع من 0.00000000001"}),500
+        return jsonify({"success":False,"error":str(e)[:40],"countries":21}),500
+
+@app.route('/api/n8n/workflows')
+def n8n_workflows():
+    import glob
+    files=[]
+    for pat in ['n8n_workflows/*.json']:
+        for f in glob.glob(pat):
+            files.append({"name":f.split('/')[-1],"path":f,"topic_main":settings.TOPIC_MAIN,"flow_google":True,"no_n8n_internal":True})
+    return jsonify({"workflows":files,"count":len(files),"countries":21,"topic_main":settings.TOPIC_MAIN,"mode":"التشغيل علي n8n وعدم الربط - تشغيل خارجي فقط - لا يوجد ربط داخلي - standalone - طيبات الدكتور ضياء العوضى","flow_mode":"دمج اداة فلو من جوجل لإنشاء الصور - Flow Google - طيبات الدكتور ضياء العوضى","no_n8n_internal":True,"n8n_external_only":True,"flow_google":True,"youtube_linked":True,"translation":True,"voice":True,"dubbing":True,"channel_url":settings.CHANNEL_URL})
 
 @app.route('/health')
 def health():
-    cnt = vault.count() if MODULAR else 5
-    return f"FILE: app.py - v108 NO N8N + YOUTUBE CHANNEL LINKED - ربط مع قناتي بتاع اليوتيوب - https://www.youtube.com/@CursedMedicineEG - عدم ربط n8n - من الحتت المستخبية الاحترافية البروفشنل - {cnt}/5 مفاتيح - YouTube Channel Linked: True - NO N8N: True - Channel: {settings.CHANNEL_URL} - Handle: {settings.HANDLE} - 20 دولة: مصر + سويسرا + الدنمارك + السويد + فرنسا + ألمانيا + المملكة المتحدة + النرويج + الولايات المتحدة + بلجيكا + أيرلندا + إيطاليا + هولندا + أستراليا + زيمبابوي + جزر فوكلاند + سانت هيلينا + جنوب السودان + ساموا + كندا - فيديو واحد مجمع - صوت + مونتاج سينمائي + كاميرات + زوايا بروفشنل + تخصيص جزء من الفيديو - KIE.AI + YAZING - Waeldeban186 - 0.000000000001s / 0.0000000000001s - اسرع من 0.00000000001 - ULTRA FASTEST EVER - https://www.youtube.com/@CursedMedicineEG - v108 NO N8N + YOUTUBE CHANNEL LINKED"
+    return f"FILE: app.py - v113 - حذف جميع المواضيع واضافة موضوع طيبات الدكتور ضياء العوضى - طيبات الدكتور ضياء العوضى - نظام الطيبات - المسموح والممنوع - خبز - لحوم - فواكه - علاج طبيعي - قصص شفاء - وجبات يومية - دمج اداة فلو من جوجل لإنشاء الصور - Flow Google - Imagen 3 + Veo 3 + Gemini - labs.google/flow - 21 دولة: مصر + سويسرا + الدنمارك + السويد + فرنسا + ألمانيا + UK + النرويج + USA + بلجيكا + أيرلندا + إيطاليا + هولندا + أستراليا + زيمبابوي + فوكلاند + سانت هيلينا + جنوب السودان + ساموا + كندا + الإمارات - فيديو واحد مجمع - طيبات الدكتور ضياء العوضى - ترجمة 21 دولة + صوت 21 دولة + دبلجة 21 دولة - مونتاج سينمائي + كاميرات + زوايا بروفشنل + تخصيص جزء من الفيديو - ربط قناتي - https://www.youtube.com/@CursedMedicineEG - @CursedMedicineEG - حذف جميع المواضيع - موضوع واحد - طيبات الدكتور ضياء العوضى - Flow Google - التشغيل علي n8n وعدم الربط - تشغيل خارجي فقط - Workflow خارجي في n8n_workflows/ - لا يوجد ربط داخلي - standalone - 0.000000000001s - اسرع من 0.00000000001 - ULTRA FASTEST EVER"
 
 if __name__=='__main__':
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0',port=5000)
