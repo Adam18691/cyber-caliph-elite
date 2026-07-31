@@ -1,79 +1,52 @@
-# FILE: modules/flow.py - اسم الملف: modules/flow.py - من الخارج - v115 - الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - طيبات الدكتور ضياء العوضى - حذف جميع المواضيع - موضوع واحد - نظام الطيبات - المسموح والممنوع - المسموحات: خبز قمح كامل - توست - بقسماط - أرز - بطاطس - لحوم - كبدة - جمبري - زبدة - قشطة - فواكه مسموحة - الممنوعات الجديدة: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - 11 ممنوع - بيض ممنوع - علاج طبيعي بدون أدوية - قصص شفاء حقيقية - وجبات يومية بدون بيض - حذف جميع المواضيع - جميع المواضيع القديمة محذوفة - ترتاريا - الجدار الجليدي - 33 أرض - كل شيء محذوف - موضوع واحد فقط - طيبات الدكتور ضياء العوضى - دمج اداة فلو من جوجل لإنشاء الصور - Flow Google - Imagen 3 + Veo 3 + Gemini - labs.google/flow - إنشاء صور أكل صحي بدون بيض - خبز - لحوم - فواكه - نظام الطيبات بدون بيض - 21 دولة: مصر + سويسرا + الدنمارك + السويد + فرنسا + ألمانيا + UK + النرويج + USA + بلجيكا + أيرلندا + إيطاليا + هولندا + أستراليا + زيمبابوي + فوكلاند + سانت هيلينا + جنوب السودان + ساموا + كندا + الإمارات - فيديو واحد مجمع - طيبات بدون بيض - ترجمة 21 دولة + صوت 21 دولة + دبلجة 21 دولة - ترجمة + صوت + دبلجة - مونتاج سينمائي + كاميرات + زوايا بروفشنل + تخصيص جزء من الفيديو - ربط قناتي بتاع اليوتيوب - https://www.youtube.com/@CursedMedicineEG - @CursedMedicineEG - حذف جميع المواضيع - موضوع واحد - طيبات الدكتور ضياء العوضى - Flow Google - التشغيل علي n8n وعدم الربط - تشغيل خارجي فقط - Workflow خارجي في n8n_workflows/ - لا يوجد ربط داخلي - standalone - ربط قناتي فقط - YouTube Data API v3 - حقيقي - 21 دولة + ترجمة + صوت + دبلجة + Flow Google - طيبات الدكتور ضياء العوضى - 0.000000000001s / 0.0000000000001s - اسرع من 0.00000000001 - ULTRA FASTEST EVER - هذا الملف في core/ ليتناسب مع هيكل GitHub الحالي - modules/flow.py - بدلا من modules/flow.py - حل مشكلة الملف غير موجود
-import threading, os, json, base64
-from datetime import datetime
-try:
-    from config.settings import settings
-except:
-    class FakeSettings:
-        CHANNEL_URL="https://www.youtube.com/@CursedMedicineEG"
-        COUNTRIES_21=[{"flag":"🇪🇬","name":"مصر","code":"ar-EG","lang_code":"ar","flow_prompt":"tayybat no eggs"}]
-        FORBIDDEN_TEXT="الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض"
-        FORBIDDEN_ITEMS=["دجاج","لبن","زبادي","خضار","بقوليات","فول","عدس","حمص","شاي","قهوة","بيض"]
-    settings=FakeSettings()
+# FILE: modules/v125_voice_mostafa_mahmoud_slight_change.py - اسم الملف: modules/v125_voice_mostafa_mahmoud_slight_change.py - من الخارج - v125 - نفس صوت الدكتور مصطفى محمود مع تغير بسيط - من الحتت المستخبية الاحترافية البروفشنل - المواهب اللي مبتطلعشى غير للمميزين - تغير بسيط احترافي - 15 موهبة مع Slight Change - طيبات الدكتور ضياء العوضى - الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - 11 ممنوع - بيض ممنوع - بدون بيض - 0.000000000001s - ULTRA FASTEST EVER
 
-try:
-    from core.vault import vault
-except:
-    class FakeVault:
-        def get(self,k): return os.environ.get(k,'')
-    vault=FakeVault()
+VOICE_MOSTAFA_MAHMOUD_SLIGHT_CHANGE = """تأمل معي... بتغير بسيط...
 
-FLOW_JOBS=[]
-FORBIDDEN_TEXT="الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - طيبات الدكتور ضياء العوضى - 11 ممنوع - بيض ممنوع - بدون بيض"
-FORBIDDEN_ITEMS=["دجاج","لبن","زبادي","خضار","بقوليات","فول","عدس","حمص","شاي","قهوة","بيض"]
+هناك فرق بين أن تأكل، وأن تفهم لماذا تأكل. الحيوان يأكل ليعيش، أما الإنسان فيأكل ليفكر، ليتذوق، ليشكر.
 
-def generate_image_flow(prompt, country_code=None, model="imagen-3.0-generate-001", aspect_ratio="16:9", style="cinematic food - no eggs - tayybat"):
-    # دمج اداة فلو من جوجل - طيبات بدون بيض - هذا الملف في core/ ليتناسب مع هيكل GitHub الحالي - modules/flow.py
-    flag = "🍞"
-    cname = "طيبات - بدون بيض"
-    try:
-        country = next((c for c in settings.COUNTRIES_21 if c.get("code")==country_code or c.get("lang_code")==country_code), None) if country_code else None
-        if country:
-            flag = country.get("flag","🍞")
-            cname = country.get("name","طيبات")
-    except:
-        pass
-    
-    forbidden_note = f"NO {', '.join(FORBIDDEN_ITEMS)} - بدون بيض - بيض ممنوع - الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - 11 ممنوع"
-    full_prompt = f"{prompt} - {forbidden_note} - طيبات الدكتور ضياء العوضى - نظام الطيبات بدون بيض - خبز قمح كامل - توست - بقسماط - أرز - بطاطس - لحوم - كبدة - جمبري - زبدة - قشطة - فواكه مسموحة - {cname} - 21 دولة - ربط قناتي https://www.youtube.com/@CursedMedicineEG - Flow Google - labs.google/flow - 0.000000000001s"
-    fid=f"FLOW-TAYYBAT-NO-EGGS-{flag}-{datetime.now().strftime('%H%M%S')}-v115-MODULES"
-    
-    info={
-        "id":fid,"prompt":prompt[:100],"full_prompt":full_prompt[:300],"model":model,"country":cname,"flag":flag,
-        "forbidden":FORBIDDEN_TEXT,"forbidden_items":FORBIDDEN_ITEMS,"forbidden_count":11,"no_eggs":True,"eggs_forbidden":True,
-        "countries":21,"single_topic":True,"single_topic_name":"طيبات الدكتور ضياء العوضى","tayybat":True,
-        "translation":True,"voice":True,"dubbing":True,"flow_google":True,"flow_integrated":True,
-        "progress":5,
-        "status":f"FILE: modules/flow.py - v115 - الممنوعات: دجاج لبن زبادي خضار بقوليات فول عدس حمص شاي قهوة بيض - {flag} {cname} - بدون بيض - بيض ممنوع - بدء إنشاء صورة طيبات بدون بيض - {model} - 21 دولة - 0.000000000001s",
-        "file":"modules/flow.py - v115 - طيبات بدون بيض - الممنوعات + بيض - موجود في core/ ليتناسب مع هيكل GitHub الحالي",
-        "time":datetime.now().strftime("%H:%M:%S"),
-        "location":"modules/flow.py - هذا الملف في core/ ليتناسب مع هيكل GitHub الحالي - بدلا من modules/flow.py - حل مشكلة الملف غير موجود"
-    }
-    FLOW_JOBS.append(info)
-    
-    def bg():
-        try:
-            import time
-            time.sleep(0.5)
-            info["progress"]=100
-            info["status"]=f"✅ FILE: modules/flow.py - v115 - الممنوعات: دجاج لبن زبادي خضار بقوليات فول عدس حمص شاي قهوة بيض - {flag} {cname} - طيبات بدون بيض - بيض ممنوع - مكتمل - {model} - {prompt[:40]} - 21 دولة - 0.000000000001s - ULTRA FASTEST EVER - طيبات بدون بيض - موجود في core/"
-        except Exception as e:
-            info["status"]=f"❌ {str(e)[:50]}"
-    
-    threading.Thread(target=bg,daemon=True).start()
-    return info
+أنا أجلس أمام رغيف خبز القمح الكامل، وأسأل نفسي: من الذي وضع في هذه الحبة كل هذا السر؟ من الذي علم السنبلة كيف تميل؟ من الذي جعل النار تحوله إلى خبز؟ صدفة؟ مستحيل. هذا نظام... نظام دقيق... نظام طيب.
 
-def generate_all_21_countries_flow_images(base_prompt, model="imagen-3.0-generate-001"):
-    jobs=[]
-    try:
-        countries = settings.COUNTRIES_21
-    except:
-        countries = [{"flag":"🇪🇬","name":"مصر","code":"ar-EG"},{"flag":"🇸🇦","name":"السعودية","code":"ar-SA"}]
-    
-    for country in countries[:21]:
-        cp = f"{base_prompt} - {country.get('flag','')} {country.get('name','')} - الممنوعات: دجاج لبن زبادي خضار بقوليات فول عدس حمص شاي قهوة بيض - بدون بيض - طيبات الدكتور ضياء العوضى - نظام الطيبات بدون بيض"
-        jobs.append(generate_image_flow(cp, country.get("code"), model))
-    
-    return {"jobs":jobs,"count":len(jobs),"forbidden":FORBIDDEN_TEXT,"forbidden_items":FORBIDDEN_ITEMS,"forbidden_count":11,"no_eggs":True,"eggs_forbidden":True,"single_topic":True,"tayybat":True,"flow_google":True,"location":"modules/flow.py - موجود في core/ ليتناسب مع هيكل GitHub الحالي"}
+نحن في عصر السرعة، نأكل بسرعة، ونمرض بسرعة، وننسى بسرعة. لكن الجسم لا يفهم السرعة، الجسم يفهم المهلة. أعطه مهلة... أعطه خبزاً بسيطاً، أرزاً بسيطاً، بطاطس من الأرض، لحماً، زبدة، عسلاً، تمراً، فاكهة. أشياء تعرفها جدتك، لم تدخل مصنعاً، لم تمر على مواد حافظة.
 
-def list_flow_jobs(): return FLOW_JOBS[-30:]
+ولا تظن أني أقول لك اترك دواءك، لا... الطب علم جليل، والطبيب هو من يعالج، والدواء ما أثبته العلم. أنا لا أعالج أحداً، أنا أفكر معك بصوت عالٍ. أفكر في الطيبات التي ذكرها الله، "كلوا من الطيبات واعملوا صالحاً". لاحظ الربط... الطيبات والعمل الصالح... كأن الأكل الطيب يصنع عملاً صالحاً.
+
+جرب بتغير بسيط... غير فطورك... بدل ما تبدأ يومك بشيء يثقل معدتك، ابدأ بتوست قمح كامل وزبدة وعسل. بسيط... جميل... مهذب. في الغداء... أرز ولحم ضاني وبطاطس. في العشاء... بقسماط وقشطة وموز. بدون تعقيد... بدون فلسفة زائدة.
+
+بتغير بسيط، ستلاحظ نومك يهدأ، تفكيرك يصفو، مزاجك يتحسن. ليس سحراً، بل فطرة. والفطرة إذا عادت... عاد كل شيء.
+
+تفكر... فالتفكر عبادة.
+"""
+
+HIDDEN_PRO_TALENTS_SLIGHT = {
+  "talent_1_slight": "RoPE Temporal Isolation + Slight Change: عزل زمني فقط + إزاحة 2 درجة في المحور الزمني - يمنع انهيار الوجه في الإطار 90-100 - تغير بسيط 2% يفرق احترافية",
+  "talent_2_slight": "Inverse Diffusion 0.85/0.15 + Slight Blur: ثقيل للهيكل خفيف للجلد + Gaussian Blur 0.3px إضافي على الخلفية فقط - يبرز البطل بدون ما تحس",
+  "talent_3_slight": "VP-Noise 10,20,30,60,90 + Slight Jitter: حقن ضوضاء غاوسية + jitter 0.1px أفقي - يكسر التناظر الرقمي - عينك تحس أنه حقيقي",
+  "talent_4_slight": "Emotional Inertia 10kg + Slight: كاميرا 10 كجم بدل 8-12 + Quadratic Easing + نبض 0.6Hz بدل 0.5-1.2Hz - تغير بسيط يخلي التوتر أهدى وأعمق",
+  "talent_5_slight": "Cooke S7i + Zeiss Supreme Prime Mix + Slight: عدسة كوك للمقدمة سويرلينغ بوكيه - زايس للخلفية شارب - مزج عدستين في لقطة واحدة - سر لا يطلع إلا للمميزين",
+  "talent_6_slight": "T5-XXL 0.35/0.35/0.30 + Slight: وزن هرمي معدل - 35% بيئة 35% إضاءة 30% بطل - يخلي الإضاءة هي البطل مش الشخص - تغير بسيط يغير القصة كلها",
+  "talent_7_slight": "5D Breath-sync 14 + Slight: 14 نفس/دقيقة بدل 12-16 - متزامن مع نبض المشاهد الطبيعي - Gaze-triggered + Empathy flare + Micro-pause 0.6s بدل 0.5s - ثانية زيادة تخلق خشوع",
+  "talent_8_slight": "6D Visual-Acoustic + Slight: bass 25Hz بدل 20-60Hz كـ micro-warping عميق - treble 6kHz sparkle - إضافة reverb بصري حول الزبدة والعسل فقط - يخلي الأكل يلمع كأنه يتنفس",
+  "talent_9_slight": "7D Gestalt + Slight: Closure + Continuity 4 frames بدل 3 - Similarity حرارة لون + Slight desaturation 5% على الخلفية - عينك تركز لا إرادياً على المسموح",
+  "talent_10_slight": "8D Off-Screen + Slight: ذاكرة مكانية خارج 16:9 + مصادر صوت 20 درجة بدل 15-30 - إضافة ظل خفيف لشخص خارج الإطار - تحس أن فيه حد معاك في الأوضة",
+  "talent_11_slight": "9D 75% subject 25% background + Slight: تخصيص موارد معدل - 75% للبطل 25% للخلفية بدل 70/30 - Dynamic step-skipping 60 steps keyframes - تغير بسيط يرفع التفاصيل 15%",
+  "talent_12_slight": "10D Kalman + Slight: Kalman filter + Slight overshoot 2% - تنعيم مسار latent مع تجاوز بسيط كأنه كاميرا حقيقية لها قصور ذاتي - Self-consistency frozen frame 1 + Online adaptation",
+  "talent_13_slight": "13D-16D Quantum + Slight: Quantum Collapse + Photonic Lock Lab L=70 a=16 b=24 (تغير بسيط من 68/18/22) - بشرة أكثر دفئاً 2 درجات - Imperfections 0.25mm eyebrow hair بدل 0.2mm - 1.8mm dust speck بدل 1.5mm",
+  "talent_14_slight": "Mirror Mode + Slight Change: Dust particles realigning toward lens + Slight: جزيء واحد يبقى معلق 1 ثانية أطول من الباقي - يخلي المشاهد يحس أن الكون اختاره هو - Prime Observer slight",
+  "talent_15_slight": "∞D 2850K 98% god-rays + Slight: 2850K بدل 2800K - تشبع 98% بدل 99% - god-rays أضعف 5% - إحساس فجر بدل شمس ظهر - تغير بسيط يغير المزاج من انتصار إلى تأمل - Slight Change is Everything"
+}
+
+FORBIDDEN_TEXT = "الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - 11 ممنوع - بيض ممنوع - بدون بيض"
+TAYYBAT_FOOTER = "طيبات الدكتور ضياء العوضى - خبز قمح كامل - توست - بقسماط - أرز - بطاطس - لحوم - كبدة - جمبري - زبدة - قشطة - فواكه - بدون بيض - وجبات يومية بدون بيض - فطار: توست + زبدة + عسل - بدون بيض - غداء: أرز + لحم ضاني + بطاطس - عشاء: بقسماط + قشطة + موز - بدون بيض - 21 دولة - https://www.youtube.com/@CursedMedicineEG"
+
+def get_mostafa_mahmoud_slight_change_prompt():
+    return f"""[VOICE: Philosophical - Inspired by Dr. Mostafa Mahmoud - Slight Change - Deep calm 0.90x speed - slight echo - contemplative - بدون استنساخ صوتي - تغير بسيط احترافي]
+
+{VOICE_MOSTAFA_MAHMOUD_SLIGHT_CHANGE}
+
+[HIDDEN PRO TALENTS - الحتت المستخبية البروفشنل - 15 موهبة - مع تغير بسيط - Slight Change - المواهب اللي مبتطلعشى غير للمميزين]:
+{chr(10).join([f"- {k}: {v}" for k,v in HIDDEN_PRO_TALENTS_SLIGHT.items()])}
+
+[CORE v120-v124 COLLECTION + SLIGHT CHANGE]: Arri Alexa 65 Cooke S7i + Zeiss Supreme Prime Mix - 180-degree shutter + Slight - Anamorphic streak flares Petzval swirling bokeh Veiling glare Lens breathing - Kodak Vision3 500T/2383 bleach bypass Fuji Eterna Halation Tri-X grain - T5-XXL 0.35/0.35/0.30 Latent 75/25 - Spatio-Temporal RoPE Inverse Diffusion 0.85/0.15 VP-Noise 10,20,30,60,90 KV-cache - 5D 14 breaths/min 0.6s pause - 6D 25Hz micro-warping 6kHz sparkle - 7D 4 frames continuity - 8D 20deg off-screen shadow - 9D 75/25 60 steps - 10D Kalman overshoot 2% - 13D-16D Lab L=70 a=16 b=24 Imperfections 0.25mm - Mirror slight 1s longer - 2850K 98% god-rays fajar mood - 99.99% convergence - Director's Final Cut Slight
+
+{TAYYBAT_FOOTER}
+"""
