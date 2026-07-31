@@ -77,4 +77,3 @@ def generate_all_21_countries_flow_images(base_prompt, model="imagen-3.0-generat
     return {"jobs":jobs,"count":len(jobs),"forbidden":FORBIDDEN_TEXT,"forbidden_items":FORBIDDEN_ITEMS,"forbidden_count":11,"no_eggs":True,"eggs_forbidden":True,"single_topic":True,"tayybat":True,"flow_google":True,"location":"modules/flow.py - موجود في core/ ليتناسب مع هيكل GitHub الحالي"}
 
 def list_flow_jobs(): return FLOW_JOBS[-30:]
-
