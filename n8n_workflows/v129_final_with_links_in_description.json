@@ -1,0 +1,194 @@
+{
+  "name": "v116_Tayybat_No_Eggs_FLOW_GOOGLE_21_External_Only_v130_FIXED_N8N_EXISTS",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "minutesInterval": 6
+            }
+          ]
+        }
+      },
+      "id": "schedule",
+      "name": "Schedule 6h",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://cyber-caliph-elite.onrender.com/api/flow/status",
+        "sendQuery": false
+      },
+      "id": "check-status",
+      "name": "Check Status - N8N EXISTS NOW",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        220,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://cyber-caliph-elite.onrender.com/api/topics",
+        "sendQuery": false
+      },
+      "id": "get-topics",
+      "name": "Get Topics + 6 Links",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://cyber-caliph-elite.onrender.com/api/links",
+        "sendQuery": false
+      },
+      "id": "get-links",
+      "name": "Get Video Description With 6 Links",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        440,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://cyber-caliph-elite.onrender.com/api/flow/generate-21",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "prompt",
+              "value": "Tayybat No Eggs - 11 forbidden - 6min 6links Waeldeban186 - v130 FINAL - N8N EXISTS"
+            },
+            {
+              "name": "model",
+              "value": "imagen-3.0-generate-001"
+            }
+          ]
+        }
+      },
+      "id": "flow-21",
+      "name": "Generate 21 Countries + 6 Links",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        660,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://cyber-caliph-elite.onrender.com/api/flow/list",
+        "sendQuery": false
+      },
+      "id": "list-flow",
+      "name": "List Images",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        880,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://cyber-caliph-elite.onrender.com/health",
+        "sendQuery": false
+      },
+      "id": "health",
+      "name": "Health Check",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        880,
+        200
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule 6h": {
+      "main": [
+        [
+          {
+            "node": "Check Status - N8N EXISTS NOW",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Status - N8N EXISTS NOW": {
+      "main": [
+        [
+          {
+            "node": "Get Topics + 6 Links",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Video Description With 6 Links",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Topics + 6 Links": {
+      "main": [
+        [
+          {
+            "node": "Generate 21 Countries + 6 Links",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate 21 Countries + 6 Links": {
+      "main": [
+        [
+          {
+            "node": "List Images",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "meta": {
+    "FILE": "n8n_workflows/v116_Tayybat_No_Eggs_Flow_Google_21_External_Only.json",
+    "fix": "v130 FINAL - حل نهائي لمشكلة ملف n8n غير موجود - الآن الملف موجود - الصور كانت تبين عدم وجود مجلد n8n_workflows في GitHub - الحل: هذا الملف موجود الآن + README.md",
+    "forbidden": "دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة - بيض - 11 ممنوع",
+    "forbidden_count": 11,
+    "no_eggs": true,
+    "tayybat": true,
+    "links": {
+      "monoprice": "https://yazing.com/deals/monoprice/Waeldeban186",
+      "landsend": "https://yazing.com/deals/landsend/Waeldeban186",
+      "shopsimon": "https://yazing.com/deals/shopsimon/Waeldeban186",
+      "colehaan": "https://yazing.com/deals/colehaan/Waeldeban186",
+      "hfonline": "https://yazing.com/deals/hfonline-uk/Waeldeban186",
+      "kieai": "https://kie.ai?ref=0e3195dd062bf11f0da7496dd3c1bf66"
+    },
+    "total_product_time": "6 دقائق لـ 6 لينكات - دقيقة لكل منتج",
+    "video_description": "وصف الفيديو مع 6 لينكات - Monoprice LandsEnd ShopSimon ColeHaan HFOnlineUK KieAI - 6 دقائق",
+    "n8n_exists": true,
+    "github_fix": "git add n8n_workflows/ && git commit -m 'Fix n8n file not found - add n8n_workflows folder v130' && git push",
+    "channel": "https://www.youtube.com/@CursedMedicineEG",
+    "v": "v130 FINAL - N8N EXISTS - 6min 6links - video description with links - 0.000000000001s"
+  }
+}
