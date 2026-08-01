@@ -1,42 +1,60 @@
-<!-- FILE: templates/index.html - اسم الملف: templates/index.html - من الخارج - v116 - الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - 11 ممنوع - بيض ممنوع - طيبات الدكتور ضياء العوضى - حذف جميع المواضيع - موضوع واحد - نظام الطيبات - المسموح والممنوع - المسموحات: خبز قمح كامل - توست - بقسماط - أرز - بطاطس - لحوم - كبدة - جمبري - زبدة - قشطة - فواكه مسموحة - بدون بيض - الممنوعات الجديدة: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - 11 ممنوع - بيض ممنوع - علاج طبيعي بدون أدوية - قصص شفاء حقيقية - وجبات يومية بدون بيض - فطار: توست + زبدة + عسل - بدون بيض - غداء: أرز + لحم ضاني + بطاطس - عشاء: بقسماط + قشطة + موز - بدون بيض - بيض ممنوع - حذف جميع المواضيع - جميع المواضيع القديمة محذوفة - موضوع واحد فقط - طيبات الدكتور ضياء العوضى - دمج اداة فلو من جوجل لإنشاء الصور - Flow Google - Imagen 3 + Veo 3 + Gemini - labs.google/flow - 21 دولة - 0.000000000001s - ULTRA FASTEST EVER - كود للنسخ -->
-<!DOCTYPE html>
-<html dir="rtl" lang="ar">
-<head>
+<html dir="rtl" lang="ar"><head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>v116 - طيبات - الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - 11 ممنوع - بيض ممنوع - كود للنسخ</title>
+<title>v130 FINAL - طيبات بدون بيض - 6 دقائق لـ 6 لينكات - n8n موجود</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font:700 9px 'Cairo',system-ui}
+*{box-sizing:border-box;margin:0;padding:0;font:700 9px Cairo,system-ui}
 body{background:#fff;color:#000;padding:5px}
-.b{padding:2px 5px;border-radius:4px;font-size:7px;font-weight:900;display:inline-block}
-.forbidden{background:#8B0000;color:#fff;border:2px solid #FFD700}
-.no-eggs{background:#000;color:#ff0;border:2px solid #f00}
-.tayybat{background:#8B4513;color:#fff;border:1.5px solid #FFD700}
-.flow{background:#4285f4;color:#fff}
 .c{border:2px solid #000;border-radius:8px;padding:5px;margin:4px 0;background:#fff}
 .c-tayybat{border:3px solid #8B4513;background:#FFF8DC}
 .c-forbidden{border:3px solid #8B0000;background:#FFEEEE}
 .c-flow{border:3px solid #4285f4;background:#f0f8ff}
+.c-yt{border:3px solid #f00;background:#fff0f0}
+.c-links{border:3px solid #00b300;background:#f0fff0}
+.ext{background:#000;color:#ff0;padding:3px;border-radius:4px;margin:2px 0;font-family:monospace;font-size:6px;border:1px solid #ff0;text-align:center}
+button{border:none;border-radius:6px;padding:6px 8px;font-weight:900;cursor:pointer;font-size:7px;min-height:32px}
+.btn{flex:1}.btn-tayybat{background:#8B4513;color:#fff;border:2px solid #FFD700}.btn-flow{background:#4285f4;color:#fff}.btn-yt{background:#f00;color:#fff}.btn-free{background:#00b300;color:#fff}
 .f{display:flex;gap:3px;flex-wrap:wrap}.f>*{flex:1 1 80px}
-.ext{background:#000;color:#ff0;padding:3px;border-radius:4px;margin:2px 0;font-family:monospace;font-size:6px;text-align:center}
-.s-box{border:1.5px solid #000;border-radius:5px;padding:4px;margin:3px 0;background:#f9f9f9;font-size:7px}
+.s-box{border:1.5px solid #000;border-radius:5px;padding:4px;margin:3px 0;background:#f9f9f9;font-size:7px;min-height:22px;max-height:80px;overflow:auto}
 .code-block{background:#0a0a0a;color:#0f0;border:2px solid #0f0;border-radius:6px;padding:6px;margin:3px 0;font-family:monospace;font-size:6px;direction:ltr;text-align:left;max-height:400px;overflow:auto;white-space:pre-wrap}
+textarea{width:100%;padding:5px;border:1.5px solid #000;border-radius:5px;margin:2px 0;min-height:30px;font-size:8px}
 </style>
 </head>
 <body>
-<div class="ext">FILE: templates/index.html - v116 - الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - 11 ممنوع - بيض ممنوع - كود للنسخ - 0.000000000001s</div>
-<h2 style="text-align:center;background:#8B0000;color:#FFD700;padding:6px;border-radius:8px;font-size:10px;border:3px solid #FFD700">
-🍞 v116 - طيبات - الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - 11 ممنوع - بيض ممنوع - كود للنسخ<br>
-<span style="font-size:6px;color:#fff">الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - 11 ممنوع - بيض ممنوع - بدون بيض - طيبات - نظام الطيبات بدون بيض - خبز قمح كامل - لحوم - فواكه - وجبات بدون بيض - فطار بدون بيض - غداء بدون بيض - عشاء بدون بيض - حذف جميع المواضيع - موضوع واحد - طيبات - Flow Google - 21 دولة - كود للنسخ</span>
-</h2>
-<!-- الممنوعات - 11 ممنوع - بيض ممنوع -->
-<div class="c c-forbidden">
-<h3>❌ الممنوعات - 11 ممنوع - بيض ممنوع <span class="b forbidden">❌ 11 ممنوع - الممنوعات: دجاج لبن زبادي خضار بقوليات فول عدس حمص شاي قهوة بيض</span> <span class="b no-eggs">🥚❌ بيض ممنوع - بدون بيض - NO EGGS</span></h3>
-<div style="background:#8B0000;color:#FFD700;border:2px solid #FFD700;border-radius:6px;padding:4px;text-align:center;font-size:8px">
-❌ الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - 11 ممنوع - بيض ممنوع<br>
-<span style="color:#fff;font-size:7px">1- دجاج ممنوع 2- لبن ممنوع 3- زبادي ممنوع 4- خضار ممنوع 5- بقوليات ممنوعة 6- فول ممنوع 7- عدس ممنوع 8- حمص ممنوع 9- شاي ممنوع 10- قهوة ممنوعة 11- بيض ممنوع - جديد - 11 ممنوع - بيض ممنوع - بدون بيض - NO EGGS</span>
+<div class="ext">FILE: templates/index.html - v130 FINAL - طيبات - 11 ممنوع - 6 دقائق لـ 6 لينكات - وصف الفيديو مع اللينكات - حل مشكلة n8n غير موجود - n8n_workflows موجود الآن</div>
+<h2 style="text-align:center;background:#8B4513;color:#FFD700;padding:8px;border-radius:8px;margin-bottom:4px;font-size:11px;border:3px solid #FFD700">🍞 v130 FINAL - طيبات بدون بيض - 11 ممنوع - 6 دقائق لـ 6 لينكات - n8n موجود ✅<br>
+<span style="font-size:7px;color:#fff">الممنوعات: دجاج لبن زبادي خضار بقوليات فول عدس حمص شاي قهوة بيض - 11 ممنوع - بيض ممنوع - بدون بيض - المسموحات: خبز قمح كامل توست بقسماط أرز بطاطس لحوم كبدة جمبري زبدة قشطة فواكه - وجبات بدون بيض: فطار توست+زبدة+عسل - غداء أرز+لحم ضاني+بطاطس - عشاء بقسماط+قشطة+موز - 6 دقائق لـ 6 لينكات - Waeldeban186 - n8n_workflows موجود الآن - حل مشكلة n8n غير موجود</span></h2>
+
+<div class="c c-forbidden"><div class="ext">الممنوعات 11 ممنوع</div>
+<div style="background:#8B0000;color:#FFD700;padding:4px;border-radius:5px;text-align:center;font-size:8px;">🚫 الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - 11 ممنوع - بيض ممنوع - بدون بيض</div>
+<div style="background:#FFF8DC;color:#8B4513;padding:4px;border-radius:5px;text-align:center;font-size:7px;margin-top:3px;">✅ المسموحات: خبز قمح كامل - توست - بقسماط - أرز - بطاطس - لحوم - كبدة - جمبري - زبدة - قشطة - فواكه - بدون بيض</div>
 </div>
-</div>
-<!-- باقي الكود 164 سطر - حمله من الرابط أعلاه - كامل - جاهز للنسخ -->
-</body>
-</html>
+
+<div class="c c-links"><div class="ext">6 دقائق لـ 6 لينكات - دقيقة لكل منتج - n8n موجود</div>
+<h3 style="background:#00b300;color:#fff;padding:5px;border-radius:5px;text-align:center;font-size:9px;">⏱️ 6 دقائق لـ 6 لينكات - دقيقة لكل منتج - n8n_workflows موجود الآن ✅</h3>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin:5px 0;">
+<div style="border:1px solid #00b300;border-radius:4px;padding:3px;text-align:center;background:#fff;font-size:6px;">1️⃣ Monoprice<br>60 ث<br><a href="https://yazing.com/deals/monoprice/Waeldeban186" target="_blank" style="color:#00f;font-size:5px;">Monoprice 70%</a></div>
+<div style="border:1px solid #00b300;border-radius:4px;padding:3px;text-align:center;background:#fff;font-size:6px;">2️⃣ Lands End<br>60 ث<br><a href="https://yazing.com/deals/landsend/Waeldeban186" target="_blank" style="color:#00f;font-size:5px;">LandsEnd 60%</a></div>
+<div style="border:1px solid #00b300;border-radius:4px;padding:3px;text-align:center;background:#fff;font-size:6px;">3️⃣ ShopSimon<br>60 ث<br><a href="https://yazing.com/deals/shopsimon/Waeldeban186" target="_blank" style="color:#00f;font-size:5px;">ShopSimon 70%</a></div>
+<div style="border:1px solid #00b300;border-radius:4px;padding:3px;text-align:center;background:#fff;font-size:6px;">4️⃣ Cole Haan<br>60 ث<br><a href="https://yazing.com/deals/c... - v130 FINAL - n8n موجود - 6 دقائق لـ 6 لينكات
