@@ -1,0 +1,48 @@
+{
+  "name": "v116_Tayybat_No_Eggs_FLOW_GOOGLE_21_External_Only_v130_FIXED_N8N_EXISTS",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "minutesInterval": 6
+            }
+          ]
+        }
+      },
+      "id": "schedule",
+      "name": "Schedule 6h",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "url": "https://cyber-caliph-elite.onrender.com/api/flow/status",
+        "sendQuery": false
+      },
+      "id": "check-status",
+      "name": "Check Status - N8N EXISTS NOW",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [220, 0]
+    }
+  ],
+  "meta": {
+    "FILE": "n8n_workflows/v116_Tayybat_No_Eggs_Flow_Google_21_External_Only.json",
+    "fix": "v130 FINAL - N8N EXISTS NOW - حل مشكلة ملف n8n غير موجود",
+    "forbidden": "دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة - بيض - 11 ممنوع",
+    "links": {
+      "monoprice": "https://yazing.com/deals/monoprice/Waeldeban186",
+      "landsend": "https://yazing.com/deals/landsend/Waeldeban186",
+      "shopsimon": "https://yazing.com/deals/shopsimon/Waeldeban186",
+      "colehaan": "https://yazing.com/deals/colehaan/Waeldeban186",
+      "hfonline": "https://yazing.com/deals/hfonline-uk/Waeldeban186",
+      "kieai": "https://kie.ai?ref=0e3195dd062bf11f0da7496dd3c1bf66"
+    },
+    "n8n_exists": true,
+    "v": "v130 FINAL - N8N EXISTS - 6min 6links"
+  }
+}
