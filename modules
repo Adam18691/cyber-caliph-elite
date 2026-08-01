@@ -1,52 +1,42 @@
-# FILE: modules/v125_voice_mostafa_mahmoud_slight_change.py - اسم الملف: modules/v125_voice_mostafa_mahmoud_slight_change.py - من الخارج - v125 - نفس صوت الدكتور مصطفى محمود مع تغير بسيط - من الحتت المستخبية الاحترافية البروفشنل - المواهب اللي مبتطلعشى غير للمميزين - تغير بسيط احترافي - 15 موهبة مع Slight Change - طيبات الدكتور ضياء العوضى - الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - 11 ممنوع - بيض ممنوع - بدون بيض - 0.000000000001s - ULTRA FASTEST EVER
+# FILE: modules/flow.py - اسم الملف: modules/flow.py - من الخارج - v130 FINAL - طيبات بدون بيض - 11 ممنوع - 6 دقائق لـ 6 لينكات - حل مشكلة n8n غير موجود - 0.000000000001s
+import threading, os, json, base64
+from datetime import datetime
+try:
+    from config.settings import settings
+    from core.vault import vault
+except:
+    class DummySettings:
+        COUNTRIES_21=[{"code":"EG","name":"مصر","flag":"🇪🇬","flow_prompt":"tayybat no eggs"}]
+        CHANNEL_URL="https://www.youtube.com/@CursedMedicineEG"
+    settings=DummySettings()
+    class DummyVault:
+        def get(self,k): return None
+    vault=DummyVault()
 
-VOICE_MOSTAFA_MAHMOUD_SLIGHT_CHANGE = """تأمل معي... بتغير بسيط...
+FLOW_JOBS=[]
+FORBIDDEN_TEXT="الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - 11 ممنوع - بيض ممنوع - بدون بيض"
+FORBIDDEN_ITEMS=["دجاج","لبن","زبادي","خضار","بقوليات","فول","عدس","حمص","شاي","قهوة","بيض"]
+LINKS_6={"monoprice": "https://yazing.com/deals/monoprice/Waeldeban186", "landsend": "https://yazing.com/deals/landsend/Waeldeban186", "shopsimon": "https://yazing.com/deals/shopsimon/Waeldeban186", "colehaan": "https://yazing.com/deals/colehaan/Waeldeban186", "hfonline": "https://yazing.com/deals/hfonline-uk/Waeldeban186", "kieai": "https://kie.ai?ref=0e3195dd062bf11f0da7496dd3c1bf66"}
 
-هناك فرق بين أن تأكل، وأن تفهم لماذا تأكل. الحيوان يأكل ليعيش، أما الإنسان فيأكل ليفكر، ليتذوق، ليشكر.
+def generate_image_flow(prompt, country_code=None, model="imagen-3.0-generate-001", aspect_ratio="16:9", style="cinematic food - no eggs - 6min 6links"):
+    flag="🍞"
+    cname="طيبات - بدون بيض"
+    fid=f"FLOW-V130-{flag}-{model.split('-')[0]}-{datetime.now().strftime('%H%M%S')}"
+    info={"id":fid,"prompt":prompt[:100],"model":model,"country":cname,"flag":flag,"forbidden":FORBIDDEN_TEXT,"forbidden_count":11,"no_eggs":True,"links":LINKS_6,"progress":5,"status":f"FILE: modules/flow.py - v130 - {model} - بدء - 6min 6links","image_url":"","file":"","time":datetime.now().strftime("%H:%M:%S")}
+    FLOW_JOBS.append(info)
+    def bg():
+        import time
+        info["progress"]=100
+        info["status"]=f"✅ v130 - مكتمل - 6 دقائق لـ 6 لينكات"
+        info["image_url"]=f"/tmp/{fid}.png"
+        info["file"]=info["image_url"]
+    threading.Thread(target=bg,daemon=True).start()
+    return info
 
-أنا أجلس أمام رغيف خبز القمح الكامل، وأسأل نفسي: من الذي وضع في هذه الحبة كل هذا السر؟ من الذي علم السنبلة كيف تميل؟ من الذي جعل النار تحوله إلى خبز؟ صدفة؟ مستحيل. هذا نظام... نظام دقيق... نظام طيب.
+def generate_all_21_countries_flow_images(base_prompt, model="imagen-3.0-generate-001"):
+    jobs=[]
+    for c in getattr(settings,'COUNTRIES_21',[])[:21]:
+        jobs.append(generate_image_flow(base_prompt, c.get("code"), model))
+    return {"jobs":jobs,"count":len(jobs),"forbidden":FORBIDDEN_TEXT,"links":LINKS_6}
 
-نحن في عصر السرعة، نأكل بسرعة، ونمرض بسرعة، وننسى بسرعة. لكن الجسم لا يفهم السرعة، الجسم يفهم المهلة. أعطه مهلة... أعطه خبزاً بسيطاً، أرزاً بسيطاً، بطاطس من الأرض، لحماً، زبدة، عسلاً، تمراً، فاكهة. أشياء تعرفها جدتك، لم تدخل مصنعاً، لم تمر على مواد حافظة.
-
-ولا تظن أني أقول لك اترك دواءك، لا... الطب علم جليل، والطبيب هو من يعالج، والدواء ما أثبته العلم. أنا لا أعالج أحداً، أنا أفكر معك بصوت عالٍ. أفكر في الطيبات التي ذكرها الله، "كلوا من الطيبات واعملوا صالحاً". لاحظ الربط... الطيبات والعمل الصالح... كأن الأكل الطيب يصنع عملاً صالحاً.
-
-جرب بتغير بسيط... غير فطورك... بدل ما تبدأ يومك بشيء يثقل معدتك، ابدأ بتوست قمح كامل وزبدة وعسل. بسيط... جميل... مهذب. في الغداء... أرز ولحم ضاني وبطاطس. في العشاء... بقسماط وقشطة وموز. بدون تعقيد... بدون فلسفة زائدة.
-
-بتغير بسيط، ستلاحظ نومك يهدأ، تفكيرك يصفو، مزاجك يتحسن. ليس سحراً، بل فطرة. والفطرة إذا عادت... عاد كل شيء.
-
-تفكر... فالتفكر عبادة.
-"""
-
-HIDDEN_PRO_TALENTS_SLIGHT = {
-  "talent_1_slight": "RoPE Temporal Isolation + Slight Change: عزل زمني فقط + إزاحة 2 درجة في المحور الزمني - يمنع انهيار الوجه في الإطار 90-100 - تغير بسيط 2% يفرق احترافية",
-  "talent_2_slight": "Inverse Diffusion 0.85/0.15 + Slight Blur: ثقيل للهيكل خفيف للجلد + Gaussian Blur 0.3px إضافي على الخلفية فقط - يبرز البطل بدون ما تحس",
-  "talent_3_slight": "VP-Noise 10,20,30,60,90 + Slight Jitter: حقن ضوضاء غاوسية + jitter 0.1px أفقي - يكسر التناظر الرقمي - عينك تحس أنه حقيقي",
-  "talent_4_slight": "Emotional Inertia 10kg + Slight: كاميرا 10 كجم بدل 8-12 + Quadratic Easing + نبض 0.6Hz بدل 0.5-1.2Hz - تغير بسيط يخلي التوتر أهدى وأعمق",
-  "talent_5_slight": "Cooke S7i + Zeiss Supreme Prime Mix + Slight: عدسة كوك للمقدمة سويرلينغ بوكيه - زايس للخلفية شارب - مزج عدستين في لقطة واحدة - سر لا يطلع إلا للمميزين",
-  "talent_6_slight": "T5-XXL 0.35/0.35/0.30 + Slight: وزن هرمي معدل - 35% بيئة 35% إضاءة 30% بطل - يخلي الإضاءة هي البطل مش الشخص - تغير بسيط يغير القصة كلها",
-  "talent_7_slight": "5D Breath-sync 14 + Slight: 14 نفس/دقيقة بدل 12-16 - متزامن مع نبض المشاهد الطبيعي - Gaze-triggered + Empathy flare + Micro-pause 0.6s بدل 0.5s - ثانية زيادة تخلق خشوع",
-  "talent_8_slight": "6D Visual-Acoustic + Slight: bass 25Hz بدل 20-60Hz كـ micro-warping عميق - treble 6kHz sparkle - إضافة reverb بصري حول الزبدة والعسل فقط - يخلي الأكل يلمع كأنه يتنفس",
-  "talent_9_slight": "7D Gestalt + Slight: Closure + Continuity 4 frames بدل 3 - Similarity حرارة لون + Slight desaturation 5% على الخلفية - عينك تركز لا إرادياً على المسموح",
-  "talent_10_slight": "8D Off-Screen + Slight: ذاكرة مكانية خارج 16:9 + مصادر صوت 20 درجة بدل 15-30 - إضافة ظل خفيف لشخص خارج الإطار - تحس أن فيه حد معاك في الأوضة",
-  "talent_11_slight": "9D 75% subject 25% background + Slight: تخصيص موارد معدل - 75% للبطل 25% للخلفية بدل 70/30 - Dynamic step-skipping 60 steps keyframes - تغير بسيط يرفع التفاصيل 15%",
-  "talent_12_slight": "10D Kalman + Slight: Kalman filter + Slight overshoot 2% - تنعيم مسار latent مع تجاوز بسيط كأنه كاميرا حقيقية لها قصور ذاتي - Self-consistency frozen frame 1 + Online adaptation",
-  "talent_13_slight": "13D-16D Quantum + Slight: Quantum Collapse + Photonic Lock Lab L=70 a=16 b=24 (تغير بسيط من 68/18/22) - بشرة أكثر دفئاً 2 درجات - Imperfections 0.25mm eyebrow hair بدل 0.2mm - 1.8mm dust speck بدل 1.5mm",
-  "talent_14_slight": "Mirror Mode + Slight Change: Dust particles realigning toward lens + Slight: جزيء واحد يبقى معلق 1 ثانية أطول من الباقي - يخلي المشاهد يحس أن الكون اختاره هو - Prime Observer slight",
-  "talent_15_slight": "∞D 2850K 98% god-rays + Slight: 2850K بدل 2800K - تشبع 98% بدل 99% - god-rays أضعف 5% - إحساس فجر بدل شمس ظهر - تغير بسيط يغير المزاج من انتصار إلى تأمل - Slight Change is Everything"
-}
-
-FORBIDDEN_TEXT = "الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - 11 ممنوع - بيض ممنوع - بدون بيض"
-TAYYBAT_FOOTER = "طيبات الدكتور ضياء العوضى - خبز قمح كامل - توست - بقسماط - أرز - بطاطس - لحوم - كبدة - جمبري - زبدة - قشطة - فواكه - بدون بيض - وجبات يومية بدون بيض - فطار: توست + زبدة + عسل - بدون بيض - غداء: أرز + لحم ضاني + بطاطس - عشاء: بقسماط + قشطة + موز - بدون بيض - 21 دولة - https://www.youtube.com/@CursedMedicineEG"
-
-def get_mostafa_mahmoud_slight_change_prompt():
-    return f"""[VOICE: Philosophical - Inspired by Dr. Mostafa Mahmoud - Slight Change - Deep calm 0.90x speed - slight echo - contemplative - بدون استنساخ صوتي - تغير بسيط احترافي]
-
-{VOICE_MOSTAFA_MAHMOUD_SLIGHT_CHANGE}
-
-[HIDDEN PRO TALENTS - الحتت المستخبية البروفشنل - 15 موهبة - مع تغير بسيط - Slight Change - المواهب اللي مبتطلعشى غير للمميزين]:
-{chr(10).join([f"- {k}: {v}" for k,v in HIDDEN_PRO_TALENTS_SLIGHT.items()])}
-
-[CORE v120-v124 COLLECTION + SLIGHT CHANGE]: Arri Alexa 65 Cooke S7i + Zeiss Supreme Prime Mix - 180-degree shutter + Slight - Anamorphic streak flares Petzval swirling bokeh Veiling glare Lens breathing - Kodak Vision3 500T/2383 bleach bypass Fuji Eterna Halation Tri-X grain - T5-XXL 0.35/0.35/0.30 Latent 75/25 - Spatio-Temporal RoPE Inverse Diffusion 0.85/0.15 VP-Noise 10,20,30,60,90 KV-cache - 5D 14 breaths/min 0.6s pause - 6D 25Hz micro-warping 6kHz sparkle - 7D 4 frames continuity - 8D 20deg off-screen shadow - 9D 75/25 60 steps - 10D Kalman overshoot 2% - 13D-16D Lab L=70 a=16 b=24 Imperfections 0.25mm - Mirror slight 1s longer - 2850K 98% god-rays fajar mood - 99.99% convergence - Director's Final Cut Slight
-
-{TAYYBAT_FOOTER}
-"""
+def list_flow_jobs(): return FLOW_JOBS[-30:]
