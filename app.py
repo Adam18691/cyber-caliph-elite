@@ -197,6 +197,31 @@ def health():
         "tayybat": TAYYBAT_AVAILABLE,
         "links": LINKS_6,
         "endpoints": ["/api/topics","/api/links","/api/tayybat","/api/flow/status","/api/flow/generate","/health"]
+        from flask import request, send_file
+import os, tempfile, requests
+from moviepy.editor import ImageSequenceClip
+
+@app.route('/generate-video-tayybat', methods=['POST'])
+def generate_video_tayybat():
+    data = request.json
+    images = data.get('images', [])  # لستة لينكات الصور
+    title = data.get('title', 'طيبات بدون بيض')
+    
+    # نزّل الصور مؤقتا
+    temp_dir = tempfile.mkdtemp()
+    local_images = []
+    for i, url in enumerate(images[:21]): # 21 صورة
+        r = requests.get(url)
+        path = os.path.join(temp_dir, f"{i}.jpg")
+        open(path, 'wb').write(r.content)
+        local_images.append(path)
+    
+    # اعمل الفيديو 6 دقايق = 21 صورة * ~17 ثانية للصورة
+    clip = ImageSequenceClip(local_images, fps=1/17)
+    output_path = os.path.join(temp_dir, "output.mp4")
+    clip.write_videofile(output_path, fps=24)
+    
+    return send_file(output_path, as_attachment=True)
     })
 
 if __name__=='__main__':
