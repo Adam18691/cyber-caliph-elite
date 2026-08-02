@@ -1,66 +1,15 @@
 {
-  "name": "v116_Tayybat_No_Eggs_FLOW_GOOGLE_21_External_Only_v130_FIXED_N8N_EXISTS",
+  "name": "v134 FINAL - 1min x6 - 6min 30min 60min - FULL FLOW",
   "nodes": [
     {
-      "parameters": {
-        "rule": {
-          "interval": [
-            {
-              "field": "hours",
-              "minutesInterval": 6
-            }
-          ]
-        }
-      },
-      "id": "schedule",
-      "name": "Schedule 6h",
-      "type": "n8n-nodes-base.scheduleTrigger",
+      "parameters": {},
+      "id": "manual",
+      "name": "When clicking 'Execute workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
         0,
         0
-      ]
-    },
-    {
-      "parameters": {
-        "url": "https://cyber-caliph-elite.onrender.com/api/flow/status",
-        "sendQuery": false
-      },
-      "id": "check-status",
-      "name": "Check Status - N8N EXISTS NOW",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.1,
-      "position": [
-        220,
-        0
-      ]
-    },
-    {
-      "parameters": {
-        "url": "https://cyber-caliph-elite.onrender.com/api/topics",
-        "sendQuery": false
-      },
-      "id": "get-topics",
-      "name": "Get Topics + 6 Links",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.1,
-      "position": [
-        440,
-        0
-      ]
-    },
-    {
-      "parameters": {
-        "url": "https://cyber-caliph-elite.onrender.com/api/links",
-        "sendQuery": false
-      },
-      "id": "get-links",
-      "name": "Get Video Description With 6 Links",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.1,
-      "position": [
-        440,
-        200
       ]
     },
     {
@@ -71,124 +20,205 @@
           "parameters": [
             {
               "name": "prompt",
-              "value": "Tayybat No Eggs - 11 forbidden - 6min 6links Waeldeban186 - v130 FINAL - N8N EXISTS"
+              "value": "Tayybat No Eggs - 11 forbidden - 1min x6 - Waeldeban186 - v134"
             },
             {
               "name": "model",
               "value": "imagen-3.0-generate-001"
             }
           ]
-        }
+        },
+        "options": {}
       },
-      "id": "flow-21",
-      "name": "Generate 21 Countries + 6 Links",
+      "id": "gen21",
+      "name": "1️⃣ Generate 21 Images",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
       "position": [
-        660,
+        300,
         0
       ]
     },
     {
       "parameters": {
         "url": "https://cyber-caliph-elite.onrender.com/api/flow/list",
-        "sendQuery": false
+        "sendQuery": true
       },
-      "id": "list-flow",
-      "name": "List Images",
+      "id": "list",
+      "name": "2️⃣ List Images",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
       "position": [
-        880,
+        600,
         0
       ]
     },
     {
       "parameters": {
-        "url": "https://cyber-caliph-elite.onrender.com/health",
-        "sendQuery": false
+        "url": "https://cyber-caliph-elite.onrender.com/generate-video-tayybat",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "total_minutes",
+              "value": 6
+            },
+            {
+              "name": "images",
+              "value": "={{ $json.jobs.map(j => j.file || j.url) }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": false,
+              "responseFormat": "file",
+              "outputPropertyName": "data"
+            }
+          }
+        }
       },
-      "id": "health",
-      "name": "Health Check",
+      "id": "video6",
+      "name": "3️⃣ CREATE VIDEO 6min (1min×6)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
       "position": [
-        880,
-        200
+        900,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://cyber-caliph-elite.onrender.com/generate-video-tayybat",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "total_minutes",
+              "value": 30
+            },
+            {
+              "name": "images",
+              "value": "={{ $('2️⃣ List Images').item.json.jobs.map(j => j.file || j.url) }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "data30"
+            }
+          }
+        }
+      },
+      "id": "video30",
+      "name": "3️⃣ CREATE VIDEO 30min (24+6)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        900,
+        150
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://cyber-caliph-elite.onrender.com/generate-video-tayybat",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "total_minutes",
+              "value": 60
+            },
+            {
+              "name": "images",
+              "value": "={{ $('2️⃣ List Images').item.json.jobs.map(j => j.file || j.url) }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "data60"
+            }
+          }
+        }
+      },
+      "id": "video60",
+      "name": "3️⃣ CREATE VIDEO 60min (54+6)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        900,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://cyber-caliph-elite.onrender.com/api/links",
+        "sendQuery": true
+      },
+      "id": "links",
+      "name": "Get Links + Description",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        600,
+        350
       ]
     }
   ],
   "connections": {
-    "Schedule 6h": {
+    "When clicking 'Execute workflow'": {
       "main": [
         [
           {
-            "node": "Check Status - N8N EXISTS NOW",
+            "node": "1️⃣ Generate 21 Images",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Check Status - N8N EXISTS NOW": {
+    "1️⃣ Generate 21 Images": {
       "main": [
         [
           {
-            "node": "Get Topics + 6 Links",
+            "node": "2️⃣ List Images",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2️⃣ List Images": {
+      "main": [
+        [
+          {
+            "node": "3️⃣ CREATE VIDEO 6min (1min×6)",
             "type": "main",
             "index": 0
           },
           {
-            "node": "Get Video Description With 6 Links",
+            "node": "3️⃣ CREATE VIDEO 30min (24+6)",
             "type": "main",
             "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Topics + 6 Links": {
-      "main": [
-        [
+          },
           {
-            "node": "Generate 21 Countries + 6 Links",
+            "node": "3️⃣ CREATE VIDEO 60min (54+6)",
             "type": "main",
             "index": 0
-          }
-        ]
-      ]
-    },
-    "Generate 21 Countries + 6 Links": {
-      "main": [
-        [
+          },
           {
-            "node": "List Images",
+            "node": "Get Links + Description",
             "type": "main",
             "index": 0
           }
         ]
       ]
     }
-  },
-  "meta": {
-    "FILE": "n8n_workflows/v116_Tayybat_No_Eggs_Flow_Google_21_External_Only.json",
-    "fix": "v130 FINAL - حل نهائي لمشكلة ملف n8n غير موجود - الآن الملف موجود - الصور كانت تبين عدم وجود مجلد n8n_workflows في GitHub - الحل: هذا الملف موجود الآن + README.md",
-    "forbidden": "دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة - بيض - 11 ممنوع",
-    "forbidden_count": 11,
-    "no_eggs": true,
-    "tayybat": true,
-    "links": {
-      "monoprice": "https://yazing.com/deals/monoprice/Waeldeban186",
-      "landsend": "https://yazing.com/deals/landsend/Waeldeban186",
-      "shopsimon": "https://yazing.com/deals/shopsimon/Waeldeban186",
-      "colehaan": "https://yazing.com/deals/colehaan/Waeldeban186",
-      "hfonline": "https://yazing.com/deals/hfonline-uk/Waeldeban186",
-      "kieai": "https://kie.ai?ref=0e3195dd062bf11f0da7496dd3c1bf66"
-    },
-    "total_product_time": "6 دقائق لـ 6 لينكات - دقيقة لكل منتج",
-    "video_description": "وصف الفيديو مع 6 لينكات - Monoprice LandsEnd ShopSimon ColeHaan HFOnlineUK KieAI - 6 دقائق",
-    "n8n_exists": true,
-    "github_fix": "git add n8n_workflows/ && git commit -m 'Fix n8n file not found - add n8n_workflows folder v130' && git push",
-    "channel": "https://www.youtube.com/@CursedMedicineEG",
-    "v": "v130 FINAL - N8N EXISTS - 6min 6links - video description with links - 0.000000000001s"
   }
 }
