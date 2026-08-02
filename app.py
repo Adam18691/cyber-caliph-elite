@@ -1,11 +1,27 @@
 
-# FILE: app.py - v134 FINAL - كل لينك 1 دقيقة ×6=6 دقايق - فيديو 30/45/60 دقيقة
+# FILE: app.py - v135 FIX ANTIALIAS - كل لينك 1 دقيقة ×6=6 دقايق - فيديو 30/45/60 دقيقة
 import os, sys, tempfile, time, math
 from pathlib import Path
 from datetime import datetime
 import requests
 import numpy as np
 sys.dont_write_bytecode = True
+
+# FIX PIL ANTI ALIAS - Pillow 10+ removed ANTIALIAS - MUST BE BEFORE moviepy
+try:
+    from PIL import Image
+    if not hasattr(Image, 'ANTIALIAS'):
+        Image.ANTIALIAS = Image.LANCZOS
+    if not hasattr(Image, 'ANTIALIAS'):
+        Image.ANTIALIAS = Image.Resampling.LANCZOS
+except:
+    pass
+try:
+    import PIL.Image
+    if not hasattr(PIL.Image, 'ANTIALIAS'):
+        PIL.Image.ANTIALIAS = PIL.Image.LANCZOS
+except:
+    pass
 
 FORBIDDEN_TEXT = "الممنوعات: دجاج - لبن - زبادي - خضار - بقوليات - فول - عدس - حمص - شاي - قهوة + بيض - 11 ممنوع - بيض ممنوع - بدون بيض"
 FORBIDDEN_ITEMS = ["دجاج","لبن","زبادي","خضار","بقوليات","فول","عدس","حمص","شاي","قهوة","بيض"]
