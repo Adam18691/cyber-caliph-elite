@@ -1,5 +1,5 @@
-# FILE: app.py - v144 FINAL - v115 + v143 MERGED - 54+6=60min - 502 FIX - 0.00000000000001
-import os, sys, tempfile, subprocess
+# FILE: app.py - v145 KEEP ALIVE BUILT-IN - 54+6=60min - ANTI SLEEP - 0.00000000000001
+import os, sys, tempfile, subprocess, threading, time, random
 sys.dont_write_bytecode=True
 try:
     from PIL import Image
@@ -12,6 +12,44 @@ except: pass
 import requests
 from pathlib import Path
 from datetime import datetime
+
+# ========= 0. KEEP ALIVE SERVICE - BUILT-IN - ANTI SLEEP =========
+# هذه المكتبة تمنع Render من النوم - تعمل ping كل 4 دقايق
+KEEP_ALIVE_URL = os.environ.get("RENDER_EXTERNAL_URL", "https://cyber-caliph-elite.onrender.com")
+KEEP_ALIVE_ENABLED = True
+
+def keep_alive_service():
+    """خدمة إبقاء السيرفر نشط - تعمل في الخلفية"""
+    print("[KEEP-ALIVE] Service started - will ping every 4 minutes")
+    time.sleep(10)  # انتظار حتى السيرفر يشتغل
+    while KEEP_ALIVE_ENABLED:
+        try:
+            # ping نقاط مختلفة لضمان النشاط
+            urls_to_ping = [
+                f"{KEEP_ALIVE_URL}/health",
+                f"{KEEP_ALIVE_URL}/alive",
+                f"{KEEP_ALIVE_URL}/wake"
+            ]
+            for url in urls_to_ping:
+                try:
+                    r = requests.get(url, timeout=10)
+                    print(f"[KEEP-ALIVE] Ping {url} - Status: {r.status_code} - {datetime.now().strftime('%H:%M:%S')}")
+                    time.sleep(5)
+                except Exception as e:
+                    print(f"[KEEP-ALIVE] Failed {url}: {e}")
+            # انتظار 3-5 دقايق (أقل من حد 15 دقيقة لـ Render)
+            sleep_time = random.randint(180, 300)
+            print(f"[KEEP-ALIVE] Sleeping {sleep_time}s until next ping...")
+            time.sleep(sleep_time)
+        except Exception as e:
+            print(f"[KEEP-ALIVE] Error: {e}")
+            time.sleep(60)
+
+# تشغيل خدمة keep alive في thread منفصل (daemon)
+def start_keep_alive_thread():
+    thread = threading.Thread(target=keep_alive_service, daemon=True, name="KeepAlive")
+    thread.start()
+    print("[KEEP-ALIVE] Thread started in background")
 
 # ========= 1. FLOW =========
 FLOW_AVAILABLE=False
@@ -60,7 +98,7 @@ except:
     def get_video_description_with_links(): return VIDEO_DESCRIPTION
     def get_links_6(): return LINKS_6
 
-# ========= 3. LINKS 6 DETAILED FOR VIDEO =========
+# ========= 3. LINKS DETAILED =========
 LINKS_6_DETAILED = {
     "monoprice": {"url": "https://yazing.com/deals/monoprice/Waeldeban186", "discount": "70%", "name": "Monoprice"},
     "landsend": {"url": "https://yazing.com/deals/landsend/Waeldeban186", "discount": "60%", "name": "Lands End"},
@@ -74,9 +112,12 @@ LINKS_6_DETAILED = {
 from flask import Flask, Response, request, jsonify, send_file
 app=Flask(__name__)
 
+# تشغيل خدمة keep alive عند بدء التطبيق
+start_keep_alive_thread()
+
 def get_html():
     p=Path(__file__).parent/"templates"/"index.html"
-    return p.read_text(encoding="utf-8") if p.exists() else f"<html><body><h1>v144 MERGED - 54+6=60min - {FORBIDDEN_TEXT}</h1></body></html>"
+    return p.read_text(encoding="utf-8") if p.exists() else f"<html><body><h1>v145 KEEP ALIVE - 54+6=60min - ANTI SLEEP - {FORBIDDEN_TEXT}</h1><p>Keep Alive: ACTIVE - Pings every 4min</p></body></html>"
 
 @app.route('/')
 def index():
@@ -84,16 +125,49 @@ def index():
     resp=Response(html,mimetype='text/html')
     resp.headers['X-Flow-Available']=str(FLOW_AVAILABLE)
     resp.headers['X-Tayybat']="0.00000000000001"
-    resp.headers['X-Version']="v144-MERGED-502-FIX"
-    resp.headers['X-Forbidden-Count']="11"
+    resp.headers['X-Version']="v145-KEEP-ALIVE-54+6"
+    resp.headers['X-Keep-Alive']="ACTIVE"
     return resp
+
+# ---- KEEP ALIVE ENDPOINTS ----
+@app.route('/alive')
+def alive():
+    """نقطة نهاية keep alive - تمنع السيرفر من النوم"""
+    return jsonify({
+        "status":"alive",
+        "version":"v145 KEEP ALIVE",
+        "timestamp": datetime.now().isoformat(),
+        "message":"Server is alive - keep alive ping",
+        "uptime":"active",
+        "keep_alive":"ACTIVE - pings every 4min"
+    })
+
+@app.route('/health')
+def health():
+    return jsonify({
+        "status": "ok",
+        "version": "v145 KEEP ALIVE BUILT-IN - 54+6=60min - ANTI SLEEP - 0.00000000000001",
+        "structure":"54min content (9min x6) + 6min links (1min x6) = 60min",
+        "speed":"0.00000000000001",
+        "forbidden":FORBIDDEN_TEXT,
+        "forbidden_count":11,
+        "flow_available":FLOW_AVAILABLE,
+        "tayybat":TAYYBAT_AVAILABLE,
+        "keep_alive":"ACTIVE - built-in thread pings every 3-5min",
+        "keep_alive_url": KEEP_ALIVE_URL,
+        "endpoints": ["/","/health","/alive","/wake","/generate-video-tayybat","/api/video/montage-60","/api/links"],
+        "fix":"502 Bad Gateway fixed + Keep Alive built-in - no more sleep"
+    })
+
+@app.route('/wake')
+def wake():
+    return jsonify({"status":"awake","version":"v145","keep_alive":"ACTIVE","message":"Server awake - ready for 54+6=60min - keep alive active"})
 
 # ---- v115 endpoints ----
 @app.route('/api/topics')
 def topics_api():
     info=get_tayybat_info()
     info["flow_available"]=FLOW_AVAILABLE
-    info["flow_location"]=FLOW_LOCATION
     return jsonify(info)
 
 @app.route('/api/links')
@@ -101,8 +175,7 @@ def links_api():
     try:
         links = get_links_6()
         desc = get_video_description_with_links()
-        info = get_tayybat_info()
-        return jsonify({"links": links,"description": desc,"forbidden": FORBIDDEN_TEXT,"forbidden_items": FORBIDDEN_ITEMS,"forbidden_count": 11,"flow_available": FLOW_AVAILABLE,"status": "ok"})
+        return jsonify({"links": links,"description": desc,"forbidden": FORBIDDEN_TEXT,"forbidden_count": 11,"flow_available": FLOW_AVAILABLE,"status": "ok","keep_alive":"ACTIVE"})
     except Exception as e:
         return jsonify({"status":"error","error":str(e)[:200]}),500
 
@@ -110,7 +183,7 @@ def links_api():
 def tayybat_api():
     info=get_tayybat_info()
     info["flow_available"]=FLOW_AVAILABLE
-    info["tayybat"]=True
+    info["keep_alive"]="ACTIVE"
     return jsonify(info)
 
 @app.route('/api/flow/generate',methods=['POST'])
@@ -131,36 +204,9 @@ def flow_list():
 
 @app.route('/api/flow/status')
 def flow_status():
-    return jsonify({"flow_available":FLOW_AVAILABLE,"flow_location":FLOW_LOCATION,"forbidden":FORBIDDEN_TEXT,"forbidden_count":11,"tayybat":TAYYBAT_AVAILABLE})
+    return jsonify({"flow_available":FLOW_AVAILABLE,"flow_location":FLOW_LOCATION,"forbidden":FORBIDDEN_TEXT,"forbidden_count":11,"tayybat":TAYYBAT_AVAILABLE,"keep_alive":"ACTIVE"})
 
-@app.route('/api/keys/save',methods=['POST'])
-def save_keys():
-    try:
-        data=request.get_json()
-        return jsonify({"status":"success","forbidden":FORBIDDEN_TEXT,"forbidden_count":11})
-    except Exception as e:
-        return jsonify({"status":"error","error":str(e)[:100]})
-
-# ---- v143 video endpoints - 502 FIX ----
-@app.route('/health')
-def health():
-    return jsonify({
-        "status": "ok",
-        "version": "v144 MERGED - v115 + v143 - 54+6=60min - 502 FIX - 0.00000000000001",
-        "structure":"54min content (9min x6) + 6min links (1min x6) = 60min",
-        "speed":"0.00000000000001",
-        "forbidden":FORBIDDEN_TEXT,
-        "forbidden_count":11,
-        "flow_available":FLOW_AVAILABLE,
-        "tayybat":TAYYBAT_AVAILABLE,
-        "endpoints": ["/api/topics","/api/links","/api/tayybat","/health","/wake","/generate-video-tayybat","/api/video/montage-60"],
-        "fix":"502 Bad Gateway fixed - now has generate-video-tayybat"
-    })
-
-@app.route('/wake')
-def wake():
-    return jsonify({"status":"awake","version":"v144","message":"Server awake - ready for 54+6=60min video - 502 fixed"})
-
+# ---- video generation ----
 def make_link_img(text, url, discount, path, idx):
     from PIL import Image, ImageDraw
     img=Image.new('RGB',(320,180),color=[(0,100,0),(0,80,120),(120,0,0),(100,0,100),(120,80,0),(0,100,100)][idx%6])
@@ -206,7 +252,7 @@ def build_54_6_extreme(temp_dir, content_paths):
             f.write(f"file '{lp}'\n")
             f.write(f"duration {link_per_block}\n")
         f.write(f"file '{lp}'\n")
-    out=os.path.join(temp_dir,"tayybat_54_6_60min_v144_0.00000000000001.mp4")
+    out=os.path.join(temp_dir,"tayybat_54_6_60min_v145_KEEPALIVE_0.00000000000001.mp4")
     cmd=["ffmpeg","-y","-f","concat","-safe","0","-i",list_file,"-vf","scale=640:360","-c:v","libx264","-preset","ultrafast","-crf","35","-pix_fmt","yuv420p","-r","8",out]
     subprocess.run(cmd, check=False, timeout=300, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     return out
@@ -219,7 +265,7 @@ def gen_tayybat():
         if not images and 'jobs' in data:
             jobs=data['jobs']
             images=[j.get('file') or j.get('url') for j in jobs if isinstance(j,dict) and (j.get('file') or j.get('url'))]
-        temp_dir=tempfile.mkdtemp(prefix="v144_")
+        temp_dir=tempfile.mkdtemp(prefix="v145_")
         local=[]
         for i,url in enumerate(images[:6]):
             try:
@@ -231,20 +277,17 @@ def gen_tayybat():
                         local.append(p)
             except: continue
         out=build_54_6_extreme(temp_dir, local)
-        return send_file(out,as_attachment=True,download_name="tayybat_54c_6l_60min_v144_0.00000000000001.mp4",mimetype='video/mp4')
+        return send_file(out,as_attachment=True,download_name="tayybat_54c_6l_60min_v145_KEEPALIVE_0.00000000000001.mp4",mimetype='video/mp4')
     except Exception as e:
         import traceback; traceback.print_exc()
         return jsonify({"error":str(e)[:2000]}),500
 
 @app.route('/api/video/montage-60', methods=['POST','GET'])
 def m60(): return gen_tayybat()
-
 @app.route('/api/video/montage-54-6', methods=['POST','GET'])
 def m54_6(): return gen_tayybat()
-
 @app.route('/generate-video', methods=['POST','GET'])
-def gen_compat():
-    return gen_tayybat()
+def gen_compat(): return gen_tayybat()
 
 if __name__=='__main__':
     app.run(host='0.0.0.0',port=int(os.environ.get("PORT",5000)))
