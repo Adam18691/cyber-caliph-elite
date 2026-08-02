@@ -4,21 +4,9 @@ services:
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn --worker-class gthread -w 1 --threads 25 --preload --timeout 30 --keep-alive 1 --graceful-timeout 1 --max-requests 2000 app:app --bind 0.0.0.0:$PORT
+    startCommand: gunicorn --worker-class gthread -w 1 --threads 25 --preload --timeout 300 --keep-alive 5 --graceful-timeout 10 --max-requests 2000 app:app --bind 0.0.0.0:$PORT
     envVars:
-      - key: CHANNEL_URL
-        value: https://www.youtube.com/@CursedMedicineEG
-      - key: CHANNEL_HANDLE
-        value: "@CursedMedicineEG"
       - key: PYTHON_VERSION
         value: 3.11.9
-      - key: YOUTUBE_API_KEY
-        sync: false
-      - key: YOUTUBE_CLIENT_ID
-        sync: false
-      - key: YOUTUBE_CLIENT_SECRET
-        sync: false
-      - key: YOUTUBE_REFRESH_TOKEN
-        sync: false
-      - key: GROQ_API_KEY
-        sync: false
+      - key: CHANNEL_URL
+        value: https://www.youtube.com/@CursedMedicineEG
