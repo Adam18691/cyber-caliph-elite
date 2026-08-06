@@ -1,9 +1,9 @@
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, BackgroundTasks
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-import random
+import random, os, time, requests
 
-app = FastAPI(title="SULEIMANI ULTRA 10B - 3 LINKS VIDEO - VIP")
+app = FastAPI(title="ULTRA VIP - KIE + GEMINI + GROQ")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"], allow_credentials=True)
 
 AFF = [
@@ -12,7 +12,7 @@ AFF = [
     "https://yazing.com/deals/shopsimon/Waeldeban186",
     "https://yazing.com/deals/colehaan/Waeldeban186",
     "https://yazing.com/deals/hfonline-uk/Waeldeban186",
-    "https://kie.ai?ref=0e3195dd062bf11f0da7496dd3c1bf66",
+    "https://kie.ai?ref=0e3195dd062b11f0da7496dd3c1bf66",
     "https://yazing.com/deals/hp-ca/Waeldeban186",
     "https://yazing.com/deals/lifeextension/Waeldeban186",
     "https://yazing.com/deals/lumens/Waeldeban186",
@@ -20,12 +20,52 @@ AFF = [
     "https://yazing.com/deals/muckbootcompany/Waeldeban186",
     "https://yazing.com/deals/sunberhair/Waeldeban186",
 ]
-
 DISEASES = {
-    "colon": {"ar": "القولون", "forbidden": ["العيش", "البقوليات"], "allowed": ["الارز", "الشعير"]},
-    "sugar": {"ar": "السكر", "forbidden": ["العيش", "السكر"], "allowed": ["الشعير", "زيت الزيتون"]},
+    "colon": {"ar": "القولون", "forbidden": ["العيش", "البقوليات"], "allowed": ["الارز", "التلبينة"]},
+    "sugar": {"ar": "السكري", "forbidden": ["العيش", "السكر"], "allowed": ["الشعير", "زيت الزيتون"]},
     "pressure": {"ar": "الضغط", "forbidden": ["الملح", "الشيبسي"], "allowed": ["التلبينة", "الكركديه"]},
 }
+
+# ذاكرة مؤقتة للفيديوهات
+VIDEO_JOBS = {}
+
+def generate_with_kie(prompt):
+    try:
+        key = os.getenv("KIE_API_KEY")
+        if not key: return None
+        # KIE API - Kling Fast (اسرع واحد 15 ثانية)
+        r = requests.post("https://api.kie.ai/api/v1/jobs/createTask",
+            headers={"Authorization": f"Bearer {key}"},
+            json={"model": "kling-v2-1", "input": {"prompt": prompt, "duration": 5}},
+            timeout=30)
+        data = r.json()
+        task_id = data.get("data", {}).get("taskId")
+        if not task_id: return None
+        # انتظر
+        for _ in range(30):
+            time.sleep(5)
+            check = requests.get(f"https://api.kie.ai/api/v1/jobs/recordInfo?taskId={task_id}",
+                headers={"Authorization": f"Bearer {key}"}).json()
+            if check.get("data", {}).get("state") == "success":
+                return check["data"]["resultJson"]["resultUrls"][0]
+        return None
+    except: return None
+
+def generate_with_gemini(prompt):
+    try:
+        from google import genai
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key: return None
+        client = genai.Client(api_key=api_key)
+        op = client.models.generate_videos(model="veo-3.0-fast-generate-001", prompt=prompt)
+        while not op.done:
+            time.sleep(10)
+            op = client.operations.get(op)
+        uri = op.response.generated_videos[0].video.uri
+        return f"{uri}&key={api_key}"
+    except Exception as e:
+        print(e)
+        return None
 
 @app.get("/", response_class=HTMLResponse)
 def home():
@@ -34,65 +74,35 @@ def home():
 @app.get("/api/ultra")
 def ultra(disease: str = "colon"):
     links = random.sample(AFF, 6)
-    video_links = links[:3]
+    vlinks = links[:3]
     dis = DISEASES.get(disease, DISEASES["colon"])
     forb = random.choice(dis["forbidden"])
     allow = random.choice(dis["allowed"])
-    quote = random.choice(["انت مش مريض انت بتاكل غلط", "بطنك هي مخك التاني", "القولون بيت الداء", "التلبينة مجمة لفؤاد المريض"])
-
-    title_ar = f"💀 {quote} | {forb} سم قاتل يدمر {dis['ar']} | {allow} يرمم في 7 ايام | نظام الطيبات 10000000000%"
-    title_en = f"💀 {forb} KILLS {dis['ar']} | {allow} HEALS | Tayyibat 10000000000%"
-    title_fr = f"💀 {forb} tue {dis['ar']} | {allow} guerit | Tayyibat"
-    title_de = f"💀 {forb} totet | {allow} heilt | Tayyibat"
-
-    description = f"""{title_ar}
-
-🎬 3 لينكات تظهر في الفيديو:
-
-00:00 مقدمة: {quote}
-01:00 {forb} يدمر {dis['ar']}
-OVERLAY VIDEO LINK 1: {video_links[0]}
-
-02:00 {allow} يرمم المعدة - مجمة لفؤاد المريض
-OVERLAY VIDEO LINK 2: {video_links[1]}
-
-04:00 مصانع الادوية تخفي + علاج بدون ادوية
-OVERLAY VIDEO LINK 3: {video_links[2]}
-
-📝 الوصف الكامل - 6 لينكات:
-LINK1: {links[0]}
-LINK2: {links[1]}
-LINK3: {links[2]}
-LINK4: {links[3]}
-LINK5: {links[4]}
-LINK6: {links[5]}
-
-جرب KIE.AI: https://kie.ai?ref=0e3195dd062bf11f0da7496dd3c1bf66
-
-#نظام_الطيبات #دكتور_ضياء_العوضي #Waeldeban186 #10000000000%
-"""
-
+    title = f"💀 {allow} يرمم {dis['ar']} | {forb} سم قاتل | نظام الطيبات 10000000000%"
+    desc = f"{title}\n\nLINK1: {links[0]}\nLINK2: {links[1]}\nLINK3: {links[2]}\nLINK4: {links[3]}\nLINK5: {links[4]}\nLINK6: {links[5]}\n\nOVERLAY: {vlinks}"
     return {
-        "title_ar": title_ar,
-        "title_en": title_en,
-        "title_fr": title_fr,
-        "title_de": title_de,
-        "description": description,
-        "video_links_3": video_links,
+        "title_ar": title,
+        "title_en": title,
+        "title_fr": title,
+        "title_de": title,
+        "description": desc,
+        "video_links_3": vlinks,
         "description_links_6": links,
-        "video_structure": f"دقيقة 1: {video_links[0]} | دقيقة 2: {video_links[1]} | دقيقة 4: {video_links[2]}",
-        "thumbnail_prompt": f"32K ULTRA split RED X {forb} GREEN CHECK {allow} TEXT الطيبات giant gold glow - 3 products overlay - Pharma $ X - CTR 22% - VIP HIDDEN",
-        "video_prompt": f"32K TOP-DOWN 90 + CLOSE-UP macro f1.2 1000fps honey drip - {allow} vs {forb} - 3 LINKS OVERLAY BURNED IN VIDEO: {video_links[0]} at 01:00, {video_links[1]} at 02:00, {video_links[2]} at 04:00 - TEXT الطيبات only - NO FACE - ULTRA HIDDEN",
-        "seo_tags": ["نظام الطيبات", "دكتور ضياء العوضي", f"علاج {dis['ar']}", "مصانع الادوية تخفي", "10000000000%", "Waeldeban186"],
-        "countries": ["سويسرا", "السويد", "فرنسا", "المانيا", "UK", "النرويج", "USA", "بلجيكا", "ايرلندا", "ايطاليا", "هولندا", "استراليا", "زيمبابوي", "فوكلاند", "سانت هيلينا", "جنوب السودان", "ساموا", "كندا", "مصر"],
-        "hidden_vip": "3 LINKS VIDEO + 6 LINKS DESCRIPTION - 10000000000% VIP ONLY"
+        "video_prompt": f"32K macro honey drip {allow} vs {forb} Islamic golden light",
+        "video_file_direct": f"https://cyber-caliph-elite.onrender.com/api/generate-video?prompt={allow} vs {forb}",
+        "seo_tags": ["نظام الطيبات", allow, forb],
     }
 
-@app.get("/api/6min3links")
-def six_three():
-    links = random.sample(AFF, 6)
-    return {"video_3": links[:3], "desc_6": links}
+@app.get("/api/generate-video")
+def gen_video(prompt: str):
+    # 1- جرب KIE (اسرع 15ث)
+    url = generate_with_kie(prompt)
+    if url: return {"status": "done", "video_file": url, "provider": "KIE Kling 15s"}
+    # 2- جرب Gemini Veo 3 Fast (60ث)
+    url = generate_with_gemini(prompt)
+    if url: return {"status": "done", "video_file": url, "provider": "GEMINI Veo3 Fast 60s"}
+    return {"error": "No provider worked, check KIE_API_KEY and GEMINI_API_KEY in Render"}
 
 @app.get("/health")
 def health():
-    return {"status": "ULTRA 10B - 3 LINKS VIDEO - 6 LINKS DESC - شغال VIP", "aff": len(AFF)}
+    return {"keys": {"KIE": bool(os.getenv("KIE_API_KEY")), "GEMINI": bool(os.getenv("GEMINI_API_KEY")), "GROQ": bool(os.getenv("GROQ_API_KEY"))}}
