@@ -1,11 +1,10 @@
 import os, random, string
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI(title="Cyber Caliph - ULTRA CLEAN 19 LANG PURE")
+app = FastAPI(title="CursedMedicineEG - ULTRA CLEAN 19 LANG")
 
-# --- CORS ---
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -13,104 +12,110 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- FIX 405 HEAD - ده اللي كان مبوظ الدنيا ---
+# === FIX 405 HEAD - ده كان سبب الـ 503 في n8n ===
 @app.api_route("/", methods=["GET", "HEAD"], include_in_schema=False)
 def home():
-    return HTMLResponse("""
-    <h1 style='font-family:monospace'>ULTRA CLEAN READY - 19 PURE LANG ✅</h1>
-    <p><a href='/health'>/health</a> | <a href='/api/ultra?disease=sugar'>/api/ultra?disease=sugar</a> | <a href='/api/daily-2-videos'>/api/daily-2-videos</a></p>
-    <p>Countries: 19 | has_groq: {}</p>
-    """.format(bool(os.getenv("GROQ_API_KEY"))))
+    return HTMLResponse(f"""
+    <h1>CursedMedicineEG - ULTRA CLEAN READY ✅</h1>
+    <p>Channel: <a href='https://www.youtube.com/@CursedMedicineEG'>@CursedMedicineEG</a></p>
+    <p><a href='/health'>/health</a> | <a href='/api/ultra?disease=sugar'>/api/ultra</a></p>
+    <p>has_groq: {bool(os.getenv('GROQ_API_KEY'))} | Countries: 19</p>
+    """)
 
 @app.api_route("/health", methods=["GET", "HEAD"])
 def health():
     return {
         "status": "ULTRA CLEAN READY - 19 PURE LANG",
+        "channel": "https://www.youtube.com/@CursedMedicineEG",
         "countries": 19,
-        "has_groq": bool(os.getenv("GROQ_API_KEY")),
-        "system": "ULTRA CLEAN - 19 LANG PURE"
+        "has_groq": bool(os.getenv("GROQ_API_KEY"))
     }
 
-# ده بيحل اي HEAD من UptimeRobot / Render
+# اي HEAD من Render / UptimeRobot يرجع 200
 @app.api_route("/{full_path:path}", methods=["HEAD"])
-def head_catch_all(full_path: str):
+def head_fix(full_path: str):
     return HTMLResponse("", status_code=200)
 
-# --- DATA VAULT - 19 LANG PURE ---
-DISEASES = {
-    "sugar": {"ar": "السكري", "en": "Diabetes", "cure": "الشعير والتلبينة"},
-    "colon": {"ar": "القولون", "en": "Colon", "cure": "اللبن الرائب"},
-    "pressure": {"ar": "الضغط", "en": "Blood Pressure", "cure": "الحجامة وزيت الزيتون"},
-    "heart": {"ar": "القلب", "en": "Heart", "cure": "زبدة البقر وترك الزيوت"},
-    "kidney": {"ar": "الكلى", "en": "Kidney", "cure": "الماء وترك السكر"},
-    "liver": {"ar": "الكبد", "en": "Liver", "cure": "الكوارع والدهن الحيواني"},
-    "bones": {"ar": "العظام", "en": "Bones", "cure": "الجبن القريش والبيض البلدي"},
-    "cancer": {"ar": "السرطان", "en": "Cancer", "cure": "الصيام ونظام الطيبات"},
+# === CHANNEL CONFIG ===
+CHANNEL_URL = "https://www.youtube.com/@CursedMedicineEG"
+CHANNEL_NAME = "CursedMedicineEG"
+
+TOPICS = {
+    "sugar": {"ar": "السكري والتغذية", "en": "Sugar & Nutrition"},
+    "colon": {"ar": "القولون والهضم", "en": "Colon & Digestion"},
+    "pressure": {"ar": "ضغط الدم", "en": "Blood Pressure"},
+    "heart": {"ar": "صحة القلب", "en": "Heart Health"},
+    "liver": {"ar": "صحة الكبد", "en": "Liver Health"},
+    "kidney": {"ar": "صحة الكلى", "en": "Kidney Health"},
+    "bones": {"ar": "صحة العظام", "en": "Bone Health"},
+    "cancer": {"ar": "التوعية الصحية", "en": "Health Awareness"},
 }
 
-FORBIDDEN = ["البسكويت", "الخبز", "السكر الابيض", "الزيوت النباتية", "الدقيق الابيض"]
-FLAGS = {"EG":"🇪🇬","SA":"🇸🇦","US":"🇺🇸","FR":"🇫🇷","DE":"🇩🇪","SE":"🇸🇪","IT":"🇮🇹","NL":"🇳🇱","NO":"🇳🇴","AU":"🇦🇺","GB":"🇬🇧","CA":"🇨🇦","BR":"🇧🇷","TR":"🇹🇷","AE":"🇦🇪","QA":"🇶🇦","KW":"🇰🇼","MA":"🇲🇦","DZ":"🇩🇿"}
+FORBIDDEN_LIST = ["الخبز الابيض", "السكر المكرر", "الزيوت المهدرجة", "الدقيق الابيض", "المشروبات الغازية"]
 
-def make_titles(disease_key):
-    d = DISEASES.get(disease_key, DISEASES["sugar"])
-    forbid = random.choice(FORBIDDEN)
-    titles = {
-        "title_ar": f"⚠️ {forbid} سم قاتل يدمر {d['ar']} | {d['cure']} يرمم في 7 ايام | 2026 | الانسولين سبوبة نهائيا",
-        "title_en": f"💀 FORBIDDEN {forbid} DESTROYS {d['en']} | Barley CURES in 7 Days | Tayyibat System 10000000000% | Insulin is a business",
-        "title_fr": f"💀 INTERDIT {forbid} DETRUIT {d['en']} | Barley GUERIT en 7 Jours | Tayyibat",
-        "title_de": f"💀 VERBOTEN {forbid} ZERSTORT {d['en']} | Barley HEILT in 7 Tagen | Tayyibat",
-        "title_sv": f"💀 FORBJUDET {forbid} FORSTOR {d['en']} | Barley BOTAR pa 7 Dagar | Tayyibat",
-        "title_it": f"💀 VIETATO {forbid} DISTRUGGE {d['en']} | Barley CURA in 7 Giorni | Tayyibat",
-        "title_nl": f"💀 VERBODEN {forbid} VERNIETIGT {d['en']} | Barley GENEEST in 7 Dagen | Tayyibat",
-        "title_no": f"💀 FORBUDT {forbid} ODELEGGER {d['en']} | Barley HELBREDER pa 7 Dager | Tayyibat",
-    }
-    return titles, d, forbid
+FLAGS = ["EG","SA","US","FR","DE","SE","IT","NL","NO","AU","GB","CA","BR","TR","AE","QA","KW","MA","DZ"]
 
 def make_links():
     base = "https://cyber-caliph-elite.onrender.com/go/"
-    codes = [''.join(random.choices(string.ascii_lowercase + string.digits, k=4)) for _ in range(6)]
-    return [base + c for c in codes]
+    return [base + ''.join(random.choices(string.ascii_lowercase+string.digits, k=4)) for _ in range(6)]
 
-# --- API CORE ---
 @app.api_route("/api/ultra", methods=["GET", "HEAD"])
 def api_ultra(disease: str = "sugar"):
-    titles, d, forbid = make_titles(disease)
+    topic = TOPICS.get(disease, TOPICS["sugar"])
+    forbid = random.choice(FORBIDDEN_LIST)
     
-    video_prompt = f"Cinematic 8K Barley honey drip repairing {d['en']} vs {forbid} poison, Dr Diaa style, Tayyibat System, ultra clean food healing, no sugar no flour"
-    
-    links = make_links()
-    countries_data = []
-    for code, flag in FLAGS.items():
-        countries_data.append({"code": code, "flag": flag, "title": titles["title_en"][:60]})
+    # عناوين آمنة لليوتيوب - قوية بدون ادعاء شفاء
+    titles = {
+        "title_ar": f"الحقيقة المظلمة عن {forbid} و {topic['ar']} | ماذا يقول نظام الطيبات؟ | {CHANNEL_NAME}",
+        "title_en": f"The Cursed Truth About {forbid} & {topic['en']} | Tayyibat System Explained | {CHANNEL_NAME}",
+        "title_fr": f"La vérité maudite sur {forbid} et {topic['en']} | Système Tayyibat | {CHANNEL_NAME}",
+        "title_de": f"Die verfluchte Wahrheit über {forbid} & {topic['en']} | Tayyibat System | {CHANNEL_NAME}",
+        "title_es": f"La verdad maldita sobre {forbid} y {topic['en']} | Sistema Tayyibat",
+        "title_it": f"La verità maledetta su {forbid} e {topic['en']} | Sistema Tayyibat",
+    }
 
-    result = {
+    # برومبت فيديو تعليمي - مش علاجي
+    video_prompt = f"Dark medical documentary style, cinematic 8k, exploring traditional foods like barley and {topic['en']}, educational, mysterious, {CHANNEL_NAME} style"
+
+    return JSONResponse({
         **titles,
         "disease": disease,
-        "forbidden": forbid,
-        "cure": d["cure"],
+        "forbidden_topic": forbid,
         "video_prompt_vault": video_prompt,
-        "description_links_6_short": links,
-        "video_links_3_short": links[:3],
+        "description_links_6_short": make_links(),
+        "channel": CHANNEL_URL,
+        "channel_handle": "@CursedMedicineEG",
+        "youtube_title": titles["title_ar"],
+        "youtube_description": f"""{titles['title_ar']}
+
+{titles['title_en']}
+
+🔗 قناة الطب الملعون:
+{CHANNEL_URL}
+
+⚠️ تنبيه: المحتوى تثقيفي فقط ولا يغني عن استشارة الطبيب.
+
+#الطب_الملعون #نظام_الطيبات #CursedMedicineEG
+{topic['ar']} | {topic['en']}
+""",
         "countries": 19,
-        "countries_19": countries_data,
-        "all_translations": {"ar": d["ar"], "en": d["en"]},
-        "system": "ULTRA CLEAN - 19 LANG PURE",
-        "has_groq": bool(os.getenv("GROQ_API_KEY")),
-        "total_countries": 19,
-        "status": "ULTRA CLEAN READY - 19 PURE LANG"
-    }
-    return JSONResponse(result)
+        "status": "ULTRA CLEAN READY - @CursedMedicineEG",
+        "has_groq": bool(os.getenv("GROQ_API_KEY"))
+    })
 
 @app.api_route("/api/daily-2-videos", methods=["GET", "HEAD"])
 def daily_2():
-    v1 = api_ultra(random.choice(list(DISEASES.keys()))).body
-    v2 = api_ultra(random.choice(list(DISEASES.keys()))).body
     import json
-    return JSONResponse({"video_1": json.loads(v1), "video_2": json.loads(v2), "peak_hours": "11AM AU + 8PM EG"})
+    d1 = random.choice(list(TOPICS.keys()))
+    d2 = random.choice(list(TOPICS.keys()))
+    v1 = api_ultra(d1)
+    v2 = api_ultra(d2)
+    return JSONResponse({
+        "video_1": json.loads(v1.body),
+        "video_2": json.loads(v2.body),
+        "channel": CHANNEL_URL
+    })
 
 @app.api_route("/go/{code}", methods=["GET", "HEAD"])
 def go_redirect(code: str):
-    # Cloaking - هنا تحط رابطك الاصلي
-    return RedirectResponse("https://www.youtube.com/@Waeldeban186", status_code=302)
-
-# --- END ---
+    return RedirectResponse(CHANNEL_URL, status_code=302)
