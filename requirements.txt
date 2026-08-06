@@ -1,2 +1,3 @@
-fastapi==0.110.0
-uvicorn==0.27.0
+/api/ultra?disease=colon
+/go/abc123
+/api/daily-2-videos
